@@ -29,3 +29,8 @@
     width: 100% !important;
   }
 }
+::ng-deep .mat-mdc-raised-button.btn-gradient{
+      background:#764ba2 100% !important;
+      border-radius: 50px !important;
+      color: #fff !important;
+}

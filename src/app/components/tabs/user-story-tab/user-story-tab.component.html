@@ -1,37 +1,93 @@
 <div class="tab-content">
-  <h2>Generate User Stories from BRD</h2>
+  <h2>User Stories</h2>
   
   <div *ngIf="!uploadedDocument" class="info-message">
     <p>Please upload a BRD document in the sidebar to generate user stories.</p>
   </div>
 
   <div *ngIf="uploadedDocument" class="content">
-    <button mat-raised-button color="primary" (click)="generateUserStories()" [disabled]="isLoading">
+    <button mat-raised-button color="primary btn-gradient" (click)="generateUserStories()" [disabled]="isLoading">
       {{ isLoading ? 'Generating...' : 'Generate User Stories' }}
     </button>
 
     <mat-spinner *ngIf="isLoading" diameter="40" class="spinner"></mat-spinner>
 
-    <div *ngIf="userStories" class="results">
-      <mat-card>
-        <mat-card-header>
-          <mat-card-title>Generated User Stories</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <div *ngIf="parseError" class="warning">
-            <p>The model returned non-JSON output; showing raw text. Parse error: {{ parseError }}</p>
-            <pre>{{ userStories }}</pre>
-          </div>
-          <pre *ngIf="!parseError">{{ userStories | json }}</pre>
-        </mat-card-content>
-      </mat-card>
+    <div *ngIf="(parsedUserStories?.length || 0) > 0 || parseError" class="results">
+      <div *ngIf="parseError" class="warning-message">
+        <p>The model returned non-JSON output; showing raw text. Parse error: {{ parseError }}</p>
+        <pre>{{ userStories }}</pre>
+      </div>
 
-      <mat-card>
+      <div *ngIf="(parsedUserStories?.length || 0) > 0">
+        <h3>Generated User Stories</h3>
+        <div class="user-stories-container">
+          <mat-card *ngFor="let story of parsedUserStories; let i = index" class="user-story-card">
+            <mat-card-header>
+              <mat-card-title>{{ story.title || ('User Story ' + (i + 1)) }}</mat-card-title>
+              <div class="story-meta">ID: {{ story.id || story.ID || ('US_' + (i + 1 | number)) }}</div>
+            </mat-card-header>
+            <mat-card-content>
+              <div class="story-field" *ngIf="story.story">
+                <strong>Story:</strong>
+                <div class="story-text">{{ story.story }}</div>
+              </div>
+
+              <div class="story-field" *ngIf="story.acceptance_criteria">
+                <strong>Acceptance Criteria:</strong>
+                <ul *ngIf="Array.isArray(story.acceptance_criteria)">
+                  <li *ngFor="let criteria of story.acceptance_criteria">{{ criteria }}</li>
+                </ul>
+                <div *ngIf="!Array.isArray(story.acceptance_criteria)">{{ story.acceptance_criteria }}</div>
+              </div>
+
+              <div class="story-field" *ngIf="story.priority">
+                <strong>Priority:</strong>
+                <span class="priority-badge" [ngClass]="'priority-' + (story.priority | lowercase)">{{ story.priority }}</span>
+              </div>
+
+              <div class="story-field" *ngIf="story.story_points !== undefined">
+                <strong>Story Points:</strong> {{ story.story_points }}
+              </div>
+
+              <div class="story-field" *ngIf="story.category">
+                <strong>Category:</strong> {{ story.category }}</div>
+
+              <div class="story-field" *ngIf="story.notes">
+                <strong>Notes:</strong>
+                <ul *ngIf="Array.isArray(story.notes)">
+                  <li *ngFor="let note of story.notes">{{ note }}</li>
+                </ul>
+                <div *ngIf="!Array.isArray(story.notes)">{{ story.notes }}</div>
+              </div>
+            </mat-card-content>
+          </mat-card>
+        </div>
+      </div>
+
+      <mat-card class="quality-assessment-card" *ngIf="qualityAssessment">
         <mat-card-header>
           <mat-card-title>Quality Assessment</mat-card-title>
         </mat-card-header>
         <mat-card-content>
-          <pre>{{ qualityAssessment | json }}</pre>
+          <div class="quality-field" *ngIf="qualityAssessment.completeness">
+            <strong>Completeness:</strong> {{ qualityAssessment.completeness }}
+          </div>
+          <div class="quality-field" *ngIf="qualityAssessment.clarity">
+            <strong>Clarity:</strong> {{ qualityAssessment.clarity }}
+          </div>
+          <div class="quality-field" *ngIf="qualityAssessment.testability">
+            <strong>Testability:</strong> {{ qualityAssessment.testability }}
+          </div>
+          <div class="quality-field" *ngIf="qualityAssessment.overall_score">
+            <strong>Overall Score:</strong> {{ qualityAssessment.overall_score }}
+          </div>
+          <div class="quality-field" *ngIf="qualityAssessment.recommendations">
+            <strong>Recommendations:</strong>
+            <ul *ngIf="Array.isArray(qualityAssessment.recommendations)">
+              <li *ngFor="let rec of qualityAssessment.recommendations">{{ rec }}</li>
+            </ul>
+            <div *ngIf="!Array.isArray(qualityAssessment.recommendations)">{{ qualityAssessment.recommendations }}</div>
+          </div>
         </mat-card-content>
       </mat-card>
 
