@@ -29,7 +29,7 @@
   },
   "optionalDependencies": {
     "html2canvas": "^1.4.1",
-    "jspdf": "^2.5.2"
+    "jspdf": "^3.0.4"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^19.2.0",
