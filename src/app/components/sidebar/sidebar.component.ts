@@ -42,14 +42,12 @@ export class SidebarComponent {
     this.isUploading = true;
     const formData = new FormData();
     formData.append('file', this.selectedFile);
-    formData.append('model', this.selectedModel);
 
     this.apiService.uploadDocument(formData).subscribe({
       next: (response) => {
         const document: UploadedDocument = {
           documentId: response.document_id,
-          filename: response.filename,
-          model: this.selectedModel
+          filename: response.filename
         };
         this.fileUploaded.emit(document);
         this.isUploading = false;
