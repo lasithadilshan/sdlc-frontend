@@ -1,3 +1,92 @@
+/* Quality Assessment styles */
+.qa-container { padding: 1rem 0; }
+.qa-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+@media (min-width: 1024px) { .qa-grid { grid-template-columns: repeat(2, 1fr); } }
+.qa-card { background: #fff; border-radius: 16px; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25); overflow: hidden; }
+.qa-colorbar { height: 8px; background: linear-gradient(90deg, #10b981, #16a34a); }
+.qa-body { padding: 2rem; }
+.qa-title { font-size: 1.25rem; font-weight: 700; color: #064e3b; margin-bottom: 1rem; }
+.qa-score { font-size: 2rem; font-weight: 800; color: #065f46; }
+.qa-score-unknown { color: #6b7280; }
+.qa-section { border-left: 4px solid #6b7280; background: #f9fafb; padding: 1rem; border-radius: 8px; margin-top: 1rem; }
+.qa-section-title { font-weight: 700; margin-bottom: 0.5rem; color: #111827; }
+.qa-kv-list { list-style: none; padding-left: 0; }
+.qa-kv-list li { display: flex; gap: 0.5rem; font-size: 0.9rem; color: #374151; }
+.qa-k { font-weight: 700; }
+.qa-v { font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+.qa-bullets { list-style: none; padding-left: 1rem; }
+.qa-bullets li { position: relative; padding-left: 0.75rem; color: #1f2937; font-size: 0.9rem; }
+.qa-bullets li::before { content: '•'; position: absolute; left: 0; color: #6b7280; }
+.qa-issue-list, .qa-recs-list { list-style: none; padding-left: 0; }
+.qa-issue-list li, .qa-recs-list li { position: relative; padding-left: 1rem; margin: 0.25rem 0; font-size: 0.9rem; }
+.qa-issue-dot { position: absolute; left: 0; color: #ef4444; font-weight: 700; }
+.qa-check { position: absolute; left: 0; color: #16a34a; font-weight: 700; }
+/* Container mimicking React example */
+.tc-container {
+  min-height: 60vh;
+  /* background: linear-gradient(135deg, #7c3aed, #4c1d95);
+  padding: 2rem; */
+  border-radius: 12px;
+}
+
+.tc-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+
+@media (min-width: 1024px) {
+  .tc-grid { grid-template-columns: repeat(2, 1fr); }
+}
+@media (min-width: 1280px) {
+  .tc-grid { grid-template-columns: repeat(3, 1fr); }
+}
+
+.tc-card {
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+  overflow: hidden;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.tc-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 30px 60px -12px rgba(0,0,0,0.35);
+}
+
+.tc-colorbar { height: 8px; background: linear-gradient(90deg, #7c3aed, #4c1d95); }
+
+.tc-body { padding: 2rem; }
+
+.tc-head { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 1.5rem; }
+.tc-id { background: linear-gradient(90deg, #7c3aed, #4c1d95); color: #fff; padding: 0.5rem 1rem; border-radius: 999px; font-weight: 700; font-size: 0.9rem; }
+.tc-priority { background: #ffedd5; color: #c2410c; padding: 0.5rem 1rem; border-radius: 999px; font-weight: 700; font-size: 0.75rem; }
+
+.tc-title { font-size: 1.25rem; font-weight: 700; color: #1f2937; margin-bottom: 1.5rem; }
+
+.tc-section { border-left: 4px solid #6b7280; background: #f9fafb; padding: 1rem; border-radius: 8px; margin-bottom: 1rem; }
+.tc-section.tc-pre { border-color: #3b82f6; background: #eff6ff; }
+.tc-section.tc-data { border-color: #22c55e; background: #f0fdf4; }
+.tc-section.tc-steps { border-color: #6b7280; background: #f9fafb; }
+.tc-section.tc-expected { border-color: #7c3aed; background: #faf5ff; }
+
+.tc-section-title { font-weight: 700; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem; color: #111827; font-size: 0.9rem; }
+.tc-icon { font-size: 1rem; }
+
+.tc-bullets { list-style: none; padding-left: 1rem; }
+.tc-bullets li { position: relative; padding-left: 0.75rem; color: #1e40af; font-size: 0.85rem; }
+.tc-bullets li::before { content: '•'; position: absolute; left: 0; color: #2563eb; }
+
+.tc-data-list { list-style: none; padding-left: 0; }
+.tc-data-list li { color: #166534; font-size: 0.85rem; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; background: #dcfce7; padding: 0.25rem 0.5rem; border-radius: 6px; display: inline-block; margin: 0.25rem 0; }
+
+.tc-steps-list { list-style: none; padding-left: 0; }
+.tc-steps-list li { color: #374151; font-size: 0.85rem; position: relative; padding-left: 1.25rem; margin: 0.25rem 0; }
+.tc-step-num { position: absolute; left: 0; color: #6b7280; font-weight: 700; }
+
+.tc-expected-list { list-style: none; padding-left: 0; }
+.tc-expected-list li { color: #5b21b6; font-size: 0.85rem; position: relative; padding-left: 1.25rem; margin: 0.25rem 0; }
+.tc-check { position: absolute; left: 0; color: #7c3aed; font-weight: 700; }
 .tab-content {
   padding: 32px;
   max-width: 1200px;

@@ -1,5 +1,5 @@
 <div class="tab-content">
-  <h2>Convert User Story to Test Case</h2>
+  <h2>User Story to Test Case</h2>
   
   <div *ngIf="!uploadedDocument" class="info-message">
     <p>Please upload a BRD document first.</p>
@@ -27,7 +27,108 @@
             <p>The model returned non-JSON output; showing raw text. Parse error: {{ parseError }}</p>
             <pre>{{ testCases }}</pre>
           </div>
-          <pre *ngIf="!parseError">{{ testCases | json }}</pre>
+
+          <!-- React-like UI replicated in Angular -->
+          <div *ngIf="!parseError && testCases" class="tc-container">
+            <div class="tc-grid" *ngIf="isArray(testCases); else singleCard">
+              <div class="tc-card" *ngFor="let tc of testCases; let i = index">
+                <div class="tc-colorbar"></div>
+                <div class="tc-body">
+                  <div class="tc-head">
+                    <span class="tc-id">{{ tc.id || tc.ID || ('TC_' + (i + 1)) }}</span>
+                    <span class="tc-priority" *ngIf="tc.priority">{{ tc.priority }}</span>
+                  </div>
+
+                  <h2 class="tc-title">{{ tc.title || tc.name || ('Test Case ' + (i + 1)) }}</h2>
+
+                  <div class="tc-section tc-pre" *ngIf="tc.preconditions">
+                    <div class="tc-section-title"><span class="tc-icon">⚠️</span> Preconditions</div>
+                    <ul class="tc-bullets">
+                      <li *ngFor="let pre of (isArray(tc.preconditions) ? tc.preconditions : [tc.preconditions])">{{ pre }}</li>
+                    </ul>
+                  </div>
+
+                  <div class="tc-section tc-data" *ngIf="tc.test_data">
+                    <div class="tc-section-title"><span class="tc-icon">🗄️</span> Test Data</div>
+                    <ul class="tc-data-list">
+                      <li *ngFor="let data of (isArray(tc.test_data) ? tc.test_data : [tc.test_data])">{{ data }}</li>
+                    </ul>
+                  </div>
+
+                  <div class="tc-section tc-steps" *ngIf="tc.test_steps || tc.steps">
+                    <div class="tc-section-title"><span class="tc-icon">📄</span> Test Steps</div>
+                    <ol class="tc-steps-list">
+                      <li *ngFor="let step of (isArray(tc.test_steps || tc.steps) ? (tc.test_steps || tc.steps) : [tc.test_steps || tc.steps]); let idx = index">
+                        <span class="tc-step-num">{{ idx + 1 }}.</span>
+                        {{ step }}
+                      </li>
+                    </ol>
+                  </div>
+
+                  <div class="tc-section tc-expected" *ngIf="tc.expected_results || tc.expected || tc.expected_result || tc.expectedResult">
+                    <div class="tc-section-title"><span class="tc-icon">✅</span> Expected Results</div>
+                    <ul class="tc-expected-list">
+                      <li *ngFor="let res of (isArray(tc.expected_results || tc.expected) ? (tc.expected_results || tc.expected) : [tc.expected_results || tc.expected])">
+                        <span class="tc-check">✓</span>
+                        {{ res || tc.expected_result || tc.expectedResult }}
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <ng-template #singleCard>
+              <div class="tc-grid">
+                <div class="tc-card">
+                  <div class="tc-colorbar"></div>
+                  <div class="tc-body">
+                    <div class="tc-head">
+                      <span class="tc-id">{{ testCases.id || testCases.ID || 'TC_1' }}</span>
+                      <span class="tc-priority" *ngIf="testCases.priority">{{ testCases.priority }}</span>
+                    </div>
+
+                    <h2 class="tc-title">{{ testCases.title || testCases.name || 'Test Case 1' }}</h2>
+
+                    <div class="tc-section tc-pre" *ngIf="testCases.preconditions">
+                      <div class="tc-section-title"><span class="tc-icon">⚠️</span> Preconditions</div>
+                      <ul class="tc-bullets">
+                        <li *ngFor="let pre of (isArray(testCases.preconditions) ? testCases.preconditions : [testCases.preconditions])">{{ pre }}</li>
+                      </ul>
+                    </div>
+
+                    <div class="tc-section tc-data" *ngIf="testCases.test_data">
+                      <div class="tc-section-title"><span class="tc-icon">🗄️</span> Test Data</div>
+                      <ul class="tc-data-list">
+                        <li *ngFor="let data of (isArray(testCases.test_data) ? testCases.test_data : [testCases.test_data])">{{ data }}</li>
+                      </ul>
+                    </div>
+
+                    <div class="tc-section tc-steps" *ngIf="testCases.test_steps || testCases.steps">
+                      <div class="tc-section-title"><span class="tc-icon">📄</span> Test Steps</div>
+                      <ol class="tc-steps-list">
+                        <li *ngFor="let step of (isArray(testCases.test_steps || testCases.steps) ? (testCases.test_steps || testCases.steps) : [testCases.test_steps || testCases.steps]); let idx = index">
+                          <span class="tc-step-num">{{ idx + 1 }}.</span>
+                          {{ step }}
+                        </li>
+                      </ol>
+                    </div>
+
+                    <div class="tc-section tc-expected" *ngIf="testCases.expected_results || testCases.expected || testCases.expected_result || testCases.expectedResult">
+                      <div class="tc-section-title"><span class="tc-icon">✅</span> Expected Results</div>
+                      <ul class="tc-expected-list">
+                        <li *ngFor="let res of (isArray(testCases.expected_results || testCases.expected) ? (testCases.expected_results || testCases.expected) : [testCases.expected_results || testCases.expected])">
+                          <span class="tc-check">✓</span>
+                          {{ res || testCases.expected_result || testCases.expectedResult }}
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </ng-template>
+          </div>
+
         </mat-card-content>
       </mat-card>
 
@@ -36,7 +137,92 @@
           <mat-card-title>Quality Assessment</mat-card-title>
         </mat-card-header>
         <mat-card-content>
-          <pre>{{ qualityAssessment | json }}</pre>
+          <!-- Flexible UI for quality assessment -->
+          <div *ngIf="qualityAssessment as qa">
+            <div class="qa-container">
+              <div class="qa-grid">
+                <div class="qa-card">
+                  <div class="qa-colorbar"></div>
+                  <div class="qa-body">
+                    <h3 class="qa-title">Quality Assessment</h3>
+
+                    <!-- Overall score and levels (supports various keys) -->
+                    <div class="qa-section qa-totals">
+                      <div class="qa-section-title">Summary</div>
+                      <ul class="qa-kv-list">
+                        <li *ngIf="qa.overall_score !== undefined">
+                          <span class="qa-k">Overall Score</span>
+                          <span class="qa-v">{{ qa.overall_score }}</span>
+                        </li>
+                        <li *ngIf="qa.overall_level">
+                          <span class="qa-k">Overall Level</span>
+                          <span class="qa-v">{{ qa.overall_level }}</span>
+                        </li>
+                        <li *ngIf="qa.confidence_score !== undefined">
+                          <span class="qa-k">Confidence Score</span>
+                          <span class="qa-v">{{ qa.confidence_score }}</span>
+                        </li>
+                        <li *ngIf="qa.confidence_level">
+                          <span class="qa-k">Confidence Level</span>
+                          <span class="qa-v">{{ qa.confidence_level }}</span>
+                        </li>
+                        <li *ngIf="qa.match_score !== undefined">
+                          <span class="qa-k">Match Score</span>
+                          <span class="qa-v">{{ qa.match_score }}</span>
+                        </li>
+                        <li *ngIf="qa.match_level">
+                          <span class="qa-k">Match Level</span>
+                          <span class="qa-v">{{ qa.match_level }}</span>
+                        </li>
+                        <!-- fallback if API returns a single score property -->
+                        <li *ngIf="qa.score !== undefined && qa.overall_score === undefined">
+                          <span class="qa-k">Score</span>
+                          <span class="qa-v">{{ qa.score }}</span>
+                        </li>
+                      </ul>
+                    </div>
+
+                    <div class="qa-section qa-metrics" *ngIf="qa.metrics">
+                      <div class="qa-section-title">Metrics</div>
+                      <ul class="qa-kv-list" *ngIf="qa.metrics && !isArray(qa.metrics)">
+                        <li *ngFor="let key of (qa.metrics ? objectKeys(qa.metrics) : [])">
+                          <span class="qa-k">{{ key }}</span>
+                          <span class="qa-v">{{ qa.metrics[key] }}</span>
+                        </li>
+                      </ul>
+                      <ul class="qa-bullets" *ngIf="isArray(qa.metrics)">
+                        <li *ngFor="let m of qa.metrics">{{ m }}</li>
+                      </ul>
+                    </div>
+
+                    <div class="qa-section qa-issues" *ngIf="qa.issues || qa.findings">
+                      <div class="qa-section-title">Issues</div>
+                      <ul class="qa-issue-list">
+                        <li *ngFor="let issue of (isArray(qa.issues || qa.findings) ? (qa.issues || qa.findings) : [qa.issues || qa.findings])">
+                          <span class="qa-issue-dot">•</span>
+                          <span>{{ issue?.message || issue?.text || issue }}</span>
+                        </li>
+                      </ul>
+                    </div>
+
+                    <div class="qa-section qa-recs" *ngIf="qa.recommendations || qa.suggestions">
+                      <div class="qa-section-title">Recommendations</div>
+                      <ul class="qa-recs-list">
+                        <li *ngFor="let rec of (isArray(qa.recommendations || qa.suggestions) ? (qa.recommendations || qa.suggestions) : [qa.recommendations || qa.suggestions])">
+                          <span class="qa-check">✓</span>
+                          <span>{{ rec?.message || rec?.text || rec }}</span>
+                        </li>
+                      </ul>
+                    </div>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div *ngIf="!qualityAssessment">
+            <pre>{{ qualityAssessment | json }}</pre>
+          </div>
         </mat-card-content>
       </mat-card>
 

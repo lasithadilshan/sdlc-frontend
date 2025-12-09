@@ -56,6 +56,15 @@ export class TestCaseTabComponent {
     }
   }
 
+  isArray(obj: any): boolean {
+    return Array.isArray(obj);
+  }
+
+  objectKeys(obj: any): string[] {
+    if (!obj || typeof obj !== 'object') return [];
+    return Object.keys(obj);
+  }
+
   generateTestCases(): void {
     if (!this.uploadedDocument || !this.userStoryText) {
       return;
@@ -68,10 +77,47 @@ export class TestCaseTabComponent {
 
     this.apiService.convertToTestCases(this.uploadedDocument.documentId, this.userStoryText).subscribe({
       next: (response) => {
-        this.testCases = response.test_cases;
+        const rawTestCases = response.test_cases;
         this.qualityAssessment = response.quality_assessment;
+        try {
+          console.log('Quality Assessment:', typeof this.qualityAssessment === 'string' ? this.qualityAssessment : JSON.stringify(this.qualityAssessment, null, 2));
+        } catch {
+          console.log('Quality Assessment:', this.qualityAssessment);
+        }
         this.processingTime = response.processing_time_seconds;
         this.parseError = response.parse_error || null;
+
+        // If the API returned a string, try to parse it as JSON. If parsing fails,
+        // keep the raw string and mark parseError so the template shows the raw text.
+        const toArray = (val: any): any[] => {
+          if (Array.isArray(val)) return val;
+          if (val && typeof val === 'object') {
+            if (Array.isArray(val.test_cases)) return val.test_cases;
+            if (Array.isArray(val.testCases)) return val.testCases;
+            if (Array.isArray(val.cases)) return val.cases;
+            if (Array.isArray(val.items)) return val.items;
+            // If it looks like a single test case object, wrap in array
+            return [val];
+          }
+          return [];
+        };
+
+        let parsed: any = rawTestCases;
+        if (typeof rawTestCases === 'string') {
+          try {
+            parsed = JSON.parse(rawTestCases);
+          } catch (err: any) {
+            this.testCases = rawTestCases;
+            if (!this.parseError) {
+              this.parseError = 'Response returned a non-JSON string (could not parse).';
+            }
+            this.isLoading = false;
+            return;
+          }
+        }
+
+        this.testCases = toArray(parsed);
+
         this.isLoading = false;
       },
       error: (error) => {
