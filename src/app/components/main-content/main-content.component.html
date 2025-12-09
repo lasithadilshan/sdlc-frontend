@@ -1,0 +1,19 @@
+<mat-toolbar color="primary" class="toolbar">
+  <h1>BRD to User Story, Test Case, Cucumber Script, and Selenium Script</h1>
+</mat-toolbar>
+
+<mat-tab-group class="tabs-container">
+  <mat-tab label="User Story Generation">
+    <app-user-story-tab [selectedModel]="selectedModel" [uploadedDocument]="uploadedDocument"></app-user-story-tab>
+  </mat-tab>
+  <mat-tab label="User Story to Test Case">
+    <app-test-case-tab [selectedModel]="selectedModel" [uploadedDocument]="uploadedDocument"></app-test-case-tab>
+  </mat-tab>
+  <mat-tab label="Test Case to Cucumber Script">
+    <app-cucumber-tab [selectedModel]="selectedModel" [uploadedDocument]="uploadedDocument"></app-cucumber-tab>
+  </mat-tab>
+  <mat-tab label="Test Case to Selenium Script">
+    <app-selenium-tab [selectedModel]="selectedModel" [uploadedDocument]="uploadedDocument"></app-selenium-tab>
+  </mat-tab>
+</mat-tab-group>
+

@@ -1,0 +1,32 @@
+<div class="sidebar-container">
+  <h2>Your BRD Documents</h2>
+
+  <mat-form-field appearance="fill" class="full-width">
+    <mat-label>Select AI Model</mat-label>
+    <mat-select [(ngModel)]="selectedModel" (selectionChange)="onModelChange()">
+      <mat-option *ngFor="let model of models" [value]="model">
+        {{ model }}
+      </mat-option>
+    </mat-select>
+  </mat-form-field>
+
+  <p class="model-info">Selected Model: <strong>{{ selectedModel }}</strong></p>
+
+  <div class="file-upload">
+    <input
+      #fileInput
+      type="file"
+      accept=".pdf,.docx,.txt,.xlsx,.pptx"
+      (change)="onFileSelected($event)"
+      style="display: none"
+    />
+    <button mat-raised-button color="primary" (click)="fileInput.click()" [disabled]="isUploading" class="full-width">
+      <mat-icon>cloud_upload</mat-icon>
+      {{ isUploading ? 'Uploading...' : 'Upload a file' }}
+    </button>
+    <p class="file-hint">Accepted formats: PDF, DOCX, TXT, XLSX, PPTX</p>
+  </div>
+
+  <mat-spinner *ngIf="isUploading" diameter="30" class="spinner"></mat-spinner>
+</div>
+

@@ -1,0 +1,43 @@
+<div class="tab-content">
+  <h2>Generate User Stories from BRD</h2>
+  
+  <div *ngIf="!uploadedDocument" class="info-message">
+    <p>Please upload a BRD document in the sidebar to generate user stories.</p>
+  </div>
+
+  <div *ngIf="uploadedDocument" class="content">
+    <button mat-raised-button color="primary" (click)="generateUserStories()" [disabled]="isLoading">
+      {{ isLoading ? 'Generating...' : 'Generate User Stories' }}
+    </button>
+
+    <mat-spinner *ngIf="isLoading" diameter="40" class="spinner"></mat-spinner>
+
+    <div *ngIf="userStories" class="results">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Generated User Stories</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <div *ngIf="parseError" class="warning">
+            <p>The model returned non-JSON output; showing raw text. Parse error: {{ parseError }}</p>
+            <pre>{{ userStories }}</pre>
+          </div>
+          <pre *ngIf="!parseError">{{ userStories | json }}</pre>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Quality Assessment</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <pre>{{ qualityAssessment | json }}</pre>
+        </mat-card-content>
+      </mat-card>
+
+      <p class="processing-time" *ngIf="processingTime !== null">
+        <strong>Processing time:</strong> {{ processingTime }} seconds
+      </p>
+    </div>
+  </div>
+</div>

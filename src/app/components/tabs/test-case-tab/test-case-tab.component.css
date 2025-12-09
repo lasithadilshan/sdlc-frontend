@@ -1,0 +1,71 @@
+.tab-content {
+  padding: 20px;
+}
+
+.tab-content h2 {
+  margin-top: 0;
+  color: #333;
+}
+
+.info-message {
+  padding: 16px;
+  background-color: #e3f2fd;
+  border-left: 4px solid #2196f3;
+  color: #1976d2;
+  border-radius: 4px;
+}
+
+.content {
+  margin-top: 20px;
+}
+
+.full-width {
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+.textarea {
+  font-family: 'Courier New', monospace;
+}
+
+.spinner {
+  display: block;
+  margin: 30px auto;
+}
+
+.results {
+  margin-top: 30px;
+}
+
+mat-card {
+  margin-bottom: 20px;
+}
+
+.code-block {
+  background-color: #f5f5f5;
+  padding: 16px;
+  border-radius: 4px;
+  overflow-x: auto;
+  font-size: 12px;
+  line-height: 1.5;
+}
+
+.warning {
+  padding: 12px;
+  background-color: #fff3cd;
+  border: 1px solid #ffc107;
+  border-radius: 4px;
+  color: #856404;
+  margin-bottom: 16px;
+}
+
+.processing-time {
+  margin-top: 16px;
+  font-size: 14px;
+  color: #666;
+}
+
+button {
+  margin-top: 10px;
+  margin-right: 10px;
+}

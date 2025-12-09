@@ -1,0 +1,45 @@
+<div class="tab-content">
+  <h2>Convert Test Case to Selenium Script</h2>
+  
+  <div *ngIf="!uploadedDocument" class="info-message">
+    <p>Please upload a BRD document first to initialize the AI model.</p>
+  </div>
+
+  <div *ngIf="uploadedDocument" class="content">
+    <mat-form-field appearance="fill" class="full-width">
+      <mat-label>Enter the test case text here</mat-label>
+      <textarea matInput [(ngModel)]="testCaseText" rows="8" class="textarea"></textarea>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" (click)="generateSelenium()" [disabled]="isLoading || !testCaseText">
+      {{ isLoading ? 'Generating...' : 'Generate Selenium Script' }}
+    </button>
+
+    <mat-spinner *ngIf="isLoading" diameter="40" class="spinner"></mat-spinner>
+
+    <div *ngIf="seleniumScript" class="results">
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Generated Selenium Script</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <pre class="code-block">{{ seleniumScript }}</pre>
+          <button mat-stroked-button (click)="copyToClipboard(seleniumScript!)">Copy to Clipboard</button>
+        </mat-card-content>
+      </mat-card>
+
+      <mat-card>
+        <mat-card-header>
+          <mat-card-title>Quality Assessment</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <pre>{{ qualityAssessment | json }}</pre>
+        </mat-card-content>
+      </mat-card>
+
+      <p class="processing-time" *ngIf="processingTime !== null">
+        <strong>Processing time:</strong> {{ processingTime }} seconds
+      </p>
+    </div>
+  </div>
+</div>

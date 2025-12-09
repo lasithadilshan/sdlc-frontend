@@ -1,0 +1,13 @@
+.toolbar {
+  margin-bottom: 20px;
+}
+
+.toolbar h1 {
+  margin: 0;
+  font-size: 24px;
+  font-weight: 500;
+}
+
+.tabs-container {
+  padding: 20px;
+}
