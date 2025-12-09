@@ -6,15 +6,13 @@
 
 .sidenav {
   width: 280px;
-  border-right: 3px solid #667eea;
+  /* border-right: 3px solid #667eea; */
   background-color: #fff;
   box-shadow: 2px 0 12px rgba(102, 126, 234, 0.15);
 }
-
 .mat-drawer-content {
-  width: calc(100% - 280px);
-}
-
+    width: 100% !important;
+  }
 :host ::ng-deep {
   mat-sidenav-container {
     height: 100%;
@@ -23,5 +21,11 @@
   mat-sidenav-content {
     overflow: auto;
     background: linear-gradient(135deg, #f5f7fa 0%, #f0f3ff 100%);
+    flex: 1;
+    width: 100%;
+  }
+  
+  .mat-drawer-content {
+    width: 100% !important;
   }
 }

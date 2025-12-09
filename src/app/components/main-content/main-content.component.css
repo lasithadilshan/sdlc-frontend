@@ -1,10 +1,21 @@
 .toolbar {
-  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-  color: white;
+  background: #fff;
+  color: #333;
   padding: 20px 32px;
   margin-bottom: 0;
   box-shadow: 0 4px 12px rgba(102, 126, 234, 0.3);
   height: 80px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.toggle-btn {
+  color: #667eea;
+}
+
+.toggle-btn:hover {
+  background-color: rgba(102, 126, 234, 0.1);
 }
 
 .toolbar h1 {
@@ -12,7 +23,7 @@
   font-size: 28px;
   font-weight: 700;
   letter-spacing: -0.5px;
-  color: white;
+  color: #333;
 }
 
 .tabs-container {
@@ -24,11 +35,18 @@
 }
 
 ::ng-deep .mat-mdc-tab-labels {
-  background: linear-gradient(90deg, #f8f9fa 0%, #f0f3ff 100%);
-  border-bottom: 3px solid #667eea;
+  background: white;
+  /* border-bottom: 3px solid #667eea; */
   padding: 0 16px;
 }
-
+::ng-deep .mdc-tab--active.mdc-tab-indicator--active{
+    background: linear-gradient(90deg, #667eea 0%, #764ba2 100%) !important;
+    border-radius: 10px 10px 0px 0px;
+    color: white !important;
+}
+::ng-deep .mdc-tab--active.mdc-tab-indicator--active .mdc-tab__text-label{
+    color: white !important;
+}
 ::ng-deep .mat-mdc-tab {
   font-weight: 700;
   letter-spacing: 0.5px;
@@ -74,4 +92,7 @@
 
 ::ng-deep .mat-mdc-tab-body {
   padding: 0;
+}
+.full-width{
+    width: 100% !important;
 }

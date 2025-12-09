@@ -1,5 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { UploadedDocument } from '../../app.component';
@@ -15,6 +17,8 @@ import { UserStoryTabComponent } from '../tabs/user-story-tab/user-story-tab.com
     CommonModule,
     MatTabsModule,
     MatToolbarModule,
+    MatButtonModule,
+    MatIconModule,
     UserStoryTabComponent,
     TestCaseTabComponent,
     CucumberTabComponent,
@@ -25,4 +29,10 @@ import { UserStoryTabComponent } from '../tabs/user-story-tab/user-story-tab.com
 })
 export class MainContentComponent {
   @Input() uploadedDocument: UploadedDocument | null = null;
+  @Input() isSidebarVisible = true;
+  @Output() toggleSidebar = new EventEmitter<void>();
+
+  onToggleSidebar(): void {
+    this.toggleSidebar.emit();
+  }
 }

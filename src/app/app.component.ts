@@ -26,8 +26,13 @@ export interface UploadedDocument {
 export class AppComponent {
   title = 'sdlc-frontend';
   uploadedDocument: UploadedDocument | null = null;
+  isSidebarVisible = true;
 
   onFileUploaded(document: UploadedDocument): void {
     this.uploadedDocument = document;
+  }
+
+  toggleSidebar(): void {
+    this.isSidebarVisible = !this.isSidebarVisible;
   }
 }

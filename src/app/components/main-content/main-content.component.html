@@ -1,19 +1,24 @@
-<mat-toolbar color="primary" class="toolbar">
-  <h1>BRD to User Story, Test Case, Cucumber Script, and Selenium Script</h1>
-</mat-toolbar>
+<div [ngClass]="{'full-width': !isSidebarVisible}">
+  <mat-toolbar color="primary" class="toolbar">
+    <button mat-icon-button (click)="onToggleSidebar()" class="toggle-btn">
+      <mat-icon>{{ isSidebarVisible ? 'menu_open' : 'menu' }}</mat-icon>
+    </button>
+    <h1>SDLC Mate</h1>
+  </mat-toolbar>
 
-<mat-tab-group class="tabs-container">
-  <mat-tab label="User Story Generation">
-    <app-user-story-tab [uploadedDocument]="uploadedDocument"></app-user-story-tab>
-  </mat-tab>
-  <mat-tab label="User Story to Test Case">
-    <app-test-case-tab [uploadedDocument]="uploadedDocument"></app-test-case-tab>
-  </mat-tab>
-  <mat-tab label="Test Case to Cucumber Script">
-    <app-cucumber-tab [uploadedDocument]="uploadedDocument"></app-cucumber-tab>
-  </mat-tab>
-  <mat-tab label="Test Case to Selenium Script">
-    <app-selenium-tab [uploadedDocument]="uploadedDocument"></app-selenium-tab>
-  </mat-tab>
-</mat-tab-group>
+  <mat-tab-group class="tabs-container">
+    <mat-tab label="User Story Generation">
+      <app-user-story-tab [uploadedDocument]="uploadedDocument"></app-user-story-tab>
+    </mat-tab>
+    <mat-tab label="User Story to Test Case">
+      <app-test-case-tab [uploadedDocument]="uploadedDocument"></app-test-case-tab>
+    </mat-tab>
+    <mat-tab label="Test Case to Cucumber Script">
+      <app-cucumber-tab [uploadedDocument]="uploadedDocument"></app-cucumber-tab>
+    </mat-tab>
+    <mat-tab label="Test Case to Selenium Script">
+      <app-selenium-tab [uploadedDocument]="uploadedDocument"></app-selenium-tab>
+    </mat-tab>
+  </mat-tab-group>
+</div>
 
