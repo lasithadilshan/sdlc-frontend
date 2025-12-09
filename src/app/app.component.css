@@ -1,11 +1,14 @@
 .container {
   height: 100vh;
   display: flex;
+  background-color: #f5f7fa;
 }
 
 .sidenav {
-  width: 250px;
+  width: 280px;
   border-right: 1px solid #e0e0e0;
+  background-color: #fff;
+  box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
 }
 
 :host ::ng-deep {
@@ -15,5 +18,6 @@
   
   mat-sidenav-content {
     overflow: auto;
+    background-color: #f5f7fa;
   }
 }

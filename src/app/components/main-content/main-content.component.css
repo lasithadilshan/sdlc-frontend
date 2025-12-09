@@ -1,13 +1,49 @@
 .toolbar {
-  margin-bottom: 20px;
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  color: white;
+  padding: 24px 32px;
+  margin-bottom: 0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 
 .toolbar h1 {
   margin: 0;
-  font-size: 24px;
-  font-weight: 500;
+  font-size: 28px;
+  font-weight: 700;
+  letter-spacing: -0.5px;
 }
 
 .tabs-container {
-  padding: 20px;
+  padding: 0;
+}
+
+::ng-deep .mat-mdc-tab-group {
+  background-color: #fff;
+}
+
+::ng-deep .mat-mdc-tab-labels {
+  background-color: #f8f9fa;
+  border-bottom: 2px solid #e0e0e0;
+}
+
+::ng-deep .mat-mdc-tab {
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  font-size: 12px;
+}
+
+::ng-deep .mat-mdc-tab-link,
+::ng-deep .mat-mdc-tab {
+  color: #666;
+  min-width: 160px;
+  transition: all 0.3s ease;
+}
+
+::ng-deep .mat-mdc-tab.mat-mdc-tab-active {
+  color: #667eea;
+}
+
+::ng-deep .mat-mdc-tab-body {
+  padding: 0;
 }
