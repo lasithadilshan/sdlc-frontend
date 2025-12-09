@@ -1,10 +1,10 @@
-import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, Input } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatCardModule } from '@angular/material/card';
-import { ApiService } from '../../../services/api-service.service';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { UploadedDocument } from '../../../app.component';
+import { ApiService } from '../../../services/api-service.service';
 
 @Component({
   selector: 'app-user-story-tab',

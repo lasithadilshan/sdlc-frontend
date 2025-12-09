@@ -1,12 +1,12 @@
-import { Component, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, Input } from '@angular/core';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { UserStoryTabComponent } from '../tabs/user-story-tab/user-story-tab.component';
-import { TestCaseTabComponent } from '../tabs/test-case-tab/test-case-tab.component';
+import { UploadedDocument } from '../../app.component';
 import { CucumberTabComponent } from '../tabs/cucumber-tab/cucumber-tab.component';
 import { SeleniumTabComponent } from '../tabs/selenium-tab/selenium-tab.component';
-import { UploadedDocument } from '../../app.component';
+import { TestCaseTabComponent } from '../tabs/test-case-tab/test-case-tab.component';
+import { UserStoryTabComponent } from '../tabs/user-story-tab/user-story-tab.component';
 
 @Component({
   selector: 'app-main-content',
