@@ -151,7 +151,7 @@ button:hover:not(:disabled) {
   display: flex;
   flex-direction: column;
   height: 100%;
-  border-left: 5px solid #2196f3;
+  border: 1px solid #ccc;
 }
 
 .story-meta {
@@ -214,6 +214,111 @@ button:hover:not(:disabled) {
   color: #b71c1c;
   border: 1px solid rgba(183,28,28,0.08);
 }
+
+/* New styles to match requested card design */
+.card-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 20px 0 20px;
+}
+
+.id-badge {
+  background: linear-gradient(90deg,#6b5bff,#6ec1ff);
+  color: white;
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 13px;
+}
+
+.priority-pill {
+  padding: 6px 12px;
+  border-radius: 18px;
+  font-weight: 700;
+  font-size: 13px;
+  background: #ffecec;
+  color: #c62828;
+}
+
+.story-title {
+  margin: 10px 0 12px 0;
+  font-size: 22px;
+  color: #1f2b3a;
+  font-weight: 800;
+}
+
+.story-summary .story-text {
+  color: #333;
+  font-size: 15px;
+}
+
+.acceptance-box {
+  margin-top: 18px;
+  background: #f7fbff;
+  border-left: 6px solid #89a7ff;
+  padding: 18px;
+  border-radius: 8px;
+}
+
+.acceptance-title {
+  font-weight: 700;
+  margin-bottom: 12px;
+  color: #2f4b6f;
+}
+
+.acceptance-box ul {
+  margin: 0;
+  padding-left: 20px;
+}
+
+.acceptance-box li {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: flex-start;
+}
+
+.check {
+  color: #4b8fff;
+  margin-right: 10px;
+  font-weight: 700;
+}
+
+.criteria-text { color: #2e3b47; }
+
+.meta-row {
+  display: flex;
+  gap: 20px;
+  margin-top: 20px;
+  border-top: 1px solid #eef2f6;
+  padding-top: 18px;
+}
+
+.meta-col { flex: 1; }
+.meta-col.right { text-align: right; }
+.meta-label { font-size: 12px; color: #6b7280; font-weight: 700; }
+.meta-value { margin-top: 8px; font-size: 16px; color: #1f2b3a; }
+
+.category-badge {
+  background: #e8f1ff;
+  color: #2f6fd6;
+  padding: 6px 10px;
+  border-radius: 14px;
+  font-weight: 700;
+}
+
+.notes-box {
+  margin-top: 18px;
+  background: #fff6e6;
+  border-left: 6px solid #ffb74d;
+  padding: 16px;
+  border-radius: 8px;
+}
+
+.notes-title { font-weight: 800; margin-bottom: 8px; color: #6b3b00; }
+
+.notes-box ul { margin: 0; padding-left: 18px; }
+
 
 .quality-assessment-card {
   border-left: 5px solid #4caf50;
