@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
@@ -33,6 +33,7 @@ export class UserStoryTabComponent {
   // For template rendering
   parsedUserStories: any[] = [];
   Array = Array;
+  @Output() userStoriesGenerated = new EventEmitter<any[]>();
   // Export progress state
   isExporting = false;
   exportProgress = 0; // number of items processed
@@ -81,6 +82,13 @@ export class UserStoryTabComponent {
           this.parsedUserStories = [stories];
         } else {
           this.parsedUserStories = [];
+        }
+
+        // Emit parsed stories for parent/other tabs
+        try {
+          this.userStoriesGenerated.emit(this.parsedUserStories);
+        } catch (e) {
+          // ignore
         }
 
         // keep original raw for debugging/display if needed

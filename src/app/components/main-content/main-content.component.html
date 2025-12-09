@@ -8,10 +8,10 @@
 
   <mat-tab-group class="tabs-container">
     <mat-tab label="User Story Generation">
-      <app-user-story-tab [uploadedDocument]="uploadedDocument"></app-user-story-tab>
+      <app-user-story-tab [uploadedDocument]="uploadedDocument" (userStoriesGenerated)="onUserStoriesGenerated($event)"></app-user-story-tab>
     </mat-tab>
     <mat-tab label="User Story to Test Case">
-      <app-test-case-tab [uploadedDocument]="uploadedDocument"></app-test-case-tab>
+      <app-test-case-tab [uploadedDocument]="uploadedDocument" [generatedUserStories]="generatedUserStories"></app-test-case-tab>
     </mat-tab>
     <mat-tab label="Test Case to Cucumber Script">
       <app-cucumber-tab [uploadedDocument]="uploadedDocument"></app-cucumber-tab>

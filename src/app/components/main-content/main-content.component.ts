@@ -32,6 +32,13 @@ export class MainContentComponent {
   @Input() isSidebarVisible = true;
   @Output() toggleSidebar = new EventEmitter<void>();
 
+  // hold latest generated user stories so they can be passed to other tabs
+  generatedUserStories: any[] = [];
+
+  onUserStoriesGenerated(stories: any[]): void {
+    this.generatedUserStories = Array.isArray(stories) ? stories : (stories ? [stories] : []);
+  }
+
   onToggleSidebar(): void {
     this.toggleSidebar.emit();
   }

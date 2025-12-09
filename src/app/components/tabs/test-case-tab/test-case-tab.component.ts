@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, SimpleChanges } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -26,6 +26,7 @@ import { ApiService } from '../../../services/api-service.service';
 })
 export class TestCaseTabComponent {
   @Input() uploadedDocument: UploadedDocument | null = null;
+  @Input() generatedUserStories: any[] | null = null;
 
   userStoryText: string = '';
   isLoading = false;
@@ -35,6 +36,25 @@ export class TestCaseTabComponent {
   parseError: any = null;
 
   constructor(private apiService: ApiService) {}
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['generatedUserStories'] && this.generatedUserStories && this.generatedUserStories.length > 0) {
+      // Build a user-friendly textual representation of the generated stories
+      const parts: string[] = [];
+      this.generatedUserStories.forEach((s: any, idx: number) => {
+        const title = s.title || (`User Story ${idx + 1}`);
+        const storyText = s.story || s.description || '';
+        const acceptance = Array.isArray(s.acceptance_criteria) ? s.acceptance_criteria : (s.acceptance_criteria ? [s.acceptance_criteria] : []);
+        parts.push(`Title: ${title}`);
+        if (storyText) parts.push(`Story: ${storyText}`);
+        if (acceptance.length) parts.push(`Acceptance Criteria:\n- ${acceptance.join('\n- ')}`);
+        parts.push('');
+      });
+
+      // Pre-fill the textarea with the concatenated stories
+      this.userStoryText = parts.join('\n');
+    }
+  }
 
   generateTestCases(): void {
     if (!this.uploadedDocument || !this.userStoryText) {
