@@ -369,3 +369,34 @@ button:hover:not(:disabled) {
     grid-template-columns: 1fr;
   }
 }
+
+.export-progress {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: row;
+  gap: 12px;
+  align-items: center;
+  max-width: 720px;
+}
+
+.export-bar { flex: 1; min-width: 200px; }
+
+.export-status {
+  font-size: 13px;
+  color: #374151;
+  white-space: nowrap;
+}
+
+.export-status .percent { font-weight: 700; margin-left: 4px; }
+
+.btn-row{
+  display: flex;
+  justify-content: space-between;
+}
+
+.export-btn{
+  background: #fff 100% !important;
+  border-radius: 50px !important;
+  color: #764ba2 !important;
+  border: 2px solid #764ba2 !important;
+}

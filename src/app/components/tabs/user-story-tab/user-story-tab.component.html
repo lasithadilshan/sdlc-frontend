@@ -6,19 +6,33 @@
   </div>
 
   <div *ngIf="uploadedDocument" class="content">
-    <button mat-raised-button color="primary btn-gradient" (click)="generateUserStories()" [disabled]="isLoading">
-      {{ isLoading ? 'Generating...' : 'Generate User Stories' }}
-    </button>
+    <div class="row btn-row d-flex justify-content-between mb-3">
+        <button mat-raised-button color="primary btn-gradient" (click)="generateUserStories()" [disabled]="isLoading">
+          {{ isLoading ? 'Generating...' : 'Generate User Stories' }}
+        </button>
+        <button mat-stroked-button color="accent" class="export-btn" (click)="exportToPdf()" [disabled]="isLoading || isExporting || (parsedUserStories.length || 0) === 0">
+          Export as PDF
+        </button>
+        <!-- <button mat-flat-button color="primary" class="download-btn" (click)="exportToPdfDirect()" [disabled]="isLoading || isExporting || (parsedUserStories.length || 0) === 0">
+          Download PDF
+        </button> -->
+    </div>
+    
+
+    <div *ngIf="isExporting" class="export-progress">
+      <mat-progress-bar class="export-bar" mode="determinate" [value]="exportTotal ? (exportProgress / exportTotal) * 100 : 0"></mat-progress-bar>
+      <div class="export-status">{{ exportProgress }} / {{ exportTotal }} (<span class="percent">{{ exportPercent }}%</span>)</div>
+    </div>
 
     <mat-spinner *ngIf="isLoading" diameter="40" class="spinner"></mat-spinner>
 
-    <div *ngIf="(parsedUserStories?.length || 0) > 0 || parseError" class="results">
+    <div *ngIf="(parsedUserStories.length || 0) > 0 || parseError" class="results">
       <div *ngIf="parseError" class="warning-message">
         <p>The model returned non-JSON output; showing raw text. Parse error: {{ parseError }}</p>
         <pre>{{ userStories }}</pre>
       </div>
 
-      <div *ngIf="(parsedUserStories?.length || 0) > 0">
+      <div *ngIf="(parsedUserStories.length || 0) > 0">
         <h3>Generated User Stories</h3>
         <div class="user-stories-container">
           <mat-card *ngFor="let story of parsedUserStories; let i = index" class="user-story-card">

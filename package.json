@@ -27,6 +27,10 @@
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
   },
+  "optionalDependencies": {
+    "html2canvas": "^1.4.1",
+    "jspdf": "^2.5.2"
+  },
   "devDependencies": {
     "@angular-devkit/build-angular": "^19.2.0",
     "@angular/cli": "^19.2.0",
