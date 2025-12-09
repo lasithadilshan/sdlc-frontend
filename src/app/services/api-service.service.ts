@@ -14,28 +14,25 @@ export class ApiService {
     return this.http.post(`${this.apiUrl}/upload-document`, formData);
   }
 
-  generateUserStories(documentId: string, model: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/generate-user-stories?document_id=${documentId}`, { model });
+  generateUserStories(documentId: string): Observable<any> {
+    return this.http.post(`${this.apiUrl}/generate-user-stories?document_id=${documentId}`, {});
   }
 
-  convertToTestCases(documentId: string, userStoryText: string, model: string): Observable<any> {
+  convertToTestCases(documentId: string, userStoryText: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/convert-to-test-cases?document_id=${documentId}`, {
-      user_story_text: userStoryText,
-      model
+      user_story_text: userStoryText
     });
   }
 
-  convertToCucumber(documentId: string, testCaseText: string, model: string): Observable<any> {
+  convertToCucumber(documentId: string, testCaseText: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/convert-to-cucumber?document_id=${documentId}`, {
-      test_case_text: testCaseText,
-      model
+      test_case_text: testCaseText
     });
   }
 
-  convertToSelenium(documentId: string, testCaseText: string, model: string): Observable<any> {
+  convertToSelenium(documentId: string, testCaseText: string): Observable<any> {
     return this.http.post(`${this.apiUrl}/convert-to-selenium?document_id=${documentId}`, {
-      test_case_text: testCaseText,
-      model
+      test_case_text: testCaseText
     });
   }
 }

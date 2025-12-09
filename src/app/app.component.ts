@@ -8,7 +8,6 @@ import { SidebarComponent } from './components/sidebar/sidebar.component';
 export interface UploadedDocument {
   documentId: string;
   filename: string;
-  model: string;
 }
 
 @Component({
@@ -26,14 +25,7 @@ export interface UploadedDocument {
 })
 export class AppComponent {
   title = 'sdlc-frontend';
-  selectedModel: string = 'Open AI GPT 4.1';
   uploadedDocument: UploadedDocument | null = null;
-
-  onModelChanged(model: string): void {
-    this.selectedModel = model;
-    // Clear uploaded document when model changes
-    this.uploadedDocument = null;
-  }
 
   onFileUploaded(document: UploadedDocument): void {
     this.uploadedDocument = document;

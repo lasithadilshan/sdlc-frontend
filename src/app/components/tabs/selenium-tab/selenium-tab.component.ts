@@ -25,7 +25,6 @@ import { ApiService } from '../../../services/api-service.service';
   styleUrl: './selenium-tab.component.css'
 })
 export class SeleniumTabComponent {
-  @Input() selectedModel: string = 'Open AI GPT 4.1';
   @Input() uploadedDocument: UploadedDocument | null = null;
 
   testCaseText: string = '';
@@ -46,7 +45,7 @@ export class SeleniumTabComponent {
     this.qualityAssessment = null;
     this.processingTime = null;
 
-    this.apiService.convertToSelenium(this.uploadedDocument.documentId, this.testCaseText, this.selectedModel).subscribe({
+    this.apiService.convertToSelenium(this.uploadedDocument.documentId, this.testCaseText).subscribe({
       next: (response) => {
         this.seleniumScript = response.selenium_script;
         this.qualityAssessment = response.quality_assessment;

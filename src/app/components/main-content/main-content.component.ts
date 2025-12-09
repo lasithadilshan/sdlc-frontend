@@ -24,6 +24,5 @@ import { UserStoryTabComponent } from '../tabs/user-story-tab/user-story-tab.com
   styleUrl: './main-content.component.css'
 })
 export class MainContentComponent {
-  @Input() selectedModel: string = 'Open AI GPT 4.1';
   @Input() uploadedDocument: UploadedDocument | null = null;
 }

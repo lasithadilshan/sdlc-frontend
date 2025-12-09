@@ -25,7 +25,6 @@ import { ApiService } from '../../../services/api-service.service';
   styleUrl: './cucumber-tab.component.css'
 })
 export class CucumberTabComponent {
-  @Input() selectedModel: string = 'Open AI GPT 4.1';
   @Input() uploadedDocument: UploadedDocument | null = null;
 
   testCaseText: string = '';
@@ -46,7 +45,7 @@ export class CucumberTabComponent {
     this.qualityAssessment = null;
     this.processingTime = null;
 
-    this.apiService.convertToCucumber(this.uploadedDocument.documentId, this.testCaseText, this.selectedModel).subscribe({
+    this.apiService.convertToCucumber(this.uploadedDocument.documentId, this.testCaseText).subscribe({
       next: (response) => {
         this.cucumberScript = response.cucumber_script;
         this.qualityAssessment = response.quality_assessment;

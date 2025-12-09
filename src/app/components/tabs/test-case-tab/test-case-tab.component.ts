@@ -25,7 +25,6 @@ import { ApiService } from '../../../services/api-service.service';
   styleUrl: './test-case-tab.component.css'
 })
 export class TestCaseTabComponent {
-  @Input() selectedModel: string = 'Open AI GPT 4.1';
   @Input() uploadedDocument: UploadedDocument | null = null;
 
   userStoryText: string = '';
@@ -47,7 +46,7 @@ export class TestCaseTabComponent {
     this.qualityAssessment = null;
     this.processingTime = null;
 
-    this.apiService.convertToTestCases(this.uploadedDocument.documentId, this.userStoryText, this.selectedModel).subscribe({
+    this.apiService.convertToTestCases(this.uploadedDocument.documentId, this.userStoryText).subscribe({
       next: (response) => {
         this.testCases = response.test_cases;
         this.qualityAssessment = response.quality_assessment;

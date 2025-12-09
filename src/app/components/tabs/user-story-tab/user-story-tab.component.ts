@@ -19,7 +19,6 @@ import { ApiService } from '../../../services/api-service.service';
   styleUrl: './user-story-tab.component.css'
 })
 export class UserStoryTabComponent {
-  @Input() selectedModel: string = 'Open AI GPT 4.1';
   @Input() uploadedDocument: UploadedDocument | null = null;
 
   isLoading = false;
@@ -40,7 +39,7 @@ export class UserStoryTabComponent {
     this.qualityAssessment = null;
     this.processingTime = null;
 
-    this.apiService.generateUserStories(this.uploadedDocument.documentId, this.selectedModel).subscribe({
+    this.apiService.generateUserStories(this.uploadedDocument.documentId).subscribe({
       next: (response) => {
         this.userStories = response.user_stories;
         this.qualityAssessment = response.quality_assessment;
