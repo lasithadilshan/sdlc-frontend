@@ -35,6 +35,15 @@ export class CucumberTabComponent {
 
   constructor(private apiService: ApiService) {}
 
+  ngOnInit(): void {
+    // Subscribe to selected test case text pushed from Test Case tab
+    this.apiService.selectedTestCaseText$.subscribe((text) => {
+      if (text) {
+        this.testCaseText = text;
+      }
+    });
+  }
+
   generateCucumber(): void {
     if (!this.uploadedDocument || !this.testCaseText) {
       return;

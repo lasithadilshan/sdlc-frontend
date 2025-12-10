@@ -11,7 +11,7 @@
       <textarea matInput [(ngModel)]="testCaseText" rows="8" class="textarea"></textarea>
     </mat-form-field>
 
-    <button mat-raised-button color="primary" (click)="generateCucumber()" [disabled]="isLoading || !testCaseText">
+    <button mat-raised-button color="primary btn-gradient" (click)="generateCucumber()" [disabled]="isLoading || !testCaseText">
       {{ isLoading ? 'Generating...' : 'Generate Cucumber Script' }}
     </button>
 

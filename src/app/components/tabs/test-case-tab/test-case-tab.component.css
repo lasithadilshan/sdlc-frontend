@@ -78,10 +78,12 @@
 .tc-bullets li::before { content: '•'; position: absolute; left: 0; color: #2563eb; }
 
 .tc-data-list { list-style: none; padding-left: 0; }
-.tc-data-list li { color: #166534; font-size: 0.85rem; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; background: #dcfce7; padding: 0.25rem 0.5rem; border-radius: 6px; display: inline-block; margin: 0.25rem 0; }
+.tc-data-list li { color: #166534; font-size: 0.85rem; font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; background: #dcfce7; padding: 0.25rem 0.5rem; border-radius: 6px; display: inline-block; margin: 0.25rem 0; word-break: break-all;
+    overflow-wrap: anywhere;}
 
 .tc-steps-list { list-style: none; padding-left: 0; }
-.tc-steps-list li { color: #374151; font-size: 0.85rem; position: relative; padding-left: 1.25rem; margin: 0.25rem 0; }
+.tc-steps-list li { color: #374151; font-size: 0.85rem; position: relative; padding-left: 1.25rem; margin: 0.25rem 0; word-break: break-all;
+    overflow-wrap: anywhere; }
 .tc-step-num { position: absolute; left: 0; color: #6b7280; font-weight: 700; }
 
 .tc-expected-list { list-style: none; padding-left: 0; }

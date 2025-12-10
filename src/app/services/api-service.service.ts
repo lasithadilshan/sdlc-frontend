@@ -1,12 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
   private apiUrl = 'http://127.0.0.1:8000';
+
+  // Shared state to pass selected test case text to other tabs
+  private selectedTestCaseTextSubject = new BehaviorSubject<string>('');
+  selectedTestCaseText$ = this.selectedTestCaseTextSubject.asObservable();
 
   constructor(private http: HttpClient) {}
 
@@ -34,5 +38,10 @@ export class ApiService {
     return this.http.post(`${this.apiUrl}/convert-to-selenium?document_id=${documentId}`, {
       test_case_text: testCaseText
     });
+  }
+
+  // Update currently selected test case text (to be consumed by Cucumber tab)
+  setSelectedTestCaseText(text: string): void {
+    this.selectedTestCaseTextSubject.next(text || '');
   }
 }

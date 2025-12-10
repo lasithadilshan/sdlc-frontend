@@ -11,7 +11,7 @@
       <textarea matInput [(ngModel)]="testCaseText" rows="8" class="textarea"></textarea>
     </mat-form-field>
 
-    <button mat-raised-button color="primary" (click)="generateSelenium()" [disabled]="isLoading || !testCaseText">
+    <button mat-raised-button color="primary btn-gradient" (click)="generateSelenium()" [disabled]="isLoading || !testCaseText">
       {{ isLoading ? 'Generating...' : 'Generate Selenium Script' }}
     </button>
 

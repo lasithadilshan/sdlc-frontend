@@ -126,4 +126,55 @@ export class TestCaseTabComponent {
       }
     });
   }
+
+  // Serialize a single test case object into plain text suitable for Cucumber conversion
+  private serializeTestCase(tc: any, index: number): string {
+    const lines: string[] = [];
+    const id = tc.id || tc.ID || `TC_${index + 1}`;
+    const title = tc.title || tc.name || `Test Case ${index + 1}`;
+    lines.push(`ID: ${id}`);
+    lines.push(`Title: ${title}`);
+
+    const preconditions = Array.isArray(tc.preconditions) ? tc.preconditions : (tc.preconditions ? [tc.preconditions] : []);
+    if (preconditions.length) {
+      lines.push('Preconditions:');
+      preconditions.forEach((p: string) => lines.push(`- ${p}`));
+    }
+
+    const testData = Array.isArray(tc.test_data) ? tc.test_data : (tc.test_data ? [tc.test_data] : []);
+    if (testData.length) {
+      lines.push('Test Data:');
+      testData.forEach((d: string) => lines.push(`- ${d}`));
+    }
+
+    const stepsArr = Array.isArray(tc.test_steps || tc.steps) ? (tc.test_steps || tc.steps) : ((tc.test_steps || tc.steps) ? [tc.test_steps || tc.steps] : []);
+    if (stepsArr.length) {
+      lines.push('Steps:');
+      stepsArr.forEach((s: string, i: number) => lines.push(`${i + 1}. ${s}`));
+    }
+
+    const expectedArr = Array.isArray(tc.expected_results || tc.expected) ? (tc.expected_results || tc.expected) : ((tc.expected_results || tc.expected) ? [tc.expected_results || tc.expected] : []);
+    const expectedSingle = tc.expected_result || tc.expectedResult;
+    if (expectedArr.length || expectedSingle) {
+      lines.push('Expected Results:');
+      if (expectedArr.length) {
+        expectedArr.forEach((e: string) => lines.push(`- ${e}`));
+      } else {
+        lines.push(`- ${expectedSingle}`);
+      }
+    }
+
+    return lines.join('\n');
+  }
+
+  // Send a selected test case into the Cucumber tab's textarea
+  sendToCucumber(tc: any, index: number = 0): void {
+    try {
+      const text = this.serializeTestCase(tc, index);
+      this.apiService.setSelectedTestCaseText(text);
+      alert('Test case sent to Cucumber tab.');
+    } catch (e) {
+      console.error('Failed to serialize and send test case:', e);
+    }
+  }
 }

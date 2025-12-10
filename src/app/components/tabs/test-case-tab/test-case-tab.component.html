@@ -11,7 +11,7 @@
       <textarea matInput [(ngModel)]="userStoryText" rows="8" class="textarea"></textarea>
     </mat-form-field>
 
-    <button mat-raised-button color="primary" (click)="generateTestCases()" [disabled]="isLoading || !userStoryText">
+    <button mat-raised-button color="primary btn-gradient" (click)="generateTestCases()" [disabled]="isLoading || !userStoryText">
       {{ isLoading ? 'Generating...' : 'Generate Test Cases' }}
     </button>
 
@@ -74,6 +74,10 @@
                       </li>
                     </ul>
                   </div>
+
+                  <div class="tc-actions">
+                    <button mat-stroked-button color="primary" (click)="sendToCucumber(tc, i)">Send to Cucumber</button>
+                  </div>
                 </div>
               </div>
             </div>
@@ -122,6 +126,10 @@
                           {{ res || testCases.expected_result || testCases.expectedResult }}
                         </li>
                       </ul>
+                    </div>
+
+                    <div class="tc-actions">
+                      <button mat-stroked-button color="primary" (click)="sendToCucumber(testCases, 0)">Send to Cucumber</button>
                     </div>
                   </div>
                 </div>
