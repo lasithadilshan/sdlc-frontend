@@ -23,17 +23,90 @@
           <mat-card-title>Generated Cucumber Script</mat-card-title>
         </mat-card-header>
         <mat-card-content>
-          <pre class="code-block">{{ cucumberScript }}</pre>
-          <button mat-stroked-button (click)="copyToClipboard(cucumberScript!)">Copy to Clipboard</button>
+          <div class="code-toolbar">
+            <div class="left"> 
+              <small *ngIf="uploadedDocument">File: {{ uploadedDocument.documentId }} </small>
+            </div>
+            <div class="right">
+              <button mat-stroked-button color="primary" (click)="copyToClipboard(cucumberScript!)">Copy All</button>
+              <button mat-stroked-button (click)="downloadFile((uploadedDocument ? uploadedDocument.documentId : 'cucumber') + '.txt', cucumberScript)">Download All</button>
+            </div>
+          </div>
+
+          <!-- If parser extracted parts, show them separately -->
+          <div *ngIf="featureText">
+            <div class="sub-card">
+              <div class="sub-card-header">
+                <h3>Feature File</h3>
+                <div class="sub-actions">
+                  <button mat-stroked-button (click)="copyToClipboard(featureText)">Copy Feature</button>
+                  <button mat-stroked-button (click)="downloadFile((uploadedDocument ? uploadedDocument.documentId : 'feature') + '.feature', featureText)">Download .feature</button>
+                </div>
+              </div>
+              <pre class="code-block">{{ featureText }}</pre>
+            </div>
+          </div>
+
+          <div *ngIf="stepsText">
+            <div class="sub-card">
+              <div class="sub-card-header">
+                <h3>Step Definitions</h3>
+                <div class="sub-actions">
+                  <button mat-stroked-button (click)="copyToClipboard(stepsText)">Copy Steps</button>
+                  <button mat-stroked-button (click)="downloadFile((uploadedDocument ? uploadedDocument.documentId : 'steps') + 'Steps.java', stepsText)">Download .java</button>
+                </div>
+              </div>
+              <pre class="code-block">{{ stepsText }}</pre>
+            </div>
+          </div>
+
+          <!-- Fallback: show raw script if parser didn't separate parts -->
+          <div *ngIf="!featureText && !stepsText">
+            <pre class="code-block">{{ cucumberScript }}</pre>
+          </div>
         </mat-card-content>
       </mat-card>
 
-      <mat-card>
+      <mat-card class="qa-card" *ngIf="qualityAssessment">
         <mat-card-header>
           <mat-card-title>Quality Assessment</mat-card-title>
         </mat-card-header>
         <mat-card-content>
-          <pre>{{ qualityAssessment | json }}</pre>
+          <div class="qa-grid">
+            <div class="qa-overall">
+              <div class="qa-score-circle" [style.borderColor]="getLevelColor(qualityAssessment.overall_level || qualityAssessment.overallLevel)">
+                <div class="qa-score">{{ getScorePercent(qualityAssessment.overall_score || qualityAssessment.score) }}</div>
+                <div class="qa-label">Overall</div>
+              </div>
+              <div class="qa-level" [style.color]="getLevelColor(qualityAssessment.overall_level || qualityAssessment.overallLevel)">
+                {{ (qualityAssessment.overall_level || qualityAssessment.overallLevel || qualityAssessment.overallLevel || 'Unknown') }}
+              </div>
+            </div>
+
+            <div class="qa-metrics">
+              <div class="metric-row" *ngIf="qualityAssessment.confidence_score !== undefined || qualityAssessment.confidence_score !== null">
+                <div class="metric-label">Confidence</div>
+                <div class="metric-bar">
+                  <div class="metric-fill" [style.width]="getScorePercent(qualityAssessment.confidence_score) + '%'" [style.backgroundColor]="getLevelColor(qualityAssessment.confidence_level || qualityAssessment.confidenceLevel)"></div>
+                </div>
+                <div class="metric-value">{{ getScorePercent(qualityAssessment.confidence_score) }}%</div>
+              </div>
+
+              <div class="metric-row" *ngIf="qualityAssessment.match_score !== undefined || qualityAssessment.match_score !== null">
+                <div class="metric-label">Match</div>
+                <div class="metric-bar">
+                  <div class="metric-fill" [style.width]="getScorePercent(qualityAssessment.match_score) + '%'" [style.backgroundColor]="getLevelColor(qualityAssessment.match_level || qualityAssessment.matchLevel)"></div>
+                </div>
+                <div class="metric-value">{{ getScorePercent(qualityAssessment.match_score) }}%</div>
+              </div>
+
+              <div class="qa-list">
+                <div class="qa-item"><strong>Overall Score:</strong> <span>{{ qualityAssessment.overall_score || qualityAssessment.score || 'N/A' }}</span></div>
+                <div class="qa-item" *ngIf="qualityAssessment.confidence_score !== undefined"><strong>Confidence Score:</strong> <span>{{ qualityAssessment.confidence_score }}</span></div>
+                <div class="qa-item" *ngIf="qualityAssessment.match_score !== undefined"><strong>Match Score:</strong> <span>{{ qualityAssessment.match_score }}</span></div>
+              </div>
+            </div>
+          </div>
         </mat-card-content>
       </mat-card>
 

@@ -105,6 +105,74 @@ mat-card-content {
   border: 1px solid #1e1e1e;
 }
 
+.code-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 12px;
+}
+
+.code-toolbar .right button {
+  margin-left: 8px;
+}
+
+.sub-card {
+  margin-bottom: 18px;
+}
+
+.sub-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+.sub-card-header h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.sub-actions button {
+  margin-left: 8px;
+}
+
+.code-block { max-height: 480px; overflow: auto; white-space: pre-wrap; }
+
+/* Quality Assessment styles */
+.qa-card { padding-bottom: 0; }
+.qa-grid {
+  display: flex;
+  gap: 24px;
+  align-items: flex-start;
+  flex-wrap: wrap;
+}
+.qa-overall { width: 180px; text-align: center; }
+.qa-score-circle {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  border: 6px solid #ccc;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 8px auto;
+  background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(0,0,0,0.02));
+}
+.qa-score { font-size: 28px; font-weight: 800; color: #1a1a1a; }
+.qa-label { font-size: 13px; color: #666; margin-top: 4px; }
+.qa-level { font-weight: 600; margin-top: 6px; }
+
+.qa-metrics { flex: 1 1 420px; }
+.metric-row { display: flex; align-items: center; gap: 12px; margin-bottom: 12px; }
+.metric-label { width: 110px; color: #444; font-weight: 600; }
+.metric-bar { flex: 1; background: #eee; height: 14px; border-radius: 8px; overflow: hidden; }
+.metric-fill { height: 100%; width: 30%; background: #f6a000; transition: width 0.4s ease; border-radius: 8px 0 0 8px; }
+.metric-value { width: 56px; text-align: right; font-weight: 700; color: #333; }
+
+.qa-list { margin-top: 8px; padding-top: 8px; border-top: 1px dashed #e0e0e0; }
+.qa-item { margin: 6px 0; color: #333; }
+
 .keyword {
   color: #61afef;
 }
