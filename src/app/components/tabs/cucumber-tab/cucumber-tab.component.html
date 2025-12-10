@@ -28,8 +28,8 @@
               <small *ngIf="uploadedDocument">File: {{ uploadedDocument.documentId }} </small>
             </div>
             <div class="right">
-              <button mat-stroked-button color="primary" (click)="copyToClipboard(cucumberScript!)">Copy All</button>
-              <button mat-stroked-button (click)="downloadFile((uploadedDocument ? uploadedDocument.documentId : 'cucumber') + '.txt', cucumberScript)">Download All</button>
+              <button mat-icon-button matTooltip="Copy all" (click)="copyToClipboard(cucumberScript!)"><mat-icon>content_copy</mat-icon></button>
+              <button mat-icon-button matTooltip="Download all" (click)="downloadFile((uploadedDocument ? uploadedDocument.documentId : 'cucumber') + '.txt', cucumberScript)"><mat-icon>download</mat-icon></button>
             </div>
           </div>
 
@@ -39,8 +39,8 @@
               <div class="sub-card-header">
                 <h3>Feature File</h3>
                 <div class="sub-actions">
-                  <button mat-stroked-button (click)="copyToClipboard(featureText)">Copy Feature</button>
-                  <button mat-stroked-button (click)="downloadFile((uploadedDocument ? uploadedDocument.documentId : 'feature') + '.feature', featureText)">Download .feature</button>
+                  <button mat-icon-button matTooltip="Copy feature" (click)="copyToClipboard(featureText)"><mat-icon>content_copy</mat-icon></button>
+                  <button mat-icon-button matTooltip="Download .feature" (click)="downloadFile((uploadedDocument ? uploadedDocument.documentId : 'feature') + '.feature', featureText)"><mat-icon>download</mat-icon></button>
                 </div>
               </div>
               <pre class="code-block">{{ featureText }}</pre>
@@ -52,8 +52,8 @@
               <div class="sub-card-header">
                 <h3>Step Definitions</h3>
                 <div class="sub-actions">
-                  <button mat-stroked-button (click)="copyToClipboard(stepsText)">Copy Steps</button>
-                  <button mat-stroked-button (click)="downloadFile((uploadedDocument ? uploadedDocument.documentId : 'steps') + 'Steps.java', stepsText)">Download .java</button>
+                  <button mat-icon-button matTooltip="Copy steps" (click)="copyToClipboard(stepsText)"><mat-icon>content_copy</mat-icon></button>
+                  <button mat-icon-button matTooltip="Download .java" (click)="downloadFile((uploadedDocument ? uploadedDocument.documentId : 'steps') + 'Steps.java', stepsText)"><mat-icon>download</mat-icon></button>
                 </div>
               </div>
               <pre class="code-block">{{ stepsText }}</pre>
@@ -70,22 +70,33 @@
       <mat-card class="qa-card" *ngIf="qualityAssessment">
         <mat-card-header>
           <mat-card-title>Quality Assessment</mat-card-title>
+          <div class="qa-help-icon">
+            <button mat-icon-button matTooltip="QA help" (click)="openQaHelp()"><mat-icon>help_outline</mat-icon></button>
+          </div>
         </mat-card-header>
         <mat-card-content>
           <div class="qa-grid">
             <div class="qa-overall">
-              <div class="qa-score-circle" [style.borderColor]="getLevelColor(qualityAssessment.overall_level || qualityAssessment.overallLevel)">
-                <div class="qa-score">{{ getScorePercent(qualityAssessment.overall_score || qualityAssessment.score) }}</div>
-                <div class="qa-label">Overall</div>
+              <div class="qa-score-wrap" [class.pulse]="pulse">
+                <svg class="qa-ring" [attr.width]="(ringRadius*2 + ringStroke)" [attr.height]="(ringRadius*2 + ringStroke)" [attr.viewBox]="'0 0 ' + (ringRadius*2 + ringStroke) + ' ' + (ringRadius*2 + ringStroke)">
+                  <circle class="ring-bg" [attr.cx]="ringRadius + ringStroke/2" [attr.cy]="ringRadius + ringStroke/2" [attr.r]="ringRadius" [attr.stroke-width]="ringStroke" fill="none" stroke="#e6e6e6"></circle>
+                  <circle class="ring" [attr.cx]="ringRadius + ringStroke/2" [attr.cy]="ringRadius + ringStroke/2" [attr.r]="ringRadius" [attr.stroke-width]="ringStroke" fill="none" [attr.stroke]="getLevelColor(qualityAssessment.overall_level || qualityAssessment.overallLevel)" [attr.stroke-dasharray]="circumference" [attr.stroke-dashoffset]="getStrokeDashoffset(qualityAssessment.overall_score || qualityAssessment.score)" stroke-linecap="round"></circle>
+                  <!-- thinner arc overlay for emphasis -->
+                  <circle class="ring-arc" [attr.cx]="ringRadius + ringStroke/2" [attr.cy]="ringRadius + ringStroke/2" [attr.r]="ringRadius" [attr.stroke-width]="4" fill="none" [attr.stroke]="getLevelColor(qualityAssessment.overall_level || qualityAssessment.overallLevel)" [attr.stroke-dasharray]="circumference" [attr.stroke-dashoffset]="getStrokeDashoffset(qualityAssessment.overall_score || qualityAssessment.score)" stroke-linecap="round"></circle>
+                </svg>
+                <div class="qa-score-overlay">
+                  <div class="qa-score">{{ getScorePercent(qualityAssessment.overall_score || qualityAssessment.score) }}</div>
+                  <div class="qa-label">Overall</div>
+                </div>
               </div>
               <div class="qa-level" [style.color]="getLevelColor(qualityAssessment.overall_level || qualityAssessment.overallLevel)">
-                {{ (qualityAssessment.overall_level || qualityAssessment.overallLevel || qualityAssessment.overallLevel || 'Unknown') }}
+                {{ (qualityAssessment.overall_level || qualityAssessment.overallLevel || 'Unknown') }}
               </div>
             </div>
 
             <div class="qa-metrics">
               <div class="metric-row" *ngIf="qualityAssessment.confidence_score !== undefined || qualityAssessment.confidence_score !== null">
-                <div class="metric-label">Confidence</div>
+                <div class="metric-label">Confidence <mat-icon matTooltip="Model's confidence in the generated script quality" class="info-icon">info</mat-icon></div>
                 <div class="metric-bar">
                   <div class="metric-fill" [style.width]="getScorePercent(qualityAssessment.confidence_score) + '%'" [style.backgroundColor]="getLevelColor(qualityAssessment.confidence_level || qualityAssessment.confidenceLevel)"></div>
                 </div>
@@ -93,7 +104,7 @@
               </div>
 
               <div class="metric-row" *ngIf="qualityAssessment.match_score !== undefined || qualityAssessment.match_score !== null">
-                <div class="metric-label">Match</div>
+                <div class="metric-label">Match <mat-icon matTooltip="How closely the output matches expected format/spec" class="info-icon">info</mat-icon></div>
                 <div class="metric-bar">
                   <div class="metric-fill" [style.width]="getScorePercent(qualityAssessment.match_score) + '%'" [style.backgroundColor]="getLevelColor(qualityAssessment.match_level || qualityAssessment.matchLevel)"></div>
                 </div>

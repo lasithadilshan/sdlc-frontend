@@ -173,6 +173,22 @@ mat-card-content {
 .qa-list { margin-top: 8px; padding-top: 8px; border-top: 1px dashed #e0e0e0; }
 .qa-item { margin: 6px 0; color: #333; }
 
+/* SVG ring & pulse */
+.qa-score-wrap { position: relative; display: inline-block; }
+.qa-ring { display: block; }
+.ring { transition: stroke-dashoffset 0.9s cubic-bezier(.2,.9,.2,1), stroke 0.4s ease; transform: rotate(-90deg); transform-origin: 50% 50%; }
+.ring-arc { transition: stroke-dashoffset 0.9s cubic-bezier(.2,.9,.2,1), stroke 0.4s ease; transform: rotate(-90deg); transform-origin: 50% 50%; opacity: 0.9; }
+.qa-score-overlay { position: absolute; left: 0; right: 0; top: 0; bottom: 0; display:flex; flex-direction: column; align-items:center; justify-content:center; }
+.qa-score-wrap.pulse { animation: qa-pulse 0.9s ease; }
+@keyframes qa-pulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.04); }
+  100% { transform: scale(1); }
+}
+
+.qa-help-icon { position: absolute; right: 16px; top: 8px; }
+.info-icon { font-size: 18px; vertical-align: middle; }
+
 .keyword {
   color: #61afef;
 }
