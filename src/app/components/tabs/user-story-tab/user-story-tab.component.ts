@@ -6,6 +6,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { UploadedDocument } from '../../../app.component';
 import { ApiService } from '../../../services/api-service.service';
+import { DialogService } from '../../../services/dialog.service';
 
 // dynamic imports for optional PDF libraries are used in methods below
 
@@ -43,7 +44,7 @@ export class UserStoryTabComponent {
     return this.exportTotal ? Math.round((this.exportProgress / this.exportTotal) * 100) : 0;
   }
 
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService, private dialogService: DialogService) {}
 
   generateUserStories(): void {
     if (!this.uploadedDocument) {
@@ -173,7 +174,7 @@ export class UserStoryTabComponent {
 
     const printWindow = window.open('', '_blank');
     if (!printWindow) {
-      alert('Unable to open print window. Please allow popups for this site.');
+      this.dialogService.showToast('Unable to open print window. Please allow popups for this site.', 'Popup blocked', 'error', 5);
       return;
     }
 
@@ -245,7 +246,7 @@ export class UserStoryTabComponent {
       this.exportTotal = 0;
     } catch (err) {
       console.error('Direct PDF export failed:', err);
-      alert('Direct PDF export failed. Falling back to printable view.');
+      this.dialogService.showToast('Direct PDF export failed. Falling back to printable view.', 'Export failed', 'warn', 5);
       this.isExporting = false;
       this.exportProgress = 0;
       this.exportTotal = 0;

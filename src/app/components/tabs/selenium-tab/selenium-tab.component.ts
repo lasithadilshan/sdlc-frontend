@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { UploadedDocument } from '../../../app.component';
 import { ApiService } from '../../../services/api-service.service';
+import { DialogService } from '../../../services/dialog.service';
 
 @Component({
   selector: 'app-selenium-tab',
@@ -32,7 +33,7 @@ export class SeleniumTabComponent implements OnInit {
   seleniumScript: string | null = null;
   // qualityAssessment: any = null; // QA disabled
 
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService, private dialogService: DialogService) {}
 
   ngOnInit(): void {
     // Subscribe to selected test case text pushed from Test Case tab (for Selenium)
@@ -67,7 +68,7 @@ export class SeleniumTabComponent implements OnInit {
 
   copyToClipboard(text: string): void {
     navigator.clipboard.writeText(text).then(() => {
-      alert('Copied to clipboard!');
+      this.dialogService.showToast('Copied to clipboard!', 'Copied', 'success', 3);
     });
   }
 }

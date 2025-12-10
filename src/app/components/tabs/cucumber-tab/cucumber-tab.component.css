@@ -237,3 +237,11 @@ button:hover:not(:disabled) {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 }
+.results mat-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.results mat-card-header button {
+  padding: 0px !important;
+}

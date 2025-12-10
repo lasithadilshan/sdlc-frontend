@@ -1,0 +1,10 @@
+<div class="toast-root" [ngClass]="data.type || 'info'">
+  <div class="toast-header">
+    <mat-icon class="toast-icon">{{ iconForType() }}</mat-icon>
+    <div class="toast-title" *ngIf="data.title">{{ data.title }}</div>
+  </div>
+  <div class="toast-message">{{ data.message }}</div>
+  <div class="toast-actions" *ngIf="!data.durationSeconds">
+    <button mat-button (click)="dialogRef.close()">OK</button>
+  </div>
+</div>

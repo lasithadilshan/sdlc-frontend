@@ -21,17 +21,22 @@
       <mat-card>
         <mat-card-header>
           <mat-card-title>Generated Cucumber Script</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <div class="code-toolbar">
-            <div class="left"> 
-              <small *ngIf="uploadedDocument">File: {{ uploadedDocument.documentId }} </small>
-            </div>
-            <div class="right">
+          <div class="right">
               <button mat-icon-button matTooltip="Copy all" (click)="copyToClipboard(cucumberScript!, 'all')"><mat-icon>content_copy</mat-icon></button>
               <span class="copied-badge" *ngIf="copied.all">Copied</span>
               <button mat-icon-button matTooltip="Download all" (click)="downloadFile((uploadedDocument ? uploadedDocument.documentId : 'cucumber') + '.txt', cucumberScript)"><mat-icon>download</mat-icon></button>
             </div>
+        </mat-card-header>
+        <mat-card-content>
+          <div class="code-toolbar">
+            <!-- <div class="left"> 
+              <small *ngIf="uploadedDocument">File: {{ uploadedDocument.documentId }} </small>
+            </div> -->
+            <!-- <div class="right">
+              <button mat-icon-button matTooltip="Copy all" (click)="copyToClipboard(cucumberScript!, 'all')"><mat-icon>content_copy</mat-icon></button>
+              <span class="copied-badge" *ngIf="copied.all">Copied</span>
+              <button mat-icon-button matTooltip="Download all" (click)="downloadFile((uploadedDocument ? uploadedDocument.documentId : 'cucumber') + '.txt', cucumberScript)"><mat-icon>download</mat-icon></button>
+            </div> -->
           </div>
 
           <!-- If parser extracted parts, show them separately -->

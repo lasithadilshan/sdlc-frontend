@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { UploadedDocument } from '../../../app.component';
 import { ApiService } from '../../../services/api-service.service';
+import { DialogService } from '../../../services/dialog.service';
 
 @Component({
   selector: 'app-test-case-tab',
@@ -35,7 +36,7 @@ export class TestCaseTabComponent {
   // processingTime: number | null = null; // removed
   parseError: any = null;
 
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService, private dialogService: DialogService) {}
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['generatedUserStories'] && this.generatedUserStories && this.generatedUserStories.length > 0) {
@@ -173,7 +174,7 @@ export class TestCaseTabComponent {
       const text = this.serializeTestCase(tc, index);
       this.apiService.setSelectedTestCaseText(text);
       this.apiService.setSelectedTabIndex(2);
-      alert('Test case sent to Cucumber tab. Navigating to Cucumber tab...');
+      this.dialogService.showToast('Test case sent to Cucumber tab. Navigating to Cucumber tab...', 'Sent', 'info', 3);
     } catch (e) {
       console.error('Failed to serialize and send test case:', e);
     }
@@ -186,7 +187,7 @@ export class TestCaseTabComponent {
       this.apiService.setSelectedSeleniumTestCaseText(text);
       // request the main content to switch to the Selenium tab (index 3)
       this.apiService.setSelectedTabIndex(3);
-      alert('Test case sent to Selenium tab. Navigating to Selenium tab...');
+      this.dialogService.showToast('Test case sent to Selenium tab. Navigating to Selenium tab...', 'Sent', 'info', 3);
     } catch (e) {
       console.error('Failed to serialize and send test case to Selenium:', e);
     }

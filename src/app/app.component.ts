@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MainContentComponent } from './components/main-content/main-content.component';
@@ -17,6 +18,7 @@ export interface UploadedDocument {
     CommonModule,
     MatSidenavModule,
     MatToolbarModule,
+    MatDialogModule,
     SidebarComponent,
     MainContentComponent
   ],
