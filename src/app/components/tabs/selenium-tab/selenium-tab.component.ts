@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -24,7 +24,7 @@ import { ApiService } from '../../../services/api-service.service';
   templateUrl: './selenium-tab.component.html',
   styleUrl: './selenium-tab.component.css'
 })
-export class SeleniumTabComponent {
+export class SeleniumTabComponent implements OnInit {
   @Input() uploadedDocument: UploadedDocument | null = null;
 
   testCaseText: string = '';
@@ -34,6 +34,15 @@ export class SeleniumTabComponent {
   processingTime: number | null = null;
 
   constructor(private apiService: ApiService) {}
+
+  ngOnInit(): void {
+    // Subscribe to selected test case text pushed from Test Case tab (for Selenium)
+    this.apiService.selectedSeleniumTestCaseText$.subscribe((text) => {
+      if (text) {
+        this.testCaseText = text;
+      }
+    });
+  }
 
   generateSelenium(): void {
     if (!this.uploadedDocument || !this.testCaseText) {

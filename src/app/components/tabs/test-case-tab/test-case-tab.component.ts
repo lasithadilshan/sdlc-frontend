@@ -177,4 +177,17 @@ export class TestCaseTabComponent {
       console.error('Failed to serialize and send test case:', e);
     }
   }
+
+  // Send a selected test case into the Selenium tab's textarea
+  sendToSelenium(tc: any, index: number = 0): void {
+    try {
+      const text = this.serializeTestCase(tc, index);
+      this.apiService.setSelectedSeleniumTestCaseText(text);
+      // request the main content to switch to the Selenium tab (index 3)
+      this.apiService.setSelectedTabIndex(3);
+      alert('Test case sent to Selenium tab. Navigating to Selenium tab...');
+    } catch (e) {
+      console.error('Failed to serialize and send test case to Selenium:', e);
+    }
+  }
 }

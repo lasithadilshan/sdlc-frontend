@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
@@ -24,7 +24,7 @@ import { ApiService } from '../../../services/api-service.service';
   templateUrl: './cucumber-tab.component.html',
   styleUrl: './cucumber-tab.component.css'
 })
-export class CucumberTabComponent {
+export class CucumberTabComponent implements OnInit {
   @Input() uploadedDocument: UploadedDocument | null = null;
 
   testCaseText: string = '';

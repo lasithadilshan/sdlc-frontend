@@ -5,6 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { UploadedDocument } from '../../app.component';
+import { ApiService } from '../../services/api-service.service';
 import { CucumberTabComponent } from '../tabs/cucumber-tab/cucumber-tab.component';
 import { SeleniumTabComponent } from '../tabs/selenium-tab/selenium-tab.component';
 import { TestCaseTabComponent } from '../tabs/test-case-tab/test-case-tab.component';
@@ -34,6 +35,15 @@ export class MainContentComponent {
 
   // hold latest generated user stories so they can be passed to other tabs
   generatedUserStories: any[] = [];
+  selectedTabIndex = 0;
+
+  constructor(private apiService: ApiService) {}
+
+  ngOnInit(): void {
+    this.apiService.selectedTabIndex$.subscribe((idx) => {
+      if (typeof idx === 'number') this.selectedTabIndex = idx;
+    });
+  }
 
   onUserStoriesGenerated(stories: any[]): void {
     this.generatedUserStories = Array.isArray(stories) ? stories : (stories ? [stories] : []);

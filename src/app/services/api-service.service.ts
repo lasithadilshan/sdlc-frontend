@@ -11,6 +11,14 @@ export class ApiService {
   // Shared state to pass selected test case text to other tabs
   private selectedTestCaseTextSubject = new BehaviorSubject<string>('');
   selectedTestCaseText$ = this.selectedTestCaseTextSubject.asObservable();
+  
+  // Shared state to pass selected test case text specifically to Selenium tab
+  private selectedSeleniumTestCaseTextSubject = new BehaviorSubject<string>('');
+  selectedSeleniumTestCaseText$ = this.selectedSeleniumTestCaseTextSubject.asObservable();
+
+  // Shared state to request main content to switch tabs (emit tab index)
+  private selectedTabIndexSubject = new BehaviorSubject<number>(0);
+  selectedTabIndex$ = this.selectedTabIndexSubject.asObservable();
 
   constructor(private http: HttpClient) {}
 
@@ -43,5 +51,15 @@ export class ApiService {
   // Update currently selected test case text (to be consumed by Cucumber tab)
   setSelectedTestCaseText(text: string): void {
     this.selectedTestCaseTextSubject.next(text || '');
+  }
+
+  // Update currently selected test case text (to be consumed by Selenium tab)
+  setSelectedSeleniumTestCaseText(text: string): void {
+    this.selectedSeleniumTestCaseTextSubject.next(text || '');
+  }
+
+  // Ask main content to switch to a given tab index
+  setSelectedTabIndex(index: number): void {
+    this.selectedTabIndexSubject.next(typeof index === 'number' ? index : 0);
   }
 }

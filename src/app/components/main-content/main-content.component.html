@@ -6,7 +6,7 @@
     <h1>SDLC Mate</h1>
   </mat-toolbar>
 
-  <mat-tab-group class="tabs-container">
+  <mat-tab-group class="tabs-container" [selectedIndex]="selectedTabIndex">
     <mat-tab label="User Story Generation">
       <app-user-story-tab [uploadedDocument]="uploadedDocument" (userStoriesGenerated)="onUserStoriesGenerated($event)"></app-user-story-tab>
     </mat-tab>
