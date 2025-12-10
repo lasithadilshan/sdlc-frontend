@@ -31,8 +31,8 @@ export class TestCaseTabComponent {
   userStoryText: string = '';
   isLoading = false;
   testCases: any = null;
-  qualityAssessment: any = null;
-  processingTime: number | null = null;
+  qualityAssessment: any = null; // QA temporarily present (UI disabled)
+  // processingTime: number | null = null; // removed
   parseError: any = null;
 
   constructor(private apiService: ApiService) {}
@@ -72,19 +72,19 @@ export class TestCaseTabComponent {
 
     this.isLoading = true;
     this.testCases = null;
-    this.qualityAssessment = null;
-    this.processingTime = null;
+    // this.qualityAssessment = null; // QA disabled
+    // this.processingTime = null; // removed
 
     this.apiService.convertToTestCases(this.uploadedDocument.documentId, this.userStoryText).subscribe({
       next: (response) => {
         const rawTestCases = response.test_cases;
-        this.qualityAssessment = response.quality_assessment;
+        // this.qualityAssessment = response.quality_assessment; // QA disabled
         try {
           console.log('Quality Assessment:', typeof this.qualityAssessment === 'string' ? this.qualityAssessment : JSON.stringify(this.qualityAssessment, null, 2));
         } catch {
           console.log('Quality Assessment:', this.qualityAssessment);
         }
-        this.processingTime = response.processing_time_seconds;
+        // this.processingTime = response.processing_time_seconds; // removed
         this.parseError = response.parse_error || null;
 
         // If the API returned a string, try to parse it as JSON. If parsing fails,
@@ -172,7 +172,8 @@ export class TestCaseTabComponent {
     try {
       const text = this.serializeTestCase(tc, index);
       this.apiService.setSelectedTestCaseText(text);
-      alert('Test case sent to Cucumber tab.');
+      this.apiService.setSelectedTabIndex(2);
+      alert('Test case sent to Cucumber tab. Navigating to Cucumber tab...');
     } catch (e) {
       console.error('Failed to serialize and send test case:', e);
     }

@@ -15,7 +15,6 @@ import 'prismjs/components/prism-gherkin';
 import 'prismjs/components/prism-java';
 import { UploadedDocument } from '../../../app.component';
 import { ApiService } from '../../../services/api-service.service';
-import { QaHelpDialogComponent } from '../qa-help-dialog.component';
 
 @Component({
   selector: 'app-cucumber-tab',
@@ -45,8 +44,8 @@ export class CucumberTabComponent implements OnInit {
   // parsed parts
   featureText: string | null = null;
   stepsText: string | null = null;
-  qualityAssessment: any = null;
-  processingTime: number | null = null;
+  // qualityAssessment: any = null; // QA disabled
+  // processingTime: number | null = null; // removed
 
   // ring visuals
   ringRadius = 48;
@@ -78,18 +77,16 @@ export class CucumberTabComponent implements OnInit {
 
     this.isLoading = true;
     this.cucumberScript = null;
-    this.qualityAssessment = null;
-    this.processingTime = null;
+    // this.qualityAssessment = null; // QA disabled
 
     this.apiService.convertToCucumber(this.uploadedDocument.documentId, this.testCaseText).subscribe({
       next: (response) => {
         this.cucumberScript = response.cucumber_script;
         // parse parts for nicer UI (feature vs step definitions)
         this.parseCucumberScript();
-        this.qualityAssessment = response.quality_assessment;
-        this.processingTime = response.processing_time_seconds;
-        // visual pulse when new QA arrives
-        this.triggerPulse();
+        // this.qualityAssessment = response.quality_assessment; // QA disabled
+        // visual pulse when new QA arrives (disabled)
+        // this.triggerPulse();
         // highlight code blocks using bundled Prism after DOM update
         setTimeout(() => this.highlightCodeBlocks(), 0);
         this.isLoading = false;
@@ -160,6 +157,7 @@ export class CucumberTabComponent implements OnInit {
     });
   }
 
+  /* Quality Assessment helpers commented out
   // Return a color for level strings (Low/Medium/High or similar)
   getLevelColor(level: string | undefined | null): string {
     if (!level) return '#9e9e9e';
@@ -193,6 +191,7 @@ export class CucumberTabComponent implements OnInit {
   openQaHelp(): void {
     this.dialog.open(QaHelpDialogComponent, { width: '520px' });
   }
+  */
   private highlightCodeBlocks(): void {
     try {
       const blocks: NodeListOf<HTMLElement> = document.querySelectorAll('.code-block');

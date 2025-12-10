@@ -1,4 +1,4 @@
-/* Quality Assessment styles */
+/* Quality Assessment styles commented out
 .qa-container { padding: 1rem 0; }
 .qa-grid { display: grid; grid-template-columns: 1fr; gap: 2rem; }
 @media (min-width: 1024px) { .qa-grid { grid-template-columns: repeat(2, 1fr); } }
@@ -21,6 +21,7 @@
 .qa-issue-list li, .qa-recs-list li { position: relative; padding-left: 1rem; margin: 0.25rem 0; font-size: 0.9rem; }
 .qa-issue-dot { position: absolute; left: 0; color: #ef4444; font-weight: 700; }
 .qa-check { position: absolute; left: 0; color: #16a34a; font-weight: 700; }
+*/
 /* Container mimicking React example */
 .tc-container {
   min-height: 60vh;
@@ -229,4 +230,9 @@ button {
 button:hover:not(:disabled) {
   transform: translateY(-2px);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+}
+.tc-actions button{
+    max-width: unset;
+    width: 100%;
+    margin-bottom: 10px;
 }

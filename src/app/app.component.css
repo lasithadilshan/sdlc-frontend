@@ -34,3 +34,9 @@
       border-radius: 50px !important;
       color: #fff !important;
 }
+::ng-deep .mat-mdc-outlined-button.btn-gradient-secondary{
+      border:1px solid #764ba2 !important;
+      border-radius: 50px !important;
+      color: #764ba2 !important;
+      background: #fff !important;
+}

@@ -30,8 +30,7 @@ export class SeleniumTabComponent implements OnInit {
   testCaseText: string = '';
   isLoading = false;
   seleniumScript: string | null = null;
-  qualityAssessment: any = null;
-  processingTime: number | null = null;
+  // qualityAssessment: any = null; // QA disabled
 
   constructor(private apiService: ApiService) {}
 
@@ -51,14 +50,12 @@ export class SeleniumTabComponent implements OnInit {
 
     this.isLoading = true;
     this.seleniumScript = null;
-    this.qualityAssessment = null;
-    this.processingTime = null;
+    // this.qualityAssessment = null; // QA disabled
 
     this.apiService.convertToSelenium(this.uploadedDocument.documentId, this.testCaseText).subscribe({
       next: (response) => {
         this.seleniumScript = response.selenium_script;
-        this.qualityAssessment = response.quality_assessment;
-        this.processingTime = response.processing_time_seconds;
+        // this.qualityAssessment = response.quality_assessment; // QA disabled
         this.isLoading = false;
       },
       error: (error) => {

@@ -76,8 +76,8 @@
                   </div>
 
                   <div class="tc-actions">
-                    <button mat-stroked-button color="primary" (click)="sendToCucumber(tc, i)">Send to Cucumber</button>
-                    <button mat-stroked-button color="accent" (click)="sendToSelenium(tc, i)" style="margin-left:8px;">Send to Selenium</button>
+                    <button mat-stroked-button color="primary btn-gradient-secondary" (click)="sendToCucumber(tc, i)">Send to Cucumber</button>
+                    <button mat-stroked-button color="accent btn-gradient-secondary" (click)="sendToSelenium(tc, i)">Send to Selenium</button>
                   </div>
                 </div>
               </div>
@@ -130,8 +130,8 @@
                     </div>
 
                     <div class="tc-actions">
-                      <button mat-stroked-button color="primary" (click)="sendToCucumber(testCases, 0)">Send to Cucumber</button>
-                      <button mat-stroked-button color="accent" (click)="sendToSelenium(testCases, 0)" style="margin-left:8px;">Send to Selenium</button>
+                      <button mat-stroked-button color="primary btn-gradient-secondary" (click)="sendToCucumber(testCases, 0)">Send to Cucumber</button>
+                      <button mat-stroked-button color="accent btn-gradient-secondary" (click)="sendToSelenium(testCases, 0)">Send to Selenium</button>
                     </div>
                   </div>
                 </div>
@@ -142,103 +142,13 @@
         </mat-card-content>
       </mat-card>
 
+      <!-- Quality Assessment UI commented out
       <mat-card>
-        <mat-card-header>
-          <mat-card-title>Quality Assessment</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <!-- Flexible UI for quality assessment -->
-          <div *ngIf="qualityAssessment as qa">
-            <div class="qa-container">
-              <div class="qa-grid">
-                <div class="qa-card">
-                  <div class="qa-colorbar"></div>
-                  <div class="qa-body">
-                    <h3 class="qa-title">Quality Assessment</h3>
-
-                    <!-- Overall score and levels (supports various keys) -->
-                    <div class="qa-section qa-totals">
-                      <div class="qa-section-title">Summary</div>
-                      <ul class="qa-kv-list">
-                        <li *ngIf="qa.overall_score !== undefined">
-                          <span class="qa-k">Overall Score</span>
-                          <span class="qa-v">{{ qa.overall_score }}</span>
-                        </li>
-                        <li *ngIf="qa.overall_level">
-                          <span class="qa-k">Overall Level</span>
-                          <span class="qa-v">{{ qa.overall_level }}</span>
-                        </li>
-                        <li *ngIf="qa.confidence_score !== undefined">
-                          <span class="qa-k">Confidence Score</span>
-                          <span class="qa-v">{{ qa.confidence_score }}</span>
-                        </li>
-                        <li *ngIf="qa.confidence_level">
-                          <span class="qa-k">Confidence Level</span>
-                          <span class="qa-v">{{ qa.confidence_level }}</span>
-                        </li>
-                        <li *ngIf="qa.match_score !== undefined">
-                          <span class="qa-k">Match Score</span>
-                          <span class="qa-v">{{ qa.match_score }}</span>
-                        </li>
-                        <li *ngIf="qa.match_level">
-                          <span class="qa-k">Match Level</span>
-                          <span class="qa-v">{{ qa.match_level }}</span>
-                        </li>
-                        <!-- fallback if API returns a single score property -->
-                        <li *ngIf="qa.score !== undefined && qa.overall_score === undefined">
-                          <span class="qa-k">Score</span>
-                          <span class="qa-v">{{ qa.score }}</span>
-                        </li>
-                      </ul>
-                    </div>
-
-                    <div class="qa-section qa-metrics" *ngIf="qa.metrics">
-                      <div class="qa-section-title">Metrics</div>
-                      <ul class="qa-kv-list" *ngIf="qa.metrics && !isArray(qa.metrics)">
-                        <li *ngFor="let key of (qa.metrics ? objectKeys(qa.metrics) : [])">
-                          <span class="qa-k">{{ key }}</span>
-                          <span class="qa-v">{{ qa.metrics[key] }}</span>
-                        </li>
-                      </ul>
-                      <ul class="qa-bullets" *ngIf="isArray(qa.metrics)">
-                        <li *ngFor="let m of qa.metrics">{{ m }}</li>
-                      </ul>
-                    </div>
-
-                    <div class="qa-section qa-issues" *ngIf="qa.issues || qa.findings">
-                      <div class="qa-section-title">Issues</div>
-                      <ul class="qa-issue-list">
-                        <li *ngFor="let issue of (isArray(qa.issues || qa.findings) ? (qa.issues || qa.findings) : [qa.issues || qa.findings])">
-                          <span class="qa-issue-dot">•</span>
-                          <span>{{ issue?.message || issue?.text || issue }}</span>
-                        </li>
-                      </ul>
-                    </div>
-
-                    <div class="qa-section qa-recs" *ngIf="qa.recommendations || qa.suggestions">
-                      <div class="qa-section-title">Recommendations</div>
-                      <ul class="qa-recs-list">
-                        <li *ngFor="let rec of (isArray(qa.recommendations || qa.suggestions) ? (qa.recommendations || qa.suggestions) : [qa.recommendations || qa.suggestions])">
-                          <span class="qa-check">✓</span>
-                          <span>{{ rec?.message || rec?.text || rec }}</span>
-                        </li>
-                      </ul>
-                    </div>
-
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div *ngIf="!qualityAssessment">
-            <pre>{{ qualityAssessment | json }}</pre>
-          </div>
-        </mat-card-content>
+        ...quality assessment UI removed for now...
       </mat-card>
+      -->
 
-      <p class="processing-time" *ngIf="processingTime !== null">
-        <strong>Processing time:</strong> {{ processingTime }} seconds
-      </p>
+      <!-- Processing time removed -->
     </div>
   </div>
 </div>

@@ -26,8 +26,8 @@ export class UserStoryTabComponent {
   @Input() uploadedDocument: UploadedDocument | null = null;
   isLoading = false;
   userStories: any = null;
-  qualityAssessment: any = null;
-  processingTime: number | null = null;
+  // qualityAssessment: any = null; // QA disabled
+  // processingTime: number | null = null; // removed
   parseError: string | null = null;
 
   // For template rendering
@@ -52,8 +52,8 @@ export class UserStoryTabComponent {
 
     this.isLoading = true;
     this.userStories = null;
-    this.qualityAssessment = null;
-    this.processingTime = null;
+    // this.qualityAssessment = null; // QA disabled
+    // this.processingTime = null; // removed
     this.parseError = null;
     this.parsedUserStories = [];
 
@@ -93,8 +93,8 @@ export class UserStoryTabComponent {
 
         // keep original raw for debugging/display if needed
         this.userStories = response?.user_stories ?? response;
-        this.qualityAssessment = response?.quality_assessment ?? response?.qualityAssessment ?? null;
-        this.processingTime = response?.processing_time_seconds ?? response?.processingTimeSeconds ?? null;
+        // this.qualityAssessment = response?.quality_assessment ?? response?.qualityAssessment ?? null; // QA disabled
+        // this.processingTime = response?.processing_time_seconds ?? response?.processingTimeSeconds ?? null; // removed
         this.isLoading = false;
       },
       error: (error) => {

@@ -80,36 +80,13 @@
         </div>
       </div>
 
+      <!-- Quality Assessment UI commented out
       <mat-card class="quality-assessment-card" *ngIf="qualityAssessment">
-        <mat-card-header>
-          <mat-card-title>Quality Assessment</mat-card-title>
-        </mat-card-header>
-        <mat-card-content>
-          <div class="quality-field" *ngIf="qualityAssessment.completeness">
-            <strong>Completeness:</strong> {{ qualityAssessment.completeness }}
-          </div>
-          <div class="quality-field" *ngIf="qualityAssessment.clarity">
-            <strong>Clarity:</strong> {{ qualityAssessment.clarity }}
-          </div>
-          <div class="quality-field" *ngIf="qualityAssessment.testability">
-            <strong>Testability:</strong> {{ qualityAssessment.testability }}
-          </div>
-          <div class="quality-field" *ngIf="qualityAssessment.overall_score">
-            <strong>Overall Score:</strong> {{ qualityAssessment.overall_score }}
-          </div>
-          <div class="quality-field" *ngIf="qualityAssessment.recommendations">
-            <strong>Recommendations:</strong>
-            <ul *ngIf="Array.isArray(qualityAssessment.recommendations)">
-              <li *ngFor="let rec of qualityAssessment.recommendations">{{ rec }}</li>
-            </ul>
-            <div *ngIf="!Array.isArray(qualityAssessment.recommendations)">{{ qualityAssessment.recommendations }}</div>
-          </div>
-        </mat-card-content>
+        ...quality assessment UI removed for now...
       </mat-card>
+      -->
 
-      <p class="processing-time" *ngIf="processingTime !== null">
-        <strong>Processing time:</strong> {{ processingTime }} seconds
-      </p>
+      <!-- Processing time removed -->
     </div>
   </div>
 </div>

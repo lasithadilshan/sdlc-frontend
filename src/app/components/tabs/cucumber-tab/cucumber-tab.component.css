@@ -137,8 +137,7 @@ mat-card-content {
 }
 
 .code-block { max-height: 480px; overflow: auto; white-space: pre-wrap; }
-
-/* Quality Assessment styles */
+/* Quality Assessment styles commented out
 .qa-card { padding-bottom: 0; }
 .qa-grid {
   display: flex;
@@ -173,7 +172,6 @@ mat-card-content {
 .qa-list { margin-top: 8px; padding-top: 8px; border-top: 1px dashed #e0e0e0; }
 .qa-item { margin: 6px 0; color: #333; }
 
-/* SVG ring & pulse */
 .qa-score-wrap { position: relative; display: inline-block; }
 .qa-ring { display: block; }
 .ring { transition: stroke-dashoffset 0.9s cubic-bezier(.2,.9,.2,1), stroke 0.4s ease; transform: rotate(-90deg); transform-origin: 50% 50%; }
