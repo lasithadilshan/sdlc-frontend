@@ -28,7 +28,8 @@
               <small *ngIf="uploadedDocument">File: {{ uploadedDocument.documentId }} </small>
             </div>
             <div class="right">
-              <button mat-icon-button matTooltip="Copy all" (click)="copyToClipboard(cucumberScript!)"><mat-icon>content_copy</mat-icon></button>
+              <button mat-icon-button matTooltip="Copy all" (click)="copyToClipboard(cucumberScript!, 'all')"><mat-icon>content_copy</mat-icon></button>
+              <span class="copied-badge" *ngIf="copied.all">Copied</span>
               <button mat-icon-button matTooltip="Download all" (click)="downloadFile((uploadedDocument ? uploadedDocument.documentId : 'cucumber') + '.txt', cucumberScript)"><mat-icon>download</mat-icon></button>
             </div>
           </div>
@@ -39,11 +40,12 @@
               <div class="sub-card-header">
                 <h3>Feature File</h3>
                 <div class="sub-actions">
-                  <button mat-icon-button matTooltip="Copy feature" (click)="copyToClipboard(featureText)"><mat-icon>content_copy</mat-icon></button>
+                  <button mat-icon-button matTooltip="Copy feature" (click)="copyToClipboard(featureText, 'feature')"><mat-icon>content_copy</mat-icon></button>
+                  <span class="copied-badge" *ngIf="copied.feature">Copied</span>
                   <button mat-icon-button matTooltip="Download .feature" (click)="downloadFile((uploadedDocument ? uploadedDocument.documentId : 'feature') + '.feature', featureText)"><mat-icon>download</mat-icon></button>
                 </div>
               </div>
-              <pre class="code-block">{{ featureText }}</pre>
+              <pre class="code-block" data-role="feature">{{ featureText }}</pre>
             </div>
           </div>
 
@@ -52,11 +54,12 @@
               <div class="sub-card-header">
                 <h3>Step Definitions</h3>
                 <div class="sub-actions">
-                  <button mat-icon-button matTooltip="Copy steps" (click)="copyToClipboard(stepsText)"><mat-icon>content_copy</mat-icon></button>
+                  <button mat-icon-button matTooltip="Copy steps" (click)="copyToClipboard(stepsText, 'steps')"><mat-icon>content_copy</mat-icon></button>
+                  <span class="copied-badge" *ngIf="copied.steps">Copied</span>
                   <button mat-icon-button matTooltip="Download .java" (click)="downloadFile((uploadedDocument ? uploadedDocument.documentId : 'steps') + 'Steps.java', stepsText)"><mat-icon>download</mat-icon></button>
                 </div>
               </div>
-              <pre class="code-block">{{ stepsText }}</pre>
+              <pre class="code-block" data-role="steps">{{ stepsText }}</pre>
             </div>
           </div>
 
@@ -79,10 +82,17 @@
             <div class="qa-overall">
               <div class="qa-score-wrap" [class.pulse]="pulse">
                 <svg class="qa-ring" [attr.width]="(ringRadius*2 + ringStroke)" [attr.height]="(ringRadius*2 + ringStroke)" [attr.viewBox]="'0 0 ' + (ringRadius*2 + ringStroke) + ' ' + (ringRadius*2 + ringStroke)">
+                  <defs>
+                    <linearGradient id="qaGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+                      <stop offset="0%" stop-color="#4caf50" />
+                      <stop offset="50%" stop-color="#f6a000" />
+                      <stop offset="100%" stop-color="#d32f2f" />
+                    </linearGradient>
+                  </defs>
                   <circle class="ring-bg" [attr.cx]="ringRadius + ringStroke/2" [attr.cy]="ringRadius + ringStroke/2" [attr.r]="ringRadius" [attr.stroke-width]="ringStroke" fill="none" stroke="#e6e6e6"></circle>
                   <circle class="ring" [attr.cx]="ringRadius + ringStroke/2" [attr.cy]="ringRadius + ringStroke/2" [attr.r]="ringRadius" [attr.stroke-width]="ringStroke" fill="none" [attr.stroke]="getLevelColor(qualityAssessment.overall_level || qualityAssessment.overallLevel)" [attr.stroke-dasharray]="circumference" [attr.stroke-dashoffset]="getStrokeDashoffset(qualityAssessment.overall_score || qualityAssessment.score)" stroke-linecap="round"></circle>
-                  <!-- thinner arc overlay for emphasis -->
-                  <circle class="ring-arc" [attr.cx]="ringRadius + ringStroke/2" [attr.cy]="ringRadius + ringStroke/2" [attr.r]="ringRadius" [attr.stroke-width]="4" fill="none" [attr.stroke]="getLevelColor(qualityAssessment.overall_level || qualityAssessment.overallLevel)" [attr.stroke-dasharray]="circumference" [attr.stroke-dashoffset]="getStrokeDashoffset(qualityAssessment.overall_score || qualityAssessment.score)" stroke-linecap="round"></circle>
+                  <!-- thinner arc overlay for emphasis with gradient -->
+                  <circle class="ring-arc" [attr.cx]="ringRadius + ringStroke/2" [attr.cy]="ringRadius + ringStroke/2" [attr.r]="ringRadius" [attr.stroke-width]="4" fill="none" stroke="url(#qaGrad)" [attr.stroke-dasharray]="circumference" [attr.stroke-dashoffset]="getStrokeDashoffset(qualityAssessment.overall_score || qualityAssessment.score)" stroke-linecap="round"></circle>
                 </svg>
                 <div class="qa-score-overlay">
                   <div class="qa-score">{{ getScorePercent(qualityAssessment.overall_score || qualityAssessment.score) }}</div>
