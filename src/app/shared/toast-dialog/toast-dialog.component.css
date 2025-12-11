@@ -1,7 +1,7 @@
 .toast-root{min-width:260px;max-width:540px;padding:16px;display:flex;flex-direction:column;gap:12px}
-.toast-header{display:flex;align-items:center;gap:12px}
-.toast-icon{font-size:28px}
-.toast-title{font-weight:700;font-size:15px}
+.toast-header{display:flex;align-items:center;gap:12px; height:36px; background: #764ba2;}
+.toast-icon{font-size:28px;color: #fff;}
+.toast-title{font-weight:700;font-size:15px;color: #fff;}
 .toast-message{color:rgba(0,0,0,0.87)}
 .toast-actions{display:flex;justify-content:flex-end}
 .success .toast-header,.success .toast-root{background:linear-gradient(90deg,#e8f5e9,#eaf8ef)}

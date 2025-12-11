@@ -6,7 +6,10 @@
   overflow-y: auto;
   text-align: center;
 }
-
+.uploaded-filename {
+    word-break: break-all;
+    overflow-wrap: anywhere;
+}
 h2 {
   margin-top: 0;
   margin-bottom: 28px;
