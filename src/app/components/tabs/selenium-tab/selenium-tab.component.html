@@ -21,10 +21,14 @@
       <mat-card>
         <mat-card-header>
           <mat-card-title>Generated Selenium Script</mat-card-title>
+          <div class="right">
+            <button mat-icon-button matTooltip="Copy" (click)="copyToClipboard(seleniumScript!)"><mat-icon>content_copy</mat-icon></button>
+            <span class="copied-badge" *ngIf="copied.all">Copied</span>
+            <button mat-icon-button matTooltip="Download" (click)="downloadFile((uploadedDocument ? uploadedDocument.documentId : 'selenium') + '.java', seleniumScript)"><mat-icon>download</mat-icon></button>
+          </div>
         </mat-card-header>
         <mat-card-content>
-          <pre class="code-block">{{ seleniumScript }}</pre>
-          <button mat-stroked-button (click)="copyToClipboard(seleniumScript!)">Copy to Clipboard</button>
+          <pre class="code-block" data-role="all"><code class="language-java">{{ seleniumScript }}</code></pre>
         </mat-card-content>
       </mat-card>
 
