@@ -23,6 +23,8 @@ export class SidebarComponent {
 
   selectedFile: File | null = null;
   isUploading = false;
+  // keep last uploaded document to display in the sidebar
+  uploadedDocument: UploadedDocument | null = null;
 
   constructor(private apiService: ApiService) {}
 
@@ -49,6 +51,7 @@ export class SidebarComponent {
           documentId: response.document_id,
           filename: response.filename
         };
+        this.uploadedDocument = document;
         this.fileUploaded.emit(document);
         this.isUploading = false;
         this.selectedFile = null;
