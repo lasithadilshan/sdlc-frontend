@@ -236,3 +236,10 @@ button:hover:not(:disabled) {
     width: 100%;
     margin-bottom: 10px;
 }
+
+.export-btn{
+  background: #fff 100% !important;
+  border-radius: 50px !important;
+  color: #764ba2 !important;
+  border: 2px solid #764ba2 !important;
+}

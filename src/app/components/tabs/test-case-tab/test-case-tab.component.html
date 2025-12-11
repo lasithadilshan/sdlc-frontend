@@ -14,8 +14,16 @@
     <button mat-raised-button color="primary btn-gradient" (click)="generateTestCases()" [disabled]="isLoading || !userStoryText">
       {{ isLoading ? 'Generating...' : 'Generate Test Cases' }}
     </button>
+    <button *ngIf="testCases" mat-stroked-button color="accent" class="export-btn" (click)="exportToPdf()" [disabled]="isLoading || isExporting || (isArray(testCases) && testCases.length === 0)" style="float:right">
+      Export as PDF
+    </button>
 
     <mat-spinner *ngIf="isLoading" diameter="40" class="spinner"></mat-spinner>
+
+    <div *ngIf="isExporting" class="export-progress">
+      <mat-progress-bar class="export-bar" mode="determinate" [value]="exportTotal ? (exportProgress / exportTotal) * 100 : 0"></mat-progress-bar>
+      <div class="export-status">{{ exportProgress }} / {{ exportTotal }} (<span class="percent">{{ exportPercent }}%</span>)</div>
+    </div>
 
     <div *ngIf="testCases" class="results">
       <mat-card>

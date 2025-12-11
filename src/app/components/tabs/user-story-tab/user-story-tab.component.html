@@ -10,7 +10,7 @@
         <button mat-raised-button color="primary btn-gradient" (click)="generateUserStories()" [disabled]="isLoading">
           {{ isLoading ? 'Generating...' : 'Generate User Stories' }}
         </button>
-        <button mat-stroked-button color="accent" class="export-btn" (click)="exportToPdf()" [disabled]="isLoading || isExporting || (parsedUserStories.length || 0) === 0">
+        <button *ngIf="(parsedUserStories.length || 0) > 0" mat-stroked-button color="accent" class="export-btn" (click)="exportToPdf()" [disabled]="isLoading || isExporting || (parsedUserStories.length || 0) === 0" style="float:right">
           Export as PDF
         </button>
         <!-- <button mat-flat-button color="primary" class="download-btn" (click)="exportToPdfDirect()" [disabled]="isLoading || isExporting || (parsedUserStories.length || 0) === 0">
