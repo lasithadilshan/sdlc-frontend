@@ -12,7 +12,7 @@
     </mat-form-field>
 
     <button mat-raised-button color="primary btn-gradient" (click)="generateCucumber()" [disabled]="isLoading || !testCaseText">
-      {{ isLoading ? 'Generating...' : 'Generate Cucumber Script' }}
+      {{ isLoading ? 'Prepairing...' : 'Create Cucumber Script' }}
     </button>
 
     <!-- Advanced AI Generation Animation -->
@@ -68,7 +68,7 @@
     <div *ngIf="cucumberScript" class="results">
       <mat-card>
         <mat-card-header>
-          <mat-card-title>Generated Cucumber Script</mat-card-title>
+          <mat-card-title>Prepared Cucumber Script</mat-card-title>
           <div class="right">
               <button mat-icon-button matTooltip="Copy all" (click)="copyToClipboard(cucumberScript!, 'all')"><mat-icon>content_copy</mat-icon></button>
               <span class="copied-badge" *ngIf="copied.all">Copied</span>

@@ -2,13 +2,13 @@
   <h2>User Stories</h2>
   
   <div *ngIf="!uploadedDocument" class="info-message">
-    <p>Please upload a BRD document in the sidebar to generate user stories.</p>
+    <p>Please upload a BRD document in the sidebar to create user stories.</p>
   </div>
 
   <div *ngIf="uploadedDocument" class="content">
     <div class="row btn-row d-flex justify-content-between mb-3">
         <button mat-raised-button color="primary btn-gradient" (click)="generateUserStories()" [disabled]="isLoading">
-          {{ isLoading ? 'Generating...' : 'Generate User Stories' }}
+          {{ isLoading ? 'Prepairing...' : 'Create User Stories' }}
         </button>
         <button *ngIf="(parsedUserStories.length || 0) > 0" mat-stroked-button color="accent" class="export-btn" (click)="exportToPdf()" [disabled]="isLoading || isExporting || (parsedUserStories.length || 0) === 0" style="float:right">
           Export as PDF
@@ -81,7 +81,7 @@
       </div>
 
       <div *ngIf="(parsedUserStories.length || 0) > 0">
-        <h3>Generated User Stories</h3>
+        <h3>Prepared User Stories</h3>
         <div class="user-stories-container">
           <mat-card *ngFor="let story of parsedUserStories; let i = index" class="user-story-card">
             <div class="card-head">

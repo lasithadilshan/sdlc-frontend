@@ -12,7 +12,7 @@
     </mat-form-field>
 
     <button mat-raised-button color="primary btn-gradient" (click)="generateSelenium()" [disabled]="isLoading || !testCaseText">
-      {{ isLoading ? 'Generating...' : 'Generate Selenium Script' }}
+      {{ isLoading ? 'Prepairing...' : 'Create Selenium Script' }}
     </button>
 
     <!-- Advanced AI Generation Animation -->
@@ -68,7 +68,7 @@
     <div *ngIf="seleniumScript" class="results">
       <mat-card>
         <mat-card-header>
-          <mat-card-title>Generated Selenium Script</mat-card-title>
+          <mat-card-title>Prepared Selenium Script</mat-card-title>
           <div class="right">
             <button mat-icon-button matTooltip="Copy" (click)="copyToClipboard(seleniumScript!)"><mat-icon>content_copy</mat-icon></button>
             <span class="copied-badge" *ngIf="copied.all">Copied</span>
