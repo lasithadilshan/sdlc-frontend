@@ -319,7 +319,7 @@ export class TestCaseTabComponent {
       const text = this.serializeTestCase(tc, index);
       this.apiService.setSelectedTestCaseText(text);
       this.apiService.setSelectedTabIndex(2);
-      this.dialogService.showToast('Test case sent to Cucumber tab. Navigating to Cucumber tab...', 'Sent', 'info', 3);
+      this.dialogService.showToast('Test case sent to Cucumber tab. Navigating to Cucumber tab...', 'Sent', 'info', 1);
     } catch (e) {
       console.error('Failed to serialize and send test case:', e);
     }
@@ -332,7 +332,7 @@ export class TestCaseTabComponent {
       this.apiService.setSelectedSeleniumTestCaseText(text);
       // request the main content to switch to the Selenium tab (index 3)
       this.apiService.setSelectedTabIndex(3);
-      this.dialogService.showToast('Test case sent to Selenium tab. Navigating to Selenium tab...', 'Sent', 'info', 3);
+      this.dialogService.showToast('Test case sent to Selenium tab. Navigating to Selenium tab...', 'Sent', 'info', 1);
     } catch (e) {
       console.error('Failed to serialize and send test case to Selenium:', e);
     }
