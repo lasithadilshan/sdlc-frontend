@@ -243,3 +243,342 @@ button:hover:not(:disabled) {
   color: #764ba2 !important;
   border: 2px solid #764ba2 !important;
 }
+/* ================================ */
+/* Advanced AI Loading Animation */
+/* ================================ */
+
+.ai-loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 350px;
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  border-radius: 12px;
+  margin: 40px 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.ai-container {
+  position: relative;
+  width: 300px;
+  height: 300px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Animated gradient background */
+.gradient-bg {
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+  border-radius: 50%;
+  opacity: 0.15;
+  filter: blur(40px);
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Floating particles */
+.particles {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+
+.particle {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  background: radial-gradient(circle, #6b5bff, #6ec1ff);
+  border-radius: 50%;
+  box-shadow: 0 0 20px rgba(107, 91, 255, 0.8);
+  animation: float 6s ease-in-out infinite;
+}
+
+.particle-1 {
+  width: 12px;
+  height: 12px;
+  top: 10%;
+  left: 15%;
+  animation: float 8s ease-in-out infinite;
+}
+
+.particle-2 {
+  width: 8px;
+  height: 8px;
+  top: 20%;
+  right: 20%;
+  animation: float 7s ease-in-out infinite;
+  animation-delay: 0.5s;
+}
+
+.particle-3 {
+  width: 10px;
+  height: 10px;
+  bottom: 15%;
+  left: 25%;
+  animation: float 9s ease-in-out infinite;
+  animation-delay: 1s;
+}
+
+.particle-4 {
+  width: 6px;
+  height: 6px;
+  top: 40%;
+  right: 10%;
+  animation: float 7.5s ease-in-out infinite;
+  animation-delay: 0.3s;
+}
+
+.particle-5 {
+  width: 9px;
+  height: 9px;
+  bottom: 25%;
+  right: 15%;
+  animation: float 8.5s ease-in-out infinite;
+  animation-delay: 0.8s;
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translate(0, 0);
+    opacity: 0.6;
+  }
+  25% {
+    transform: translate(30px, -30px);
+    opacity: 1;
+  }
+  50% {
+    transform: translate(-30px, 30px);
+    opacity: 0.7;
+  }
+  75% {
+    transform: translate(-30px, -20px);
+    opacity: 0.8;
+  }
+}
+
+/* 3D Cube */
+.cube-container {
+  position: relative;
+  z-index: 10;
+  width: 100px;
+  height: 100px;
+  perspective: 1000px;
+}
+
+.cube {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  transform-style: preserve-3d;
+  animation: rotateCube 8s linear infinite;
+}
+
+.cube-face {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  background: linear-gradient(135deg, #6b5bff, #6ec1ff);
+  border: 2px solid rgba(107, 91, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 900;
+  font-size: 24px;
+  color: white;
+  opacity: 0.9;
+  text-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 0 30px rgba(107, 91, 255, 0.4);
+  text-align: center;
+}
+
+.cube-face.front {
+  transform: translateZ(50px);
+  background: linear-gradient(135deg, #6b5bff, #6ec1ff);
+}
+
+.cube-face.back {
+  transform: rotateY(180deg) translateZ(50px);
+  background: linear-gradient(135deg, #ff6b6b, #ff8e53);
+}
+
+.cube-face.right {
+  transform: rotateY(90deg) translateZ(50px);
+  background: linear-gradient(135deg, #4ecdc4, #44a08d);
+}
+
+.cube-face.left {
+  transform: rotateY(-90deg) translateZ(50px);
+  background: linear-gradient(135deg, #f093fb, #f5576c);
+}
+
+.cube-face.top {
+  transform: rotateX(90deg) translateZ(50px);
+  background: linear-gradient(135deg, #4facfe, #00f2fe);
+}
+
+.cube-face.bottom {
+  transform: rotateX(-90deg) translateZ(50px);
+  background: linear-gradient(135deg, #43e97b, #38f9d7);
+}
+
+@keyframes rotateCube {
+  0% { transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg); }
+  100% { transform: rotateX(360deg) rotateY(360deg) rotateZ(360deg); }
+}
+
+/* Concentric circles */
+.circles {
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 5;
+}
+
+.circle {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: 2px solid;
+  border-radius: 50%;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+.circle-1 {
+  width: 200px;
+  height: 200px;
+  border-color: rgba(107, 91, 255, 0.5);
+  animation: pulse 2s ease-in-out infinite;
+}
+
+.circle-2 {
+  width: 160px;
+  height: 160px;
+  border-color: rgba(110, 193, 255, 0.6);
+  animation: pulse 2s ease-in-out infinite 0.4s;
+}
+
+.circle-3 {
+  width: 120px;
+  height: 120px;
+  border-color: rgba(255, 107, 107, 0.7);
+  animation: pulse 2s ease-in-out infinite 0.8s;
+}
+
+@keyframes pulse {
+  0%, 100% {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.2);
+    opacity: 0.5;
+  }
+}
+
+/* Loading text */
+.loading-text {
+  position: absolute;
+  bottom: 30px;
+  text-align: center;
+  z-index: 20;
+}
+
+.text-pulse {
+  font-size: 16px;
+  font-weight: 700;
+  color: #1f2b3a;
+  letter-spacing: 0.5px;
+  animation: fadeInOut 2s ease-in-out infinite;
+}
+
+.dots-pulse {
+  font-size: 20px;
+  font-weight: 700;
+  color: #6b5bff;
+  height: 24px;
+  margin-top: 4px;
+}
+
+.dots-pulse span {
+  animation: dotPulse 1.4s infinite;
+  margin: 0 2px;
+  display: inline-block;
+}
+
+.dots-pulse span:nth-child(1) { animation-delay: 0s; }
+.dots-pulse span:nth-child(2) { animation-delay: 0.2s; }
+.dots-pulse span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes dotPulse {
+  0%, 60%, 100% {
+    transform: translateY(0);
+    opacity: 0.7;
+  }
+  30% {
+    transform: translateY(-10px);
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInOut {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+/* Progress bar with flowing gradient */
+.progress-wrapper {
+  position: absolute;
+  bottom: 10px;
+  width: 200px;
+  height: 4px;
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 2px;
+  overflow: hidden;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.progress-bar-animated {
+  height: 100%;
+  background: linear-gradient(90deg, #6b5bff 0%, #6ec1ff 25%, #ff6b6b 50%, #ffa502 75%, #6b5bff 100%);
+  background-size: 200% 100%;
+  animation: progressFlow 3s ease-in-out infinite;
+  width: 100%;
+}
+
+.progress-shimmer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.4) 50%, transparent 100%);
+  background-size: 200% 100%;
+  animation: shimmer 2s infinite;
+}
+
+@keyframes progressFlow {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@keyframes shimmer {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(100%); }
+}
