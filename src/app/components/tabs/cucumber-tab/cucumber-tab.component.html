@@ -1,19 +1,36 @@
 <div class="tab-content">
-  <h2>Convert Test Case to Cucumber Script</h2>
+  <div class="page-heading">
+    <div>
+      <h2>Test Case to Cucumber Script</h2>
+      <p>Generate a feature file and implementation-ready step definitions.</p>
+    </div>
+    <span class="page-pill">Page 3 of 4</span>
+  </div>
   
   <div *ngIf="!uploadedDocument" class="info-message">
     <p>Please upload a BRD document first.</p>
   </div>
 
   <div *ngIf="uploadedDocument" class="content">
-    <mat-form-field appearance="fill" class="full-width">
-      <mat-label>Enter the test case text here</mat-label>
-      <textarea matInput [(ngModel)]="testCaseText" rows="8" class="textarea"></textarea>
-    </mat-form-field>
+    <div class="generator-grid">
+      <div class="workspace-panel">
+        <mat-form-field appearance="fill" class="full-width">
+          <mat-label>Enter the test case text here</mat-label>
+          <textarea matInput [(ngModel)]="testCaseText" rows="8" class="textarea"></textarea>
+        </mat-form-field>
 
-    <button mat-raised-button color="primary btn-gradient" (click)="generateCucumber()" [disabled]="isLoading || !testCaseText">
-      {{ isLoading ? 'Prepairing...' : 'Create Cucumber Script' }}
-    </button>
+        <button mat-raised-button color="primary btn-gradient" (click)="generateCucumber()" [disabled]="isLoading || !testCaseText">
+          {{ isLoading ? 'Preparing...' : 'Create Cucumber script' }}
+        </button>
+      </div>
+      <!-- <div class="settings-panel">
+        <div class="settings-callout">
+          <strong>Generation settings</strong>
+          <span>Language: Java · Framework: Cucumber · Browser: Chrome</span>
+        </div>
+        <p>Suggested enhancement: add dropdowns for language, package name, browser, assertion library and page-object style before generation.</p>
+      </div> -->
+    </div>
 
     <!-- Advanced AI Generation Animation -->
     <div *ngIf="isLoading" class="ai-loader">

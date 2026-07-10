@@ -473,3 +473,131 @@ button:hover:not(:disabled) {
   0% { transform: translateX(-100%); }
   100% { transform: translateX(100%); }
 }
+
+.tab-content {
+  max-width: none;
+  padding: 44px 34px;
+}
+
+.page-heading {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 24px;
+  margin-bottom: 28px;
+}
+
+.page-heading h2 {
+  margin: 0 0 8px;
+  color: #202938;
+  font-size: 34px;
+  font-weight: 900;
+  letter-spacing: -0.8px;
+}
+
+.page-heading p {
+  margin: 0;
+  color: #737b8b;
+  font-size: 20px;
+}
+
+.page-pill {
+  padding: 8px 16px;
+  border-radius: 999px;
+  color: #6e49d4;
+  background: #eee7ff;
+  font-size: 15px;
+  font-weight: 850;
+}
+
+.workspace-panel {
+  margin-top: 0;
+  padding: 28px;
+  border: 1px solid #e3e7ef;
+  border-radius: 22px;
+  background: #fff;
+  box-shadow: 0 24px 54px rgba(33, 43, 59, 0.08);
+}
+
+::ng-deep .mat-mdc-form-field .mat-mdc-text-field-wrapper {
+  border: 1px solid #e1e6ee;
+  border-radius: 14px;
+  background: #f7f9fe;
+}
+
+button {
+  min-height: 50px;
+  font-size: 18px;
+  font-weight: 850;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.results {
+  margin-top: 28px;
+}
+
+.results mat-card {
+  border: 1px solid #e3e7ef;
+  border-radius: 18px;
+  box-shadow: 0 24px 54px rgba(33, 43, 59, 0.08);
+  overflow: hidden;
+}
+
+.results mat-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  min-height: 78px;
+  padding: 0 20px;
+  border-bottom: 1px solid #e7ebf2;
+  background: #fff;
+}
+
+mat-card-title {
+  color: #202938;
+  font-size: 20px;
+  font-weight: 900;
+}
+
+mat-card-content {
+  padding: 0;
+}
+
+.code-block {
+  max-height: 620px;
+  margin: 0;
+  padding: 30px;
+  border: 0;
+  border-radius: 0 0 16px 16px;
+  background: #171b25;
+  color: #d7deed;
+  font-size: 16px;
+}
+
+.results mat-card-header button {
+  width: 48px;
+  height: 48px;
+  padding: 0 !important;
+  border: 1px solid #e1e6ee;
+  border-radius: 12px;
+}
+
+@media (max-width: 720px) {
+  .tab-content {
+    padding: 28px 18px;
+  }
+
+  .page-heading {
+    display: block;
+  }
+
+  .page-pill {
+    display: inline-block;
+    margin-top: 18px;
+  }
+
+  .workspace-panel {
+    padding: 18px;
+  }
+}

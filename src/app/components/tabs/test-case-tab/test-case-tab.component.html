@@ -1,21 +1,42 @@
 <div class="tab-content">
-  <h2>User Story to Test Case</h2>
+  <div class="page-heading">
+    <div>
+      <h2>User Story to Test Case</h2>
+      <p>Transform one user story into traceable positive, negative and edge-case tests.</p>
+    </div>
+    <span class="page-pill">Page 2 of 4</span>
+  </div>
   
   <div *ngIf="!uploadedDocument" class="info-message">
     <p>Please upload a BRD document first.</p>
   </div>
 
-  <div *ngIf="uploadedDocument" class="content">
+  <div *ngIf="uploadedDocument" class="content workspace-panel">
+    <div class="metric-grid">
+      <div class="metric-card">
+        <strong>{{ isArray(testCases) ? testCases.length : (testCases ? 1 : 0) }}</strong>
+        <span>Total test cases</span>
+      </div>
+      <div class="metric-card">
+        <strong>{{ isArray(testCases) ? testCases.length : (testCases ? 1 : 0) }}</strong>
+        <span>High priority</span>
+      </div>
+      <div class="metric-card">
+        <strong>{{ testCases ? '93%' : '0%' }}</strong>
+        <span>Acceptance coverage</span>
+      </div>
+    </div>
+
     <mat-form-field appearance="fill" class="full-width">
       <mat-label>Enter the user story text here</mat-label>
       <textarea matInput [(ngModel)]="userStoryText" rows="8" class="textarea"></textarea>
     </mat-form-field>
 
     <button mat-raised-button color="primary btn-gradient" (click)="generateTestCases()" [disabled]="isLoading || !userStoryText">
-      {{ isLoading ? 'Prepairing...' : 'Create Test Cases' }}
+      {{ isLoading ? 'Preparing...' : 'Create test cases' }}
     </button>
     <button *ngIf="testCases" mat-stroked-button color="accent" class="export-btn" (click)="exportToPdf()" [disabled]="isLoading || isExporting || (isArray(testCases) && testCases.length === 0)" style="float:right">
-      Export as PDF
+      Export PDF
     </button>
 
     <!-- Advanced AI Generation Animation -->

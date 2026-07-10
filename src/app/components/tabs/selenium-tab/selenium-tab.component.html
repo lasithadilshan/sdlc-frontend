@@ -1,18 +1,24 @@
 <div class="tab-content">
-  <h2>Convert Test Case to Selenium Script</h2>
+  <div class="page-heading">
+    <div>
+      <h2>Test Case to Selenium Script</h2>
+      <p>Produce maintainable Selenium automation using a Page Object pattern.</p>
+    </div>
+    <span class="page-pill">Page 4 of 4</span>
+  </div>
   
   <div *ngIf="!uploadedDocument" class="info-message">
     <p>Please upload a BRD document first.</p>
   </div>
 
-  <div *ngIf="uploadedDocument" class="content">
+  <div *ngIf="uploadedDocument" class="content workspace-panel">
     <mat-form-field appearance="fill" class="full-width">
       <mat-label>Enter the test case text here</mat-label>
       <textarea matInput [(ngModel)]="testCaseText" rows="8" class="textarea"></textarea>
     </mat-form-field>
 
     <button mat-raised-button color="primary btn-gradient" (click)="generateSelenium()" [disabled]="isLoading || !testCaseText">
-      {{ isLoading ? 'Prepairing...' : 'Create Selenium Script' }}
+      {{ isLoading ? 'Preparing...' : 'Create Selenium script' }}
     </button>
 
     <!-- Advanced AI Generation Animation -->

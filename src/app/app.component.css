@@ -1,14 +1,14 @@
 .container {
   height: 100vh;
   display: flex;
-  background: linear-gradient(135deg, #f5f7fa 0%, #f0f3ff 100%);
+  background: #f4f6fb;
 }
 
 .sidenav {
-  width: 280px;
-  /* border-right: 3px solid #667eea; */
-  background-color: #fff;
-  box-shadow: 2px 0 12px rgba(102, 126, 234, 0.15);
+  width: 318px;
+  background: transparent;
+  border-right: 0;
+  box-shadow: none;
 }
 .mat-drawer-content {
     width: 100% !important;
@@ -20,7 +20,7 @@
   
   mat-sidenav-content {
     overflow: auto;
-    background: linear-gradient(135deg, #f5f7fa 0%, #f0f3ff 100%);
+    background: #f4f6fb;
     flex: 1;
     width: 100%;
   }
@@ -30,13 +30,14 @@
   }
 }
 ::ng-deep .mat-mdc-raised-button.btn-gradient{
-      background:#764ba2 100% !important;
-      border-radius: 50px !important;
+      background: linear-gradient(90deg, #5d7ceb 0%, #8844b8 100%) !important;
+      border-radius: 10px !important;
       color: #fff !important;
+      box-shadow: 0 14px 28px rgba(96, 93, 220, 0.22) !important;
 }
 ::ng-deep .mat-mdc-outlined-button.btn-gradient-secondary{
-      border:1px solid #764ba2 !important;
-      border-radius: 50px !important;
-      color: #764ba2 !important;
+      border:1px solid #dfe4ef !important;
+      border-radius: 10px !important;
+      color: #1f2937 !important;
       background: #fff !important;
 }

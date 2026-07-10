@@ -1,12 +1,22 @@
 <div [ngClass]="{'full-width': !isSidebarVisible}">
-  <mat-toolbar color="primary" class="toolbar">
-    <button mat-icon-button (click)="onToggleSidebar()" class="toggle-btn">
-      <mat-icon>{{ isSidebarVisible ? 'menu_open' : 'menu' }}</mat-icon>
-    </button>
-    <h1>SDLC Mate</h1>
+  <mat-toolbar class="toolbar">
+    <div class="brand">
+      <button mat-icon-button (click)="onToggleSidebar()" class="brand-mark" aria-label="Toggle document sidebar">
+        <span>S</span>
+      </button>
+      <h1>SDLC Mate</h1>
+    </div>
+    <div class="toolbar-actions">
+      <button mat-icon-button aria-label="Toggle theme">
+        <mat-icon>contrast</mat-icon>
+      </button>
+      <button mat-icon-button aria-label="Help">
+        <mat-icon>help_outline</mat-icon>
+      </button>
+    </div>
   </mat-toolbar>
 
-  <mat-tab-group class="tabs-container" [selectedIndex]="selectedTabIndex">
+  <mat-tab-group class="tabs-container" [selectedIndex]="selectedTabIndex" (selectedIndexChange)="onTabChanged($event)">
     <mat-tab label="User Story Creation">
       <app-user-story-tab [uploadedDocument]="uploadedDocument" (userStoriesGenerated)="onUserStoriesGenerated($event)"></app-user-story-tab>
     </mat-tab>
@@ -21,4 +31,3 @@
     </mat-tab>
   </mat-tab-group>
 </div>
-

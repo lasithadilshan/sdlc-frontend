@@ -32,6 +32,7 @@ export class MainContentComponent {
   @Input() uploadedDocument: UploadedDocument | null = null;
   @Input() isSidebarVisible = true;
   @Output() toggleSidebar = new EventEmitter<void>();
+  @Output() activeTabChanged = new EventEmitter<number>();
 
   // hold latest generated user stories so they can be passed to other tabs
   generatedUserStories: any[] = [];
@@ -41,7 +42,10 @@ export class MainContentComponent {
 
   ngOnInit(): void {
     this.apiService.selectedTabIndex$.subscribe((idx) => {
-      if (typeof idx === 'number') this.selectedTabIndex = idx;
+      if (typeof idx === 'number') {
+        this.selectedTabIndex = idx;
+        this.activeTabChanged.emit(idx);
+      }
     });
   }
 
@@ -51,5 +55,10 @@ export class MainContentComponent {
 
   onToggleSidebar(): void {
     this.toggleSidebar.emit();
+  }
+
+  onTabChanged(index: number): void {
+    this.selectedTabIndex = index;
+    this.activeTabChanged.emit(index);
   }
 }

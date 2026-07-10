@@ -29,6 +29,7 @@ export class AppComponent {
   title = 'sdlc-frontend';
   uploadedDocument: UploadedDocument | null = null;
   isSidebarVisible = true;
+  selectedTabIndex = 0;
 
   onFileUploaded(document: UploadedDocument): void {
     this.uploadedDocument = document;

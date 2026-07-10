@@ -9,19 +9,38 @@
       (change)="onFileSelected($event)"
       style="display: none"
     />
-    <button mat-raised-button color="primary" (click)="fileInput.click()" [disabled]="isUploading" class="full-width">
+    <button mat-raised-button (click)="fileInput.click()" [disabled]="isUploading" class="upload-button">
       <mat-icon>cloud_upload</mat-icon>
       {{ isUploading ? 'Uploading...' : 'Upload a file' }}
     </button>
-    <p class="file-hint">Accepted formats: PDF, DOCX, TXT, XLSX, PPTX</p>
+    <p class="file-hint">Accepted: PDF, DOCX, TXT, XLSX, PPTX</p>
   </div>
 
-  
-  <div *ngIf="uploadedDocument" class="model-info">
-    <strong>Uploaded:</strong>
-    <div class="uploaded-filename">{{ uploadedDocument.filename }}</div>
+  <div class="model-info">
+    <strong>Uploaded file</strong>
+    <div class="uploaded-filename">{{ uploadedDocument?.filename || 'No file selected' }}</div>
   </div>
+
+  <nav class="sidebar-nav" aria-label="Workflow">
+    <button type="button" [class.active]="activeTabIndex === 0" (click)="selectTab(0)">
+      <mat-icon>auto_awesome</mat-icon>
+      <span>User Stories</span>
+    </button>
+    <button type="button" [class.active]="activeTabIndex === 1" (click)="selectTab(1)">
+      <mat-icon>check</mat-icon>
+      <span>Test Cases</span>
+    </button>
+    <button type="button" [class.active]="activeTabIndex === 2" (click)="selectTab(2)">
+      <mat-icon>data_object</mat-icon>
+      <span>Cucumber</span>
+    </button>
+    <button type="button" [class.active]="activeTabIndex === 3" (click)="selectTab(3)">
+      <mat-icon>settings</mat-icon>
+      <span>Selenium</span>
+    </button>
+  </nav>
 
   <mat-spinner *ngIf="isUploading" diameter="30" class="spinner"></mat-spinner>
-</div>
 
+  <div class="sidebar-foot">SDLC Mate UI prototype · responsive · single-file HTML</div>
+</div>

@@ -1,17 +1,23 @@
 <div class="tab-content">
-  <h2>User Stories</h2>
+  <div class="page-heading">
+    <div>
+      <h2>User Story Creation</h2>
+      <p>Generate structured, review-ready user stories from your BRD.</p>
+    </div>
+    <span class="page-pill">Page 1 of 4</span>
+  </div>
   
   <div *ngIf="!uploadedDocument" class="info-message">
     <p>Please upload a BRD document in the sidebar to create user stories.</p>
   </div>
 
-  <div *ngIf="uploadedDocument" class="content">
+  <div *ngIf="uploadedDocument" class="content workspace-panel">
     <div class="row btn-row d-flex justify-content-between mb-3">
         <button mat-raised-button color="primary btn-gradient" (click)="generateUserStories()" [disabled]="isLoading">
-          {{ isLoading ? 'Prepairing...' : 'Create User Stories' }}
+          {{ isLoading ? 'Preparing...' : 'Create user stories' }}
         </button>
         <button *ngIf="(parsedUserStories.length || 0) > 0" mat-stroked-button color="accent" class="export-btn" (click)="exportToPdf()" [disabled]="isLoading || isExporting || (parsedUserStories.length || 0) === 0" style="float:right">
-          Export as PDF
+          Export PDF
         </button>
         <!-- <button mat-flat-button color="primary" class="download-btn" (click)="exportToPdfDirect()" [disabled]="isLoading || isExporting || (parsedUserStories.length || 0) === 0">
           Download PDF
@@ -81,7 +87,10 @@
       </div>
 
       <div *ngIf="(parsedUserStories.length || 0) > 0">
-        <h3>Prepared User Stories</h3>
+        <div class="section-title-row">
+          <h3>Prepared User Stories</h3>
+          <span>{{ parsedUserStories.length }} items</span>
+        </div>
         <div class="user-stories-container">
           <mat-card *ngFor="let story of parsedUserStories; let i = index" class="user-story-card">
             <div class="card-head">

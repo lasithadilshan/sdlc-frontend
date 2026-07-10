@@ -1,10 +1,11 @@
 .sidebar-container {
-  padding: 24px;
+  padding: 32px 24px;
   height: 100%;
   background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   color: white;
   overflow-y: auto;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
 }
 .uploaded-filename {
     word-break: break-all;
@@ -12,11 +13,11 @@
 }
 h2 {
   margin-top: 0;
-  margin-bottom: 28px;
+  margin-bottom: 32px;
   color: white;
-  font-size: 22px;
-  font-weight: 700;
-  letter-spacing: 0.5px;
+  font-size: 25px;
+  font-weight: 850;
+  letter-spacing: -0.3px;
 }
 
 .full-width {
@@ -24,19 +25,23 @@ h2 {
 }
 
 .model-info {
-  margin-top: 10px;
-  font-size: 14px;
-  color: #f0f0f0;
+  margin-top: 28px;
+  padding: 18px 20px;
+  font-size: 16px;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.14);
+  border-radius: 16px;
+  text-align: left;
 }
 
 .file-upload {
-  margin-top: 28px;
   padding: 20px;
   background-color: rgba(255, 255, 255, 0.1);
-  border-radius: 12px;
+  border-radius: 18px;
   backdrop-filter: blur(10px);
   border: 2px dashed rgba(255, 255, 255, 0.3);
   transition: all 0.3s ease;
+  text-align: center;
 }
 
 .file-upload:hover {
@@ -45,10 +50,10 @@ h2 {
 }
 
 .file-hint {
-  font-size: 12px;
+  font-size: 15px;
   color: rgba(255, 255, 255, 0.8);
-  margin-top: 12px;
-  font-style: italic;
+  margin: 16px 0 4px;
+  line-height: 1.35;
 }
 
 .spinner {
@@ -60,9 +65,67 @@ mat-form-field {
 }
 
 button {
-  width: 100%;
   font-weight: 600;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
   transition: all 0.3s ease;
+}
+
+.upload-button {
+  width: auto;
+  min-width: 174px;
+  height: 52px;
+  border-radius: 999px;
+  color: #2365c8 !important;
+  background: #fff !important;
+  font-size: 17px;
+  font-weight: 850;
+  box-shadow: none !important;
+}
+
+.upload-button mat-icon {
+  margin-right: 6px;
+}
+
+.sidebar-nav {
+  display: grid;
+  gap: 18px;
+  margin-top: 38px;
+}
+
+.sidebar-nav button {
+  appearance: none;
+  border: 0;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  width: 100%;
+  min-height: 54px;
+  padding: 0 18px;
+  border-radius: 13px;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.88);
+  font: inherit;
+  font-size: 18px;
+  font-weight: 850;
+  text-align: left;
+  cursor: pointer;
+}
+
+.sidebar-nav button.active,
+.sidebar-nav button:hover {
+  background: rgba(255, 255, 255, 0.16);
+  color: #fff;
+}
+
+.sidebar-nav mat-icon {
+  width: 20px;
+  height: 20px;
+  font-size: 20px;
+}
+
+.sidebar-foot {
+  margin-top: auto;
+  padding-top: 48px;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 14px;
+  line-height: 1.2;
 }

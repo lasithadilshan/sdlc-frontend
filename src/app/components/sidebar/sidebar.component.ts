@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
@@ -19,6 +19,7 @@ import { ApiService } from '../../services/api-service.service';
   styleUrl: './sidebar.component.css'
 })
 export class SidebarComponent {
+  @Input() activeTabIndex = 0;
   @Output() fileUploaded = new EventEmitter<UploadedDocument>();
 
   selectedFile: File | null = null;
@@ -27,6 +28,10 @@ export class SidebarComponent {
   uploadedDocument: UploadedDocument | null = null;
 
   constructor(private apiService: ApiService) {}
+
+  selectTab(index: number): void {
+    this.apiService.setSelectedTabIndex(index);
+  }
 
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
