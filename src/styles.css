@@ -1,12 +1,64 @@
 /* You can add global styles to this file, and also import other style files */
 @import 'prismjs/themes/prism-tomorrow.css';
 
+:root {
+  --page-bg: #f4f6fb;
+  --surface: #ffffff;
+  --surface-raised: #ffffff;
+  --surface-muted: #f7f9fe;
+  --surface-soft: #f5f7fc;
+  --text: #202938;
+  --text-strong: #17202e;
+  --muted: #737b8b;
+  --border: #e3e7ef;
+  --border-strong: #d7deea;
+  --accent: #667eea;
+  --accent-2: #8844b8;
+  --accent-soft: rgba(102, 126, 234, 0.08);
+  --accent-pill: #eee7ff;
+  --accent-pill-text: #6e49d4;
+  --success-soft: #edf8f0;
+  --danger-soft: #fff0f0;
+  --danger-text: #dc3f3f;
+  --code-bg: #171b25;
+  --code-text: #d7deed;
+  --shadow-panel: 0 24px 54px rgba(33, 43, 59, 0.08);
+  --accent-shadow: 0 12px 26px rgba(85, 104, 232, 0.24);
+}
+
+body.dark-theme {
+  --page-bg: #0f1420;
+  --surface: #151b29;
+  --surface-raised: #1b2333;
+  --surface-muted: #202939;
+  --surface-soft: #222b3b;
+  --text: #eef3ff;
+  --text-strong: #ffffff;
+  --muted: #aab4c7;
+  --border: #2b3548;
+  --border-strong: #3a465c;
+  --accent: #8aa1ff;
+  --accent-2: #a967dc;
+  --accent-soft: rgba(138, 161, 255, 0.16);
+  --accent-pill: rgba(138, 106, 224, 0.24);
+  --accent-pill-text: #c7b7ff;
+  --success-soft: rgba(58, 177, 115, 0.16);
+  --danger-soft: rgba(255, 97, 105, 0.14);
+  --danger-text: #ff858b;
+  --code-bg: #090d15;
+  --code-text: #dce6fb;
+  --shadow-panel: 0 24px 54px rgba(0, 0, 0, 0.28);
+  --accent-shadow: 0 12px 26px rgba(72, 92, 210, 0.34);
+  color-scheme: dark;
+}
+
 html, body { height: 100%; }
 body {
   margin: 0;
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  color: #202938;
-  background: #f4f6fb;
+  color: var(--text);
+  background: var(--page-bg);
+  transition: background-color 180ms ease, color 180ms ease;
 }
 
 * {
@@ -14,4 +66,350 @@ body {
 }
 span.mdc-tab-indicator__content.mdc-tab-indicator__content--underline {
     display: none;
+}
+
+.mat-drawer-container,
+.mat-drawer-content,
+.mat-mdc-tab-body-wrapper {
+  background: var(--page-bg) !important;
+  color: var(--text) !important;
+}
+
+.mat-mdc-tab-group,
+.mat-mdc-tab-header,
+.mat-mdc-tab-label-container {
+  background: var(--surface) !important;
+}
+
+.mat-mdc-tab .mdc-tab__text-label {
+  color: inherit !important;
+}
+
+.mat-mdc-form-field,
+.mat-mdc-input-element,
+.mat-mdc-floating-label,
+.mat-mdc-select-value,
+.mat-mdc-select-arrow {
+  color: var(--text) !important;
+}
+
+.mat-mdc-form-field .mat-mdc-text-field-wrapper {
+  background: var(--surface-muted) !important;
+  border-color: var(--border) !important;
+}
+
+.mat-mdc-form-field .mdc-line-ripple {
+  display: none;
+}
+
+.mat-mdc-card,
+.workspace-panel,
+.settings-panel,
+.user-story-card,
+.tc-card,
+.results mat-card {
+  background: var(--surface) !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+  box-shadow: var(--shadow-panel) !important;
+}
+
+.metric-card,
+.acceptance-box,
+.tc-section,
+.info-message,
+.settings-callout {
+  background: var(--surface-muted) !important;
+  border-color: var(--accent) !important;
+  color: var(--text) !important;
+}
+
+.page-heading h2,
+.toolbar h1,
+.section-title-row h3,
+.story-title,
+.tc-title,
+.acceptance-title,
+.tc-section-title,
+.settings-callout strong,
+.sub-card-header h3,
+.mat-mdc-card-title,
+.metric-card strong,
+.meta-value {
+  color: var(--text-strong) !important;
+}
+
+.page-heading p,
+.story-summary .story-text,
+.metric-card span,
+.settings-panel p,
+.mat-mdc-card-subtitle {
+  color: var(--muted) !important;
+}
+
+.page-pill {
+  background: var(--accent-pill) !important;
+  color: var(--accent-pill-text) !important;
+}
+
+.priority-pill,
+.tc-priority {
+  background: var(--danger-soft) !important;
+  color: var(--danger-text) !important;
+  border-color: rgba(255, 133, 139, 0.28) !important;
+}
+
+.category-badge {
+  background: var(--accent-soft) !important;
+  color: var(--accent) !important;
+}
+
+.sub-card-header,
+.results mat-card-header {
+  background: var(--surface) !important;
+  border-color: var(--border) !important;
+}
+
+.code-block,
+pre[class*="language-"] {
+  background: var(--code-bg) !important;
+  color: var(--code-text) !important;
+}
+
+.toolbar-actions button,
+.sub-actions button,
+.results mat-card-header button {
+  background: var(--surface) !important;
+  color: var(--text) !important;
+  border-color: var(--border) !important;
+}
+
+.export-btn,
+.mat-mdc-outlined-button {
+  background: var(--surface) !important;
+}
+
+body.dark-theme .sidebar-container {
+  background: linear-gradient(180deg, #252b68 0%, #35266e 100%) !important;
+}
+
+body.dark-theme .model-info,
+body.dark-theme .file-upload,
+body.dark-theme .sidebar-nav button.active,
+body.dark-theme .sidebar-nav button:hover {
+  background: rgba(255, 255, 255, 0.11) !important;
+}
+
+/* Dark-mode contrast fixes for component-scoped styles that define hardcoded colors. */
+body.dark-theme .toolbar,
+body.dark-theme .mat-mdc-tab-header,
+body.dark-theme .mat-mdc-tab-labels,
+body.dark-theme .mat-mdc-tab-body-content {
+  background: var(--surface) !important;
+  color: var(--text) !important;
+}
+
+body.dark-theme .mat-mdc-tab:not(.mdc-tab--active) {
+  color: var(--muted) !important;
+}
+
+body.dark-theme .mat-mdc-tab:not(.mdc-tab--active):hover {
+  color: var(--text) !important;
+  background: var(--accent-soft) !important;
+}
+
+body.dark-theme .tab-content,
+body.dark-theme .content,
+body.dark-theme .results,
+body.dark-theme mat-card-content,
+body.dark-theme .tc-body {
+  color: var(--text) !important;
+}
+
+body.dark-theme .workspace-panel,
+body.dark-theme .settings-panel,
+body.dark-theme .mat-mdc-card,
+body.dark-theme mat-card,
+body.dark-theme .user-story-card,
+body.dark-theme .tc-card,
+body.dark-theme .metric-card {
+  background: var(--surface) !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+
+body.dark-theme .page-heading h2,
+body.dark-theme .tab-content h2,
+body.dark-theme .toolbar h1,
+body.dark-theme h3,
+body.dark-theme h4,
+body.dark-theme mat-card-title,
+body.dark-theme .mat-mdc-card-title,
+body.dark-theme .story-title,
+body.dark-theme .tc-title,
+body.dark-theme .acceptance-title,
+body.dark-theme .notes-title,
+body.dark-theme .tc-section-title,
+body.dark-theme .settings-callout strong,
+body.dark-theme .metric-card strong,
+body.dark-theme .meta-value,
+body.dark-theme .story-field strong,
+body.dark-theme .sub-card-header h3 {
+  color: var(--text-strong) !important;
+}
+
+body.dark-theme .page-heading p,
+body.dark-theme .story-summary .story-text,
+body.dark-theme .story-text,
+body.dark-theme .metric-card span,
+body.dark-theme .settings-panel p,
+body.dark-theme .section-title-row span,
+body.dark-theme .meta-label,
+body.dark-theme .story-meta,
+body.dark-theme .processing-time {
+  color: var(--muted) !important;
+}
+
+body.dark-theme .acceptance-box,
+body.dark-theme .tc-section,
+body.dark-theme .info-message,
+body.dark-theme .settings-callout {
+  background: var(--surface-muted) !important;
+  border-color: var(--accent) !important;
+  color: var(--text) !important;
+}
+
+body.dark-theme .acceptance-box li,
+body.dark-theme .acceptance-box p,
+body.dark-theme .criteria-text,
+body.dark-theme .tc-bullets li,
+body.dark-theme .tc-steps-list li,
+body.dark-theme .tc-expected-list li,
+body.dark-theme .tc-data-list li,
+body.dark-theme .warning,
+body.dark-theme .warning-message,
+body.dark-theme .warning-message p {
+  color: var(--text) !important;
+}
+
+body.dark-theme .notes-box {
+  background: rgba(245, 158, 11, 0.12) !important;
+  border-left-color: #f59e0b !important;
+  color: var(--text) !important;
+}
+
+body.dark-theme .notes-box li,
+body.dark-theme .notes-box p {
+  color: var(--text) !important;
+}
+
+body.dark-theme .warning,
+body.dark-theme .warning-message {
+  background: rgba(245, 158, 11, 0.12) !important;
+  border-left-color: #f59e0b !important;
+}
+
+body.dark-theme .processing-time {
+  background: var(--surface-muted) !important;
+  border-left-color: var(--accent) !important;
+}
+
+body.dark-theme .tc-data-list li {
+  background: rgba(58, 177, 115, 0.15) !important;
+  color: #9af0bd !important;
+}
+
+body.dark-theme .tc-step-num,
+body.dark-theme .tc-check,
+body.dark-theme .check {
+  color: var(--accent) !important;
+}
+
+body.dark-theme .category-badge,
+body.dark-theme .page-pill {
+  background: var(--accent-pill) !important;
+  color: var(--accent-pill-text) !important;
+}
+
+body.dark-theme .priority-high,
+body.dark-theme .priority-medium,
+body.dark-theme .priority-low,
+body.dark-theme .priority-critical,
+body.dark-theme .priority-pill,
+body.dark-theme .tc-priority {
+  background: var(--danger-soft) !important;
+  color: var(--danger-text) !important;
+  border-color: rgba(255, 133, 139, 0.28) !important;
+}
+
+body.dark-theme .mat-mdc-form-field .mat-mdc-text-field-wrapper,
+body.dark-theme .mat-mdc-form-field .mdc-text-field,
+body.dark-theme textarea,
+body.dark-theme input {
+  background: var(--surface-muted) !important;
+  color: var(--text) !important;
+  caret-color: var(--accent) !important;
+}
+
+body.dark-theme textarea::placeholder,
+body.dark-theme input::placeholder {
+  color: var(--muted) !important;
+  opacity: 1 !important;
+}
+
+body.dark-theme .mat-mdc-floating-label,
+body.dark-theme .mat-mdc-form-field-label,
+body.dark-theme .mat-mdc-input-element,
+body.dark-theme .mdc-text-field__input {
+  color: var(--text) !important;
+  -webkit-text-fill-color: var(--text) !important;
+}
+
+body.dark-theme .sub-card-header,
+body.dark-theme .results mat-card-header {
+  background: var(--surface) !important;
+  border-color: var(--border) !important;
+  color: var(--text) !important;
+}
+
+body.dark-theme .code-block,
+body.dark-theme pre,
+body.dark-theme code,
+body.dark-theme pre[class*="language-"],
+body.dark-theme code[class*="language-"] {
+  background: var(--code-bg) !important;
+  color: var(--code-text) !important;
+  text-shadow: none !important;
+}
+
+body.dark-theme .copied-badge {
+  background: var(--accent-soft) !important;
+  color: var(--text) !important;
+}
+
+body.dark-theme .export-btn,
+body.dark-theme .mat-mdc-outlined-button,
+body.dark-theme .btn-gradient-secondary,
+body.dark-theme .toolbar-actions button,
+body.dark-theme .sub-actions button,
+body.dark-theme .results mat-card-header button {
+  background: var(--surface-raised) !important;
+  color: var(--text) !important;
+  border-color: var(--border-strong) !important;
+}
+
+body.dark-theme hr,
+body.dark-theme .meta-row,
+body.dark-theme .story-field,
+body.dark-theme mat-card-header {
+  border-color: var(--border) !important;
+}
+
+body.dark-theme .ai-loader {
+  background: var(--surface) !important;
+}
+
+body.dark-theme .loading-text,
+body.dark-theme .text-pulse {
+  color: var(--text) !important;
 }

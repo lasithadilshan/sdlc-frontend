@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { Component, EventEmitter, Inject, Input, Output, PLATFORM_ID } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -37,10 +38,22 @@ export class MainContentComponent {
   // hold latest generated user stories so they can be passed to other tabs
   generatedUserStories: any[] = [];
   selectedTabIndex = 0;
+  isDarkMode = false;
 
-  constructor(private apiService: ApiService) {}
+  constructor(
+    private apiService: ApiService,
+    @Inject(DOCUMENT) private document: Document,
+    @Inject(PLATFORM_ID) private platformId: object
+  ) {}
 
   ngOnInit(): void {
+    if (isPlatformBrowser(this.platformId)) {
+      const savedTheme = localStorage.getItem('sdlc-theme');
+      const prefersDark = window.matchMedia?.('(prefers-color-scheme: dark)').matches;
+      this.isDarkMode = savedTheme ? savedTheme === 'dark' : !!prefersDark;
+      this.applyTheme();
+    }
+
     this.apiService.selectedTabIndex$.subscribe((idx) => {
       if (typeof idx === 'number') {
         this.selectedTabIndex = idx;
@@ -60,5 +73,19 @@ export class MainContentComponent {
   onTabChanged(index: number): void {
     this.selectedTabIndex = index;
     this.activeTabChanged.emit(index);
+  }
+
+  toggleThemeMode(): void {
+    this.isDarkMode = !this.isDarkMode;
+    this.applyTheme();
+    if (isPlatformBrowser(this.platformId)) {
+      localStorage.setItem('sdlc-theme', this.isDarkMode ? 'dark' : 'light');
+    }
+  }
+
+  private applyTheme(): void {
+    const body = this.document.body;
+    body.classList.toggle('dark-theme', this.isDarkMode);
+    body.classList.toggle('light-theme', !this.isDarkMode);
   }
 }

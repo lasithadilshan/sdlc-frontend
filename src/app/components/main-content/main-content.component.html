@@ -7,8 +7,8 @@
       <h1>SDLC Mate</h1>
     </div>
     <div class="toolbar-actions">
-      <button mat-icon-button aria-label="Toggle theme">
-        <mat-icon>contrast</mat-icon>
+      <button mat-icon-button type="button" (click)="toggleThemeMode()" [attr.aria-label]="isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'">
+        <mat-icon>{{ isDarkMode ? 'light_mode' : 'dark_mode' }}</mat-icon>
       </button>
       <button mat-icon-button aria-label="Help">
         <mat-icon>help_outline</mat-icon>
