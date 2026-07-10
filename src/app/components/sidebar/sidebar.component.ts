@@ -24,6 +24,7 @@ export class SidebarComponent {
 
   selectedFile: File | null = null;
   isUploading = false;
+  currentYear = new Date().getFullYear();
   // keep last uploaded document to display in the sidebar
   uploadedDocument: UploadedDocument | null = null;
 
