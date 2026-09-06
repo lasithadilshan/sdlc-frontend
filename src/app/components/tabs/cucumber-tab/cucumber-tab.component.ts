@@ -69,28 +69,33 @@ export class CucumberTabComponent implements OnInit {
   }
 
   generateCucumber(): void {
-    if (!this.uploadedDocument || !this.testCaseText) {
-      return;
-    }
+    if (!this.uploadedDocument || !this.testCaseText) return;
 
     this.isLoading = true;
     this.cucumberScript = null;
-    // this.qualityAssessment = null; // QA disabled
 
     this.apiService.convertToCucumber(this.uploadedDocument.documentId, this.testCaseText).subscribe({
-      next: (response) => {
-        this.cucumberScript = response.cucumber_script;
-        // parse parts for nicer UI (feature vs step definitions)
-        this.parseCucumberScript();
-        // this.qualityAssessment = response.quality_assessment; // QA disabled
-        // visual pulse when new QA arrives (disabled)
-        // this.triggerPulse();
-        // highlight code blocks using bundled Prism after DOM update
-        setTimeout(() => this.highlightCodeBlocks(), 0);
-        this.isLoading = false;
+      next: (jobResponse) => {
+        this.apiService.pollJobStatus(jobResponse.id).subscribe({
+          next: (res) => {
+            if (res.status === 'SUCCESS') {
+              this.cucumberScript = res.result?.cucumber_script ?? res.result;
+              this.parseCucumberScript();
+              setTimeout(() => this.highlightCodeBlocks(), 0);
+              this.isLoading = false;
+            } else {
+              console.error('Failed to generate Cucumber script:', res.result);
+              this.isLoading = false;
+            }
+          },
+          error: (err) => {
+            console.error('Polling error:', err);
+            this.isLoading = false;
+          }
+        });
       },
       error: (error) => {
-        console.error('Error generating Cucumber script:', error);
+        console.error('Error starting job:', error);
         this.isLoading = false;
       }
     });

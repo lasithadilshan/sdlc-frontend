@@ -42,6 +42,10 @@
 
   <mat-spinner *ngIf="isUploading" diameter="30" class="spinner"></mat-spinner>
 
-
+  <div style="flex: 1"></div>
+  <button mat-button class="logout-btn" (click)="logout()">
+    <mat-icon>logout</mat-icon>
+    <span>Logout</span>
+  </button>
   <div class="sidebar-foot">© {{ currentYear }} SDLC Mate. All rights reserved</div>
 </div>

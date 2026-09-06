@@ -1,12 +1,14 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
+import * as rxjs from 'rxjs';
+import { environment } from '../../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ApiService {
-  private apiUrl = 'http://127.0.0.1:8000';
+  private apiUrl = environment.apiUrl;
 
   // Shared state to pass selected test case text to other tabs
   private selectedTestCaseTextSubject = new BehaviorSubject<string>('');
@@ -23,29 +25,41 @@ export class ApiService {
   constructor(private http: HttpClient) {}
 
   uploadDocument(formData: FormData): Observable<any> {
-    return this.http.post(`${this.apiUrl}/upload-document`, formData);
+    return this.http.post(`${this.apiUrl}/documents/upload`, formData);
   }
 
   generateUserStories(documentId: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/generate-user-stories?document_id=${documentId}`, {});
+    return this.http.post(`${this.apiUrl}/generate/user-stories?document_id=${documentId}`, {});
   }
 
   convertToTestCases(documentId: string, userStoryText: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/convert-to-test-cases?document_id=${documentId}`, {
+    return this.http.post(`${this.apiUrl}/generate/test-cases?document_id=${documentId}`, {
       user_story_text: userStoryText
     });
   }
 
   convertToCucumber(documentId: string, testCaseText: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/convert-to-cucumber?document_id=${documentId}`, {
+    return this.http.post(`${this.apiUrl}/generate/cucumber?document_id=${documentId}`, {
       test_case_text: testCaseText
     });
   }
 
   convertToSelenium(documentId: string, testCaseText: string): Observable<any> {
-    return this.http.post(`${this.apiUrl}/convert-to-selenium?document_id=${documentId}`, {
+    return this.http.post(`${this.apiUrl}/generate/selenium?document_id=${documentId}`, {
       test_case_text: testCaseText
     });
+  }
+
+  getJobStatus(jobId: string): Observable<any> {
+    return this.http.get(`${this.apiUrl}/generate/job/${jobId}`);
+  }
+
+  pollJobStatus(jobId: string, intervalMs: number = 2000): Observable<any> {
+    return rxjs.timer(0, intervalMs).pipe(
+      rxjs.switchMap(() => this.getJobStatus(jobId)),
+      rxjs.takeWhile(res => res.status !== 'SUCCESS' && res.status !== 'FAILURE', true),
+      rxjs.filter(res => res.status === 'SUCCESS' || res.status === 'FAILURE')
+    );
   }
 
   // Update currently selected test case text (to be consumed by Cucumber tab)

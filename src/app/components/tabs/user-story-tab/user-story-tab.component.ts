@@ -47,60 +47,60 @@ export class UserStoryTabComponent {
   constructor(private apiService: ApiService, private dialogService: DialogService) {}
 
   generateUserStories(): void {
-    if (!this.uploadedDocument) {
-      return;
-    }
+    if (!this.uploadedDocument) return;
 
     this.isLoading = true;
     this.userStories = null;
-    // this.qualityAssessment = null; // QA disabled
-    // this.processingTime = null; // removed
     this.parseError = null;
     this.parsedUserStories = [];
 
     this.apiService.generateUserStories(this.uploadedDocument.documentId).subscribe({
-      next: (response) => {
-        // defensive extraction of stories from response
-        let stories: any = response?.user_stories ?? response?.userStories ?? response;
+      next: (jobResponse) => {
+        this.apiService.pollJobStatus(jobResponse.id).subscribe({
+          next: (res) => {
+            if (res.status === 'SUCCESS') {
+              let stories: any = res.result?.user_stories ?? res.result?.userStories ?? res.result;
 
-        // If stories is a JSON string, attempt to parse
-        if (typeof stories === 'string') {
-          try {
-            stories = JSON.parse(stories);
-          } catch (e) {
-            this.parseError = 'Could not parse user stories: ' + (e instanceof Error ? e.message : String(e));
-            stories = null;
+              if (typeof stories === 'string') {
+                try {
+                  stories = JSON.parse(stories);
+                } catch (e) {
+                  this.parseError = 'Could not parse user stories: ' + String(e);
+                  stories = null;
+                }
+              }
+
+              if (Array.isArray(stories)) {
+                this.parsedUserStories = stories;
+              } else if (stories && Array.isArray(stories.user_stories)) {
+                this.parsedUserStories = stories.user_stories;
+              } else if (stories && Array.isArray(stories.userStories)) {
+                this.parsedUserStories = stories.userStories;
+              } else if (stories) {
+                this.parsedUserStories = [stories];
+              }
+
+              try {
+                this.userStoriesGenerated.emit(this.parsedUserStories);
+              } catch (e) {}
+
+              this.userStories = stories;
+              this.isLoading = false;
+            } else {
+              this.parseError = 'Failed to generate user stories: ' + JSON.stringify(res.result);
+              this.isLoading = false;
+            }
+          },
+          error: (err) => {
+            console.error('Polling error:', err);
+            this.parseError = 'Error checking job status';
+            this.isLoading = false;
           }
-        }
-
-        if (Array.isArray(stories)) {
-          this.parsedUserStories = stories;
-        } else if (stories && Array.isArray(stories.user_stories)) {
-          this.parsedUserStories = stories.user_stories;
-        } else if (stories && Array.isArray(stories.userStories)) {
-          this.parsedUserStories = stories.userStories;
-        } else if (stories) {
-          this.parsedUserStories = [stories];
-        } else {
-          this.parsedUserStories = [];
-        }
-
-        // Emit parsed stories for parent/other tabs
-        try {
-          this.userStoriesGenerated.emit(this.parsedUserStories);
-        } catch (e) {
-          // ignore
-        }
-
-        // keep original raw for debugging/display if needed
-        this.userStories = response?.user_stories ?? response;
-        // this.qualityAssessment = response?.quality_assessment ?? response?.qualityAssessment ?? null; // QA disabled
-        // this.processingTime = response?.processing_time_seconds ?? response?.processingTimeSeconds ?? null; // removed
-        this.isLoading = false;
+        });
       },
       error: (error) => {
-        console.error('Error generating user stories:', error);
-        this.parseError = 'Failed to generate user stories';
+        console.error('Error starting job:', error);
+        this.parseError = 'Failed to start generation job';
         this.isLoading = false;
       }
     });

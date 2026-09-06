@@ -5,6 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { UploadedDocument } from '../../app.component';
 import { ApiService } from '../../services/api-service.service';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -28,7 +29,11 @@ export class SidebarComponent {
   // keep last uploaded document to display in the sidebar
   uploadedDocument: UploadedDocument | null = null;
 
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService, private authService: AuthService) {}
+
+  logout(): void {
+    this.authService.logout();
+  }
 
   selectTab(index: number): void {
     this.apiService.setSelectedTabIndex(index);

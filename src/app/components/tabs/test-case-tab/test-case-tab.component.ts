@@ -212,62 +212,62 @@ export class TestCaseTabComponent {
   }
 
   generateTestCases(): void {
-    if (!this.uploadedDocument || !this.userStoryText) {
-      return;
-    }
+    if (!this.uploadedDocument || !this.userStoryText) return;
 
     this.isLoading = true;
     this.testCases = null;
-    // this.qualityAssessment = null; // QA disabled
-    // this.processingTime = null; // removed
 
     this.apiService.convertToTestCases(this.uploadedDocument.documentId, this.userStoryText).subscribe({
-      next: (response) => {
-        const rawTestCases = response.test_cases;
-        // this.qualityAssessment = response.quality_assessment; // QA disabled
-        try {
-          console.log('Quality Assessment:', typeof this.qualityAssessment === 'string' ? this.qualityAssessment : JSON.stringify(this.qualityAssessment, null, 2));
-        } catch {
-          console.log('Quality Assessment:', this.qualityAssessment);
-        }
-        // this.processingTime = response.processing_time_seconds; // removed
-        this.parseError = response.parse_error || null;
+      next: (jobResponse) => {
+        this.apiService.pollJobStatus(jobResponse.id).subscribe({
+          next: (res) => {
+            if (res.status === 'SUCCESS') {
+              const rawTestCases = res.result?.test_cases ?? res.result;
+              this.parseError = res.result?.parse_error || null;
 
-        // If the API returned a string, try to parse it as JSON. If parsing fails,
-        // keep the raw string and mark parseError so the template shows the raw text.
-        const toArray = (val: any): any[] => {
-          if (Array.isArray(val)) return val;
-          if (val && typeof val === 'object') {
-            if (Array.isArray(val.test_cases)) return val.test_cases;
-            if (Array.isArray(val.testCases)) return val.testCases;
-            if (Array.isArray(val.cases)) return val.cases;
-            if (Array.isArray(val.items)) return val.items;
-            // If it looks like a single test case object, wrap in array
-            return [val];
-          }
-          return [];
-        };
+              const toArray = (val: any): any[] => {
+                if (Array.isArray(val)) return val;
+                if (val && typeof val === 'object') {
+                  if (Array.isArray(val.test_cases)) return val.test_cases;
+                  if (Array.isArray(val.testCases)) return val.testCases;
+                  if (Array.isArray(val.cases)) return val.cases;
+                  if (Array.isArray(val.items)) return val.items;
+                  return [val];
+                }
+                return [];
+              };
 
-        let parsed: any = rawTestCases;
-        if (typeof rawTestCases === 'string') {
-          try {
-            parsed = JSON.parse(rawTestCases);
-          } catch (err: any) {
-            this.testCases = rawTestCases;
-            if (!this.parseError) {
-              this.parseError = 'Response returned a non-JSON string (could not parse).';
+              let parsed: any = rawTestCases;
+              if (typeof rawTestCases === 'string') {
+                try {
+                  parsed = JSON.parse(rawTestCases);
+                } catch (err: any) {
+                  this.testCases = rawTestCases;
+                  if (!this.parseError) {
+                    this.parseError = 'Response returned a non-JSON string (could not parse).';
+                  }
+                  this.isLoading = false;
+                  return;
+                }
+              }
+
+              this.testCases = toArray(parsed);
+              this.isLoading = false;
+            } else {
+              this.parseError = 'Failed to generate test cases: ' + JSON.stringify(res.result);
+              this.isLoading = false;
             }
+          },
+          error: (err) => {
+            console.error('Polling error:', err);
+            this.parseError = 'Error checking job status';
             this.isLoading = false;
-            return;
           }
-        }
-
-        this.testCases = toArray(parsed);
-
-        this.isLoading = false;
+        });
       },
       error: (error) => {
-        console.error('Error generating test cases:', error);
+        console.error('Error starting job:', error);
+        this.parseError = 'Failed to start generation job';
         this.isLoading = false;
       }
     });

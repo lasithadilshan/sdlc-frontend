@@ -53,23 +53,32 @@ export class SeleniumTabComponent implements OnInit {
   }
 
   generateSelenium(): void {
-    if (!this.uploadedDocument || !this.testCaseText) {
-      return;
-    }
+    if (!this.uploadedDocument || !this.testCaseText) return;
 
     this.isLoading = true;
     this.seleniumScript = null;
-    // this.qualityAssessment = null; // QA disabled
 
     this.apiService.convertToSelenium(this.uploadedDocument.documentId, this.testCaseText).subscribe({
-      next: (response) => {
-          this.seleniumScript = response.selenium_script;
-          // this.qualityAssessment = response.quality_assessment; // QA disabled
-          setTimeout(() => this.highlightCodeBlocks(), 0);
-          this.isLoading = false;
+      next: (jobResponse) => {
+        this.apiService.pollJobStatus(jobResponse.id).subscribe({
+          next: (res) => {
+            if (res.status === 'SUCCESS') {
+              this.seleniumScript = res.result?.selenium_script ?? res.result;
+              setTimeout(() => this.highlightCodeBlocks(), 0);
+              this.isLoading = false;
+            } else {
+              console.error('Failed to generate Selenium script:', res.result);
+              this.isLoading = false;
+            }
+          },
+          error: (err) => {
+            console.error('Polling error:', err);
+            this.isLoading = false;
+          }
+        });
       },
       error: (error) => {
-        console.error('Error generating Selenium script:', error);
+        console.error('Error starting job:', error);
         this.isLoading = false;
       }
     });
