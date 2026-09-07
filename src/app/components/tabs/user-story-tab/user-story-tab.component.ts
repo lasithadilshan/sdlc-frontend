@@ -59,7 +59,10 @@ export class UserStoryTabComponent {
         this.apiService.pollJobStatus(jobResponse.id).subscribe({
           next: (res) => {
             if (res.status === 'SUCCESS') {
-              let stories: any = res.result?.user_stories ?? res.result?.userStories ?? res.result;
+              // The backend returns a JobResult where 'result' contains the parsed JSON from the LLM.
+              // So the actual LLM output is in res.result.result
+              let llmOutput = res.result?.result || res.result;
+              let stories: any = llmOutput?.user_stories ?? llmOutput?.userStories ?? llmOutput;
 
               if (typeof stories === 'string') {
                 try {

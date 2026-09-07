@@ -59,7 +59,7 @@ export class SidebarComponent {
     this.apiService.uploadDocument(formData).subscribe({
       next: (response) => {
         const document: UploadedDocument = {
-          documentId: response.document_id,
+          documentId: response.id,
           filename: response.filename
         };
         this.uploadedDocument = document;

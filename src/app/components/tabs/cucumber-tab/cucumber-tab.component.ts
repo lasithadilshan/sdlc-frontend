@@ -79,7 +79,8 @@ export class CucumberTabComponent implements OnInit {
         this.apiService.pollJobStatus(jobResponse.id).subscribe({
           next: (res) => {
             if (res.status === 'SUCCESS') {
-              this.cucumberScript = res.result?.cucumber_script ?? res.result;
+              let llmOutput = res.result?.result || res.result;
+              this.cucumberScript = llmOutput?.cucumber_script ?? llmOutput?.cucumberScript ?? llmOutput;
               this.parseCucumberScript();
               setTimeout(() => this.highlightCodeBlocks(), 0);
               this.isLoading = false;

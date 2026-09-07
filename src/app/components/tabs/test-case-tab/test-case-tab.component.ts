@@ -222,36 +222,28 @@ export class TestCaseTabComponent {
         this.apiService.pollJobStatus(jobResponse.id).subscribe({
           next: (res) => {
             if (res.status === 'SUCCESS') {
-              const rawTestCases = res.result?.test_cases ?? res.result;
+              let llmOutput = res.result?.result || res.result;
+              let cases: any = llmOutput?.test_cases ?? llmOutput?.testCases ?? llmOutput;
               this.parseError = res.result?.parse_error || null;
 
-              const toArray = (val: any): any[] => {
-                if (Array.isArray(val)) return val;
-                if (val && typeof val === 'object') {
-                  if (Array.isArray(val.test_cases)) return val.test_cases;
-                  if (Array.isArray(val.testCases)) return val.testCases;
-                  if (Array.isArray(val.cases)) return val.cases;
-                  if (Array.isArray(val.items)) return val.items;
-                  return [val];
-                }
-                return [];
-              };
-
-              let parsed: any = rawTestCases;
-              if (typeof rawTestCases === 'string') {
+              if (typeof cases === 'string') {
                 try {
-                  parsed = JSON.parse(rawTestCases);
-                } catch (err: any) {
-                  this.testCases = rawTestCases;
-                  if (!this.parseError) {
-                    this.parseError = 'Response returned a non-JSON string (could not parse).';
-                  }
-                  this.isLoading = false;
-                  return;
+                  cases = JSON.parse(cases);
+                } catch (e) {
+                  this.parseError = 'Could not parse test cases: ' + String(e);
+                  cases = null;
                 }
               }
 
-              this.testCases = toArray(parsed);
+              if (Array.isArray(cases)) {
+                this.testCases = cases;
+              } else if (cases && Array.isArray(cases.test_cases)) {
+                this.testCases = cases.test_cases;
+              } else if (cases && Array.isArray(cases.testCases)) {
+                this.testCases = cases.testCases;
+              } else if (cases) {
+                this.testCases = [cases];
+              }
               this.isLoading = false;
             } else {
               this.parseError = 'Failed to generate test cases: ' + JSON.stringify(res.result);

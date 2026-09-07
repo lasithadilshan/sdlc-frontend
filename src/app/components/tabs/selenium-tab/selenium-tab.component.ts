@@ -63,7 +63,8 @@ export class SeleniumTabComponent implements OnInit {
         this.apiService.pollJobStatus(jobResponse.id).subscribe({
           next: (res) => {
             if (res.status === 'SUCCESS') {
-              this.seleniumScript = res.result?.selenium_script ?? res.result;
+              let llmOutput = res.result?.result || res.result;
+              this.seleniumScript = llmOutput?.selenium_script ?? llmOutput?.seleniumScript ?? llmOutput;
               setTimeout(() => this.highlightCodeBlocks(), 0);
               this.isLoading = false;
             } else {
