@@ -1,6 +1,6 @@
 .tab-content {
-  padding: 32px;
-  max-width: 1200px;
+  max-width: none;
+  padding: 44px 34px;
   margin: 0 auto;
 }
 
@@ -30,7 +30,7 @@
 }
 
 .content {
-  margin-top: 28px;
+  margin-top: 0;
 }
 
 .full-width {
@@ -50,7 +50,7 @@
 }
 
 .results {
-  margin-top: 40px;
+  margin-top: 28px;
   animation: slideInUp 0.4s ease;
 }
 
@@ -90,19 +90,22 @@ mat-card-title {
 }
 
 mat-card-content {
-  padding: 24px;
+  padding: 0;
 }
 
 .code-block {
-  background-color: #282c34;
-  color: #abb2bf;
-  padding: 20px;
-  border-radius: 8px;
-  overflow-x: auto;
-  font-size: 13px;
+  max-height: 520px;
+  margin: 0;
+  padding: 30px;
+  border: 0;
+  border-radius: 0 0 16px 16px;
+  background: #171b25;
+  color: #d7deed;
+  font-size: 16px;
+  overflow: auto;
+  white-space: pre-wrap;
   line-height: 1.6;
   font-family: 'Monaco', 'Courier New', monospace;
-  border: 1px solid #1e1e1e;
 }
 
 .code-toolbar {
@@ -117,6 +120,7 @@ mat-card-content {
 }
 
 .sub-card {
+  margin: 0;
   margin-bottom: 18px;
 }
 
@@ -135,8 +139,6 @@ mat-card-content {
 .sub-actions button {
   margin-left: 8px;
 }
-
-.code-block { max-height: 480px; overflow: auto; white-space: pre-wrap; }
 /* Quality Assessment styles commented out
 .qa-card { padding-bottom: 0; }
 .qa-grid {
@@ -224,13 +226,14 @@ mat-card-content {
 }
 
 button {
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
+  min-height: 50px;
+  font-size: 18px;
+  font-weight: 850;
+  text-transform: none;
+  letter-spacing: 0;
   border-radius: 8px;
   transition: all 0.3s ease;
   padding: 10px 24px;
-  font-size: 14px;
 }
 
 button:hover:not(:disabled) {
@@ -579,11 +582,6 @@ button:hover:not(:disabled) {
   100% { transform: translateX(100%); }
 }
 
-.tab-content {
-  max-width: none;
-  padding: 44px 34px;
-}
-
 .page-heading {
   display: flex;
   align-items: flex-start;
@@ -615,13 +613,8 @@ button:hover:not(:disabled) {
   font-weight: 850;
 }
 
-.content {
-  margin-top: 0;
-}
-
 .generator-grid {
   display: grid;
-  /* grid-template-columns: minmax(0, 1.35fr) minmax(300px, 1fr); */
   gap: 24px;
 }
 
@@ -662,18 +655,6 @@ button:hover:not(:disabled) {
   background: #f7f9fe;
 }
 
-button {
-  min-height: 50px;
-  font-size: 18px;
-  font-weight: 850;
-  text-transform: none;
-  letter-spacing: 0;
-}
-
-.results {
-  margin-top: 28px;
-}
-
 .results mat-card {
   border: 1px solid #e3e7ef;
   border-radius: 18px;
@@ -694,25 +675,6 @@ mat-card-title {
   color: #202938;
   font-size: 20px;
   font-weight: 900;
-}
-
-mat-card-content {
-  padding: 0;
-}
-
-.sub-card {
-  margin: 0;
-}
-
-.code-block {
-  max-height: 520px;
-  margin: 0;
-  padding: 30px;
-  border: 0;
-  border-radius: 0 0 16px 16px;
-  background: #171b25;
-  color: #d7deed;
-  font-size: 16px;
 }
 
 .sub-actions button,

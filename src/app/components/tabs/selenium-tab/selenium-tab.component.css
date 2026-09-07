@@ -1,6 +1,6 @@
 .tab-content {
-  padding: 32px;
-  max-width: 1200px;
+  max-width: none;
+  padding: 44px 34px;
   margin: 0 auto;
 }
 
@@ -50,7 +50,7 @@
 }
 
 .results {
-  margin-top: 40px;
+  margin-top: 28px;
   animation: slideInUp 0.4s ease;
 }
 
@@ -83,40 +83,36 @@ mat-card-header {
 }
 
 mat-card-title {
-  color: #1a1a1a;
-  font-size: 18px;
-  font-weight: 700;
+  color: #202938;
+  font-size: 20px;
+  font-weight: 900;
   margin: 0;
 }
 
 mat-card-content {
-  padding: 24px;
+  padding: 0;
 }
 
 .code-block {
-  background-color: #282c34;
-  color: #abb2bf;
-  padding: 20px;
-  border-radius: 8px;
+  max-height: 620px;
+  margin: 0;
+  padding: 30px;
+  border: 0;
+  border-radius: 0 0 16px 16px;
+  background: #171b25;
+  color: #d7deed;
+  font-size: 16px;
   overflow-x: auto;
-  font-size: 13px;
   line-height: 1.6;
   font-family: 'Monaco', 'Courier New', monospace;
-  border: 1px solid #1e1e1e;
 }
 
-.warning {
-  padding: 16px;
-  background-color: #fff8e1;
-  border-left: 5px solid #ffc107;
-  border-radius: 8px;
-  color: #856404;
-  margin-bottom: 20px;
-  font-weight: 500;
+.qa-card {
+  background-color: #fafafa;
+  border: 1px solid #e0e0e0;
 }
 
-.processing-time {
-  margin-top: 20px;
+.qa-score {
   font-size: 14px;
   color: #666;
   padding: 12px;
@@ -126,13 +122,14 @@ mat-card-content {
 }
 
 button {
-  font-weight: 600;
-  letter-spacing: 0.5px;
-  text-transform: uppercase;
+  min-height: 50px;
+  font-size: 18px;
+  font-weight: 850;
+  text-transform: none;
+  letter-spacing: 0;
   border-radius: 8px;
   transition: all 0.3s ease;
   padding: 10px 24px;
-  font-size: 14px;
 }
 
 button:hover:not(:disabled) {
@@ -474,11 +471,6 @@ button:hover:not(:disabled) {
   100% { transform: translateX(100%); }
 }
 
-.tab-content {
-  max-width: none;
-  padding: 44px 34px;
-}
-
 .page-heading {
   display: flex;
   align-items: flex-start;
@@ -525,18 +517,6 @@ button:hover:not(:disabled) {
   background: #f7f9fe;
 }
 
-button {
-  min-height: 50px;
-  font-size: 18px;
-  font-weight: 850;
-  text-transform: none;
-  letter-spacing: 0;
-}
-
-.results {
-  margin-top: 28px;
-}
-
 .results mat-card {
   border: 1px solid #e3e7ef;
   border-radius: 18px;
@@ -552,27 +532,6 @@ button {
   padding: 0 20px;
   border-bottom: 1px solid #e7ebf2;
   background: #fff;
-}
-
-mat-card-title {
-  color: #202938;
-  font-size: 20px;
-  font-weight: 900;
-}
-
-mat-card-content {
-  padding: 0;
-}
-
-.code-block {
-  max-height: 620px;
-  margin: 0;
-  padding: 30px;
-  border: 0;
-  border-radius: 0 0 16px 16px;
-  background: #171b25;
-  color: #d7deed;
-  font-size: 16px;
 }
 
 .results mat-card-header button {

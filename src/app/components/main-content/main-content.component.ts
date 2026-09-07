@@ -1,5 +1,4 @@
-import { CommonModule } from '@angular/common';
-import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
 import { Component, EventEmitter, Inject, Input, Output, PLATFORM_ID } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -63,7 +62,13 @@ export class MainContentComponent {
   }
 
   onUserStoriesGenerated(stories: any[]): void {
-    this.generatedUserStories = Array.isArray(stories) ? stories : (stories ? [stories] : []);
+    if (Array.isArray(stories)) {
+      this.generatedUserStories = stories;
+    } else if (stories) {
+      this.generatedUserStories = [stories];
+    } else {
+      this.generatedUserStories = [];
+    }
   }
 
   onToggleSidebar(): void {

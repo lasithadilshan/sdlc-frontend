@@ -46,6 +46,11 @@ export class UserStoryTabComponent {
 
   constructor(private apiService: ApiService, private dialogService: DialogService) {}
 
+  private ensureArray<T>(val: T | T[] | null | undefined): T[] {
+    if (!val) return [];
+    return Array.isArray(val) ? val : [val];
+  }
+
   generateUserStories(): void {
     if (!this.uploadedDocument) return;
 
@@ -57,43 +62,7 @@ export class UserStoryTabComponent {
     this.apiService.generateUserStories(this.uploadedDocument.documentId).subscribe({
       next: (jobResponse) => {
         this.apiService.pollJobStatus(jobResponse.id).subscribe({
-          next: (res) => {
-            if (res.status === 'SUCCESS') {
-              // The backend returns a JobResult where 'result' contains the parsed JSON from the LLM.
-              // So the actual LLM output is in res.result.result
-              let llmOutput = res.result?.result || res.result;
-              let stories: any = llmOutput?.user_stories ?? llmOutput?.userStories ?? llmOutput;
-
-              if (typeof stories === 'string') {
-                try {
-                  stories = JSON.parse(stories);
-                } catch (e) {
-                  this.parseError = 'Could not parse user stories: ' + String(e);
-                  stories = null;
-                }
-              }
-
-              if (Array.isArray(stories)) {
-                this.parsedUserStories = stories;
-              } else if (stories && Array.isArray(stories.user_stories)) {
-                this.parsedUserStories = stories.user_stories;
-              } else if (stories && Array.isArray(stories.userStories)) {
-                this.parsedUserStories = stories.userStories;
-              } else if (stories) {
-                this.parsedUserStories = [stories];
-              }
-
-              try {
-                this.userStoriesGenerated.emit(this.parsedUserStories);
-              } catch (e) {}
-
-              this.userStories = stories;
-              this.isLoading = false;
-            } else {
-              this.parseError = 'Failed to generate user stories: ' + JSON.stringify(res.result);
-              this.isLoading = false;
-            }
-          },
+          next: (res) => this.handleJobResult(res),
           error: (err) => {
             console.error('Polling error:', err);
             this.parseError = 'Error checking job status';
@@ -109,12 +78,45 @@ export class UserStoryTabComponent {
     });
   }
 
+  private handleJobResult(res: any): void {
+    if (res.status === 'SUCCESS') {
+      const stories = this.extractStories(res);
+      this.parsedUserStories = stories;
+      try {
+        this.userStoriesGenerated.emit(this.parsedUserStories);
+      } catch {}
+      this.userStories = stories;
+      this.isLoading = false;
+    } else {
+      this.parseError = 'Failed to generate user stories: ' + JSON.stringify(res.result);
+      this.isLoading = false;
+    }
+  }
+
+  private extractStories(res: any): any[] {
+    const llmOutput = res.result?.result || res.result;
+    let stories: any = llmOutput?.user_stories ?? llmOutput?.userStories ?? llmOutput;
+
+    if (typeof stories === 'string') {
+      try {
+        stories = JSON.parse(stories);
+      } catch (e) {
+        this.parseError = 'Could not parse user stories: ' + String(e);
+        return [];
+      }
+    }
+
+    if (Array.isArray(stories)) return stories;
+    if (stories && Array.isArray(stories.user_stories)) return stories.user_stories;
+    if (stories && Array.isArray(stories.userStories)) return stories.userStories;
+    return stories ? [stories] : [];
+  }
+
   exportToPdf(): void {
     if (!this.parsedUserStories || this.parsedUserStories.length === 0) {
       return;
     }
 
-    // Build a simple printable HTML document for the stories
     const styles = `
       body{font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; color:#1f2b3a; margin:20px}
       .id-badge{display:inline-block;background:linear-gradient(90deg,#6b5bff,#6ec1ff);color:white;padding:6px 12px;border-radius:20px;font-weight:700;margin-right:8px}
@@ -130,49 +132,7 @@ export class UserStoryTabComponent {
     `;
 
     let body = `<html><head><meta charset="utf-8"><title>User Stories</title><style>${styles}</style></head><body>`;
-
-    this.parsedUserStories.forEach((story, idx) => {
-      const id = story.id || story.ID || `US_${idx + 1}`;
-      const title = story.title || `User Story ${idx + 1}`;
-      const storyText = story.story || '';
-      const acceptance = Array.isArray(story.acceptance_criteria) ? story.acceptance_criteria : (story.acceptance_criteria ? [story.acceptance_criteria] : []);
-      const notes = Array.isArray(story.notes) ? story.notes : (story.notes ? [story.notes] : []);
-      const points = story.story_points ?? story.storyPoints ?? '-';
-      const category = story.category || '-';
-      const priority = story.priority ? `<span class="priority-pill">${story.priority}</span>` : '';
-
-      body += `
-        <div class="story">
-          <div>
-            <span class="id-badge">${id}</span>
-            ${priority}
-          </div>
-          <div class="story-title">${this.escapeHtml(title)}</div>
-          <div class="story-text">${this.escapeHtml(storyText)}</div>
-
-          <div class="acceptance-box">
-            <div style="font-weight:700;margin-bottom:8px">Acceptance Criteria</div>
-            <ul>
-              ${acceptance.map((a: any) => `<li>${this.escapeHtml(a)}</li>`).join('')}
-            </ul>
-          </div>
-
-          <div class="meta-row">
-            <div><div class="meta-label">STORY POINTS</div><div class="meta-value">${points}</div></div>
-            <div style="text-align:right"><div class="meta-label">CATEGORY</div><div class="meta-value">${this.escapeHtml(category)}</div></div>
-          </div>
-
-            <div class="notes-box">
-            <div style="font-weight:800;margin-bottom:6px">📝 Notes</div>
-            <ul>
-              ${notes.map((n: any) => `<li>${this.escapeHtml(n)}</li>`).join('')}
-            </ul>
-          </div>
-        </div>
-        <hr />
-      `;
-    });
-
+    body += this.parsedUserStories.map((story, idx) => this.renderStoryHtml(story, idx)).join('');
     body += `</body></html>`;
 
     const printWindow = window.open('', '_blank');
@@ -185,10 +145,51 @@ export class UserStoryTabComponent {
     printWindow.document.close();
     printWindow.focus();
 
-    // Wait for content to render, then trigger print. Keep window open after print for user to save.
     setTimeout(() => {
       printWindow.print();
     }, 500);
+  }
+
+  private renderStoryHtml(story: any, idx: number): string {
+    const id = story.id || story.ID || `US_${idx + 1}`;
+    const title = story.title || `User Story ${idx + 1}`;
+    const storyText = story.story || '';
+    const acceptance = this.ensureArray(story.acceptance_criteria);
+    const notes = this.ensureArray(story.notes);
+    const points = story.story_points ?? story.storyPoints ?? '-';
+    const category = story.category || '-';
+    const priority = story.priority ? `<span class="priority-pill">${story.priority}</span>` : '';
+
+    return `
+      <div class="story">
+        <div>
+          <span class="id-badge">${id}</span>
+          ${priority}
+        </div>
+        <div class="story-title">${this.escapeHtml(title)}</div>
+        <div class="story-text">${this.escapeHtml(storyText)}</div>
+
+        <div class="acceptance-box">
+          <div style="font-weight:700;margin-bottom:8px">Acceptance Criteria</div>
+          <ul>
+            ${acceptance.map((a: any) => `<li>${this.escapeHtml(a)}</li>`).join('')}
+          </ul>
+        </div>
+
+        <div class="meta-row">
+          <div><div class="meta-label">STORY POINTS</div><div class="meta-value">${points}</div></div>
+          <div style="text-align:right"><div class="meta-label">CATEGORY</div><div class="meta-value">${this.escapeHtml(category)}</div></div>
+        </div>
+
+        <div class="notes-box">
+          <div style="font-weight:800;margin-bottom:6px">📝 Notes</div>
+          <ul>
+            ${notes.map((n: any) => `<li>${this.escapeHtml(n)}</li>`).join('')}
+          </ul>
+        </div>
+      </div>
+      <hr />
+    `;
   }
 
   // Direct PDF download using jsPDF + html2canvas
@@ -196,40 +197,30 @@ export class UserStoryTabComponent {
     if (!this.parsedUserStories || this.parsedUserStories.length === 0) return;
 
     try {
-      // dynamic imports; use ts-ignore to avoid TypeScript complaining when packages are not installed
-      // @ts-ignore
       const jsPDFModule: any = await import('jspdf');
-      // @ts-ignore
       const html2canvasModule: any = await import('html2canvas');
       const jsPDF = jsPDFModule.jsPDF ?? jsPDFModule.default ?? jsPDFModule;
       const h2c = html2canvasModule.default ?? html2canvasModule;
 
-      // Collect DOM elements for each story card
-      const elements = Array.from(document.querySelectorAll('.user-story-card')) as HTMLElement[];
+      const elements = Array.from(document.querySelectorAll<HTMLElement>('.user-story-card'));
       if (!elements || elements.length === 0) {
-        // Fallback: render our printable HTML string as before
         this.exportToPdf();
         return;
       }
 
-      // initialize export progress state
       this.isExporting = true;
       this.exportProgress = 0;
       this.exportTotal = elements.length;
 
       const pdf = new jsPDF({ unit: 'mm', format: 'a4', orientation: 'portrait' });
       const pdfWidth = pdf.internal.pageSize.getWidth();
-      const pdfHeight = pdf.internal.pageSize.getHeight();
-      const margin = 10; // mm
+      const margin = 10;
 
       for (let i = 0; i < elements.length; i++) {
         const el = elements[i];
-
-        // use html2canvas to capture the element
-        const canvas = await (h2c as any)(el, { scale: 2, useCORS: true, backgroundColor: '#ffffff' });
+        const canvas = await h2c(el, { scale: 2, useCORS: true, backgroundColor: '#ffffff' });
         const imgData = canvas.toDataURL('imageJPEG', 1.0);
 
-        // calculate image dimensions in mm
         const imgWidthPx = canvas.width;
         const imgHeightPx = canvas.height;
         const pxPerMm = imgWidthPx / (pdfWidth - margin * 2);
@@ -237,13 +228,10 @@ export class UserStoryTabComponent {
 
         if (i > 0) pdf.addPage();
         pdf.addImage(imgData, 'JPEG', margin, margin, pdfWidth - margin * 2, imgHeightMm);
-
-        // update progress (1-based)
         this.exportProgress = i + 1;
       }
 
       pdf.save('user-stories.pdf');
-      // reset state
       this.isExporting = false;
       this.exportProgress = 0;
       this.exportTotal = 0;

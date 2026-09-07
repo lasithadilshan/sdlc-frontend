@@ -107,34 +107,41 @@ export class CucumberTabComponent implements OnInit {
     this.stepsText = null;
     if (!this.cucumberScript) return;
 
-    // Try to extract fenced gherkin and java blocks first
-    const gherkinMatch = /```gherkin\s*([\s\S]*?)```/i.exec(this.cucumberScript);
-    const javaMatch = /```java\s*([\s\S]*?)```/i.exec(this.cucumberScript);
-    if (gherkinMatch) {
-      this.featureText = gherkinMatch[1].trim();
-    }
-    if (javaMatch) {
-      this.stepsText = javaMatch[1].trim();
-    }
+    this.featureText = this.extractFencedBlock(this.cucumberScript, 'gherkin');
+    this.stepsText = this.extractFencedBlock(this.cucumberScript, 'java');
 
-    // Fallback: look for section headers like **FEATURE FILE** and **STEP DEFINITIONS**
-    if (!this.featureText || !this.stepsText) {
-      const featureHeader = /\*\*\s*FEATURE[\s\S]*?\*\*/i;
-      const stepHeader = /\*\*\s*STEP DEFINITIONS[\s\S]*?\*\*/i;
-      if (featureHeader.test(this.cucumberScript) && stepHeader.test(this.cucumberScript)) {
-        // split at STEP DEFINITIONS marker
-        const parts = this.cucumberScript.split(/\*\*\s*STEP DEFINITIONS[\s\S]*?\*\*/i);
-        if (parts && parts.length >= 2) {
-          this.featureText = (this.featureText || parts[0]).trim();
-          this.stepsText = (this.stepsText || parts.slice(1).join('\n---\n')).trim();
-        }
+    if (!this.featureText && !this.stepsText) {
+      if (!this.parseByHeaders(this.cucumberScript)) {
+        this.featureText = this.cucumberScript;
       }
     }
+  }
 
-    // Final fallback: if no explicit markers and script is present, put everything into featureText
-    if (!this.featureText && !this.stepsText) {
-      this.featureText = this.cucumberScript;
-    }
+  private extractFencedBlock(text: string, language: string): string | null {
+    const marker = '```' + language;
+    const lower = text.toLowerCase();
+    const startPos = lower.indexOf(marker);
+    if (startPos === -1) return null;
+    const afterMarker = text.indexOf('\n', startPos);
+    if (afterMarker === -1) return null;
+    const endPos = text.indexOf('```', afterMarker + 1);
+    if (endPos === -1) return null;
+    return text.substring(afterMarker + 1, endPos).trim();
+  }
+
+  private parseByHeaders(text: string): boolean {
+    const upper = text.toUpperCase();
+    const stepIdx = upper.indexOf('**STEP DEFINITIONS');
+    if (stepIdx === -1) return false;
+
+    const featureIdx = upper.indexOf('**FEATURE');
+    const start = featureIdx !== -1 ? featureIdx : 0;
+    const stepEnd = text.indexOf('**', stepIdx + 18);
+    const contentStart = stepEnd !== -1 ? stepEnd + 2 : stepIdx + 18;
+
+    this.featureText = text.substring(start, stepIdx).trim();
+    this.stepsText = text.substring(contentStart).trim();
+    return true;
   }
 
   downloadFile(filename: string, content: string | null): void {
@@ -156,63 +163,26 @@ export class CucumberTabComponent implements OnInit {
       this.copied[target] = true;
       setTimeout(() => (this.copied[target] = false), 2300);
     }).catch(() => {
-      // on failure, briefly set and clear to give feedback
       this.copied[target] = false;
     });
   }
 
-  /* Quality Assessment helpers commented out
-  // Return a color for level strings (Low/Medium/High or similar)
-  getLevelColor(level: string | undefined | null): string {
-    if (!level) return '#9e9e9e';
-    const l = ('' + level).toLowerCase();
-    if (l.includes('high') || Number(l) > 80) return '#2e7d32'; // green
-    if (l.includes('medium') || (Number(l) >= 40 && Number(l) <= 80)) return '#f6a000'; // amber
-    if (l.includes('low') || Number(l) < 40) return '#d32f2f'; // red
-    return '#607d8b';
-  }
-
-  // Normalize numeric score to 0-100 percent
-  getScorePercent(val: any): number {
-    const n = Number(val);
-    if (isNaN(n)) return 0;
-    if (n < 0) return 0;
-    if (n > 100) return Math.round(n);
-    return Math.round(n);
-  }
-
-  // Return stroke-dashoffset for given numeric score (0-100)
-  getStrokeDashoffset(val: any): number {
-    const percent = this.getScorePercent(val) / 100;
-    return Math.round(this.circumference * (1 - percent));
-  }
-
-  triggerPulse(): void {
-    this.pulse = true;
-    setTimeout(() => (this.pulse = false), 900);
-  }
-
-  openQaHelp(): void {
-    this.dialog.open(QaHelpDialogComponent, { width: '520px' });
-  }
-  */
   private highlightCodeBlocks(): void {
     try {
       const blocks: NodeListOf<HTMLElement> = document.querySelectorAll('.code-block');
-      blocks.forEach((b) => {
-        const code = b as HTMLElement;
+      blocks.forEach((code) => {
         const inner = code.innerText || '';
-        // decide language: steps -> java, feature -> gherkin
         const isSteps = code.dataset['role'] === 'steps';
         const lang = isSteps ? 'language-java' : 'language-gherkin';
         code.innerHTML = `<code class="${lang}"></code>`;
-        const created = code.querySelector('code') as HTMLElement;
-        created.textContent = inner;
-        if ((Prism as any).highlightElement) (Prism as any).highlightElement(created);
+        const created = code.querySelector('code');
+        if (created) {
+          created.textContent = inner;
+          Prism.highlightElement(created);
+        }
       });
-    } catch (e) {
+    } catch {
       // highlight best-effort
-      // console.warn('Prism highlight failed', e);
     }
   }
 }

@@ -48,10 +48,48 @@ export class TestCaseTabComponent {
 
   constructor(private apiService: ApiService, private dialogService: DialogService) {}
 
+  private ensureArray<T>(val: T | T[] | null | undefined): T[] {
+    if (!val) return [];
+    return Array.isArray(val) ? val : [val];
+  }
+
+  private renderSectionList(title: string, items: any[], isOrdered = false): string {
+    if (!items.length) return '';
+    const tag = isOrdered ? 'ol' : 'ul';
+    const listItems = items.map((item: any) => `<li>${this.escapeHtml(item)}</li>`).join('');
+    return `<div class="tc-section"><div style="font-weight:700;margin-bottom:8px">${this.escapeHtml(title)}</div><${tag}>${listItems}</${tag}></div>`;
+  }
+
+  private renderTestCaseHtml(tc: any, idx: number): string {
+    const id = tc.id || tc.ID || `TC_${idx + 1}`;
+    const title = tc.title || tc.name || `Test Case ${idx + 1}`;
+    const priority = tc.priority || tc.priorityLevel || tc.Priority || null;
+    const pre = this.ensureArray(tc.preconditions);
+    const data = this.ensureArray(tc.test_data);
+    const steps = this.ensureArray(tc.test_steps || tc.steps);
+    const expected = this.ensureArray(tc.expected_results || tc.expected);
+
+    const priorityBadge = priority ? `<span class="tc-priority">${this.escapeHtml(priority)}</span>` : '';
+
+    return `
+      <div class="tc">
+        <div>
+          <span class="tc-id">${this.escapeHtml(id)}</span>
+          ${priorityBadge}
+        </div>
+        <div class="tc-title">${this.escapeHtml(title)}</div>
+        ${this.renderSectionList('Preconditions', pre)}
+        ${this.renderSectionList('Test Data', data)}
+        ${this.renderSectionList('Steps', steps, true)}
+        ${this.renderSectionList('Expected Results', expected)}
+      </div>
+      <hr />
+    `;
+  }
+
   exportToPdf(): void {
     if (!this.testCases) return;
 
-    // Build a simple printable HTML document for the test cases (same approach as user-story export)
     const styles = `
       body{font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial; color:#1f2b3a; margin:20px}
       .tc-id{display:inline-block;background:linear-gradient(90deg,#6b5bff,#6ec1ff);color:white;padding:6px 12px;border-radius:20px;font-weight:700;margin-right:8px}
@@ -67,37 +105,8 @@ export class TestCaseTabComponent {
     `;
 
     let body = `<html><head><meta charset="utf-8"><title>Test Cases</title><style>${styles}</style></head><body>`;
-
-    const items = Array.isArray(this.testCases) ? this.testCases : [this.testCases];
-    items.forEach((tc: any, idx: number) => {
-      const id = tc.id || tc.ID || `TC_${idx + 1}`;
-      const title = tc.title || tc.name || `Test Case ${idx + 1}`;
-      const priority = tc.priority || tc.priorityLevel || tc.Priority || null;
-      const pre = Array.isArray(tc.preconditions) ? tc.preconditions : (tc.preconditions ? [tc.preconditions] : []);
-      const data = Array.isArray(tc.test_data) ? tc.test_data : (tc.test_data ? [tc.test_data] : []);
-      const steps = Array.isArray(tc.test_steps || tc.steps) ? (tc.test_steps || tc.steps) : ((tc.test_steps || tc.steps) ? [tc.test_steps || tc.steps] : []);
-      const expected = Array.isArray(tc.expected_results || tc.expected) ? (tc.expected_results || tc.expected) : ((tc.expected_results || tc.expected) ? [tc.expected_results || tc.expected] : []);
-
-      body += `
-        <div class="tc">
-          <div>
-            <span class="tc-id">${this.escapeHtml(id)}</span>
-            ${priority ? `<span class="tc-priority">${this.escapeHtml(priority)}</span>` : ''}
-          </div>
-          <div class="tc-title">${this.escapeHtml(title)}</div>
-
-          ${pre.length ? `<div class="tc-section"><div style="font-weight:700;margin-bottom:8px">Preconditions</div><ul>${pre.map((p: any) => `<li>${this.escapeHtml(p)}</li>`).join('')}</ul></div>` : ''}
-
-          ${data.length ? `<div class="tc-section"><div style="font-weight:700;margin-bottom:8px">Test Data</div><ul>${data.map((d: any) => `<li>${this.escapeHtml(d)}</li>`).join('')}</ul></div>` : ''}
-
-          ${steps.length ? `<div class="tc-section"><div style="font-weight:700;margin-bottom:8px">Steps</div><ol>${steps.map((s: any) => `<li>${this.escapeHtml(s)}</li>`).join('')}</ol></div>` : ''}
-
-          ${expected.length ? `<div class="tc-section"><div style="font-weight:700;margin-bottom:8px">Expected Results</div><ul>${expected.map((e: any) => `<li>${this.escapeHtml(e)}</li>`).join('')}</ul></div>` : ''}
-        </div>
-        <hr />
-      `;
-    });
-
+    const items = this.ensureArray(this.testCases);
+    body += items.map((tc: any, idx: number) => this.renderTestCaseHtml(tc, idx)).join('');
     body += `</body></html>`;
 
     const printWindow = window.open('', '_blank');
@@ -110,11 +119,9 @@ export class TestCaseTabComponent {
     printWindow.document.close();
     printWindow.focus();
 
-    // Wait for content to render, then trigger print. Keep window open after print for user to save.
     setTimeout(() => {
       printWindow.print();
     }, 500);
-    
   }
 
   // Direct PDF download using jsPDF + html2canvas
@@ -130,7 +137,7 @@ export class TestCaseTabComponent {
       const jsPDF = jsPDFModule.jsPDF ?? jsPDFModule.default ?? jsPDFModule;
       const h2c = html2canvasModule.default ?? html2canvasModule;
 
-      const elements = Array.from(document.querySelectorAll('.tc-card')) as HTMLElement[];
+      const elements = Array.from(document.querySelectorAll<HTMLElement>('.tc-card'));
       if (!elements || elements.length === 0) {
         this.exportToPdf();
         return;
@@ -146,11 +153,12 @@ export class TestCaseTabComponent {
 
       for (let i = 0; i < elements.length; i++) {
         const el = elements[i];
-        const canvas = await (h2c as any)(el, { scale: 2, useCORS: true, backgroundColor: '#ffffff' });
+        const canvas = await h2c(el, { scale: 2, useCORS: true, backgroundColor: '#ffffff' });
         const imgData = canvas.toDataURL('imageJPEG', 1.0);
         const imgWidthPx = canvas.width;
+        const imgHeightPx = canvas.height;
         const pxPerMm = imgWidthPx / (pdfWidth - margin * 2);
-        const imgHeightMm = (canvas.height / pxPerMm);
+        const imgHeightMm = (imgHeightPx / pxPerMm);
 
         if (i > 0) pdf.addPage();
         pdf.addImage(imgData, 'JPEG', margin, margin, pdfWidth - margin * 2, imgHeightMm);
@@ -185,19 +193,17 @@ export class TestCaseTabComponent {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['generatedUserStories'] && this.generatedUserStories && this.generatedUserStories.length > 0) {
-      // Build a user-friendly textual representation of the generated stories
       const parts: string[] = [];
       this.generatedUserStories.forEach((s: any, idx: number) => {
         const title = s.title || (`User Story ${idx + 1}`);
         const storyText = s.story || s.description || '';
-        const acceptance = Array.isArray(s.acceptance_criteria) ? s.acceptance_criteria : (s.acceptance_criteria ? [s.acceptance_criteria] : []);
+        const acceptance = this.ensureArray(s.acceptance_criteria);
         parts.push(`Title: ${title}`);
         if (storyText) parts.push(`Story: ${storyText}`);
         if (acceptance.length) parts.push(`Acceptance Criteria:\n- ${acceptance.join('\n- ')}`);
         parts.push('');
       });
 
-      // Pre-fill the textarea with the concatenated stories
       this.userStoryText = parts.join('\n');
     }
   }
@@ -220,36 +226,7 @@ export class TestCaseTabComponent {
     this.apiService.convertToTestCases(this.uploadedDocument.documentId, this.userStoryText).subscribe({
       next: (jobResponse) => {
         this.apiService.pollJobStatus(jobResponse.id).subscribe({
-          next: (res) => {
-            if (res.status === 'SUCCESS') {
-              let llmOutput = res.result?.result || res.result;
-              let cases: any = llmOutput?.test_cases ?? llmOutput?.testCases ?? llmOutput;
-              this.parseError = res.result?.parse_error || null;
-
-              if (typeof cases === 'string') {
-                try {
-                  cases = JSON.parse(cases);
-                } catch (e) {
-                  this.parseError = 'Could not parse test cases: ' + String(e);
-                  cases = null;
-                }
-              }
-
-              if (Array.isArray(cases)) {
-                this.testCases = cases;
-              } else if (cases && Array.isArray(cases.test_cases)) {
-                this.testCases = cases.test_cases;
-              } else if (cases && Array.isArray(cases.testCases)) {
-                this.testCases = cases.testCases;
-              } else if (cases) {
-                this.testCases = [cases];
-              }
-              this.isLoading = false;
-            } else {
-              this.parseError = 'Failed to generate test cases: ' + JSON.stringify(res.result);
-              this.isLoading = false;
-            }
-          },
+          next: (res) => this.handleTestCasesResponse(res),
           error: (err) => {
             console.error('Polling error:', err);
             this.parseError = 'Error checking job status';
@@ -265,6 +242,36 @@ export class TestCaseTabComponent {
     });
   }
 
+  private handleTestCasesResponse(res: any): void {
+    if (res.status === 'SUCCESS') {
+      this.testCases = this.extractCases(res);
+      this.isLoading = false;
+    } else {
+      this.parseError = 'Failed to generate test cases: ' + JSON.stringify(res.result);
+      this.isLoading = false;
+    }
+  }
+
+  private extractCases(res: any): any {
+    const llmOutput = res.result?.result || res.result;
+    let cases: any = llmOutput?.test_cases ?? llmOutput?.testCases ?? llmOutput;
+    this.parseError = res.result?.parse_error || null;
+
+    if (typeof cases === 'string') {
+      try {
+        cases = JSON.parse(cases);
+      } catch (e) {
+        this.parseError = 'Could not parse test cases: ' + String(e);
+        return null;
+      }
+    }
+
+    if (Array.isArray(cases)) return cases;
+    if (cases && Array.isArray(cases.test_cases)) return cases.test_cases;
+    if (cases && Array.isArray(cases.testCases)) return cases.testCases;
+    return cases ? [cases] : null;
+  }
+
   // Serialize a single test case object into plain text suitable for Cucumber conversion
   private serializeTestCase(tc: any, index: number): string {
     const lines: string[] = [];
@@ -273,33 +280,31 @@ export class TestCaseTabComponent {
     lines.push(`ID: ${id}`);
     lines.push(`Title: ${title}`);
 
-    const preconditions = Array.isArray(tc.preconditions) ? tc.preconditions : (tc.preconditions ? [tc.preconditions] : []);
+    const preconditions = this.ensureArray(tc.preconditions);
     if (preconditions.length) {
       lines.push('Preconditions:');
       preconditions.forEach((p: string) => lines.push(`- ${p}`));
     }
 
-    const testData = Array.isArray(tc.test_data) ? tc.test_data : (tc.test_data ? [tc.test_data] : []);
+    const testData = this.ensureArray(tc.test_data);
     if (testData.length) {
       lines.push('Test Data:');
       testData.forEach((d: string) => lines.push(`- ${d}`));
     }
 
-    const stepsArr = Array.isArray(tc.test_steps || tc.steps) ? (tc.test_steps || tc.steps) : ((tc.test_steps || tc.steps) ? [tc.test_steps || tc.steps] : []);
+    const stepsArr = this.ensureArray(tc.test_steps || tc.steps);
     if (stepsArr.length) {
       lines.push('Steps:');
       stepsArr.forEach((s: string, i: number) => lines.push(`${i + 1}. ${s}`));
     }
 
-    const expectedArr = Array.isArray(tc.expected_results || tc.expected) ? (tc.expected_results || tc.expected) : ((tc.expected_results || tc.expected) ? [tc.expected_results || tc.expected] : []);
+    const expectedArr = this.ensureArray(tc.expected_results || tc.expected);
     const expectedSingle = tc.expected_result || tc.expectedResult;
-    if (expectedArr.length || expectedSingle) {
+    if (expectedArr.length) {
       lines.push('Expected Results:');
-      if (expectedArr.length) {
-        expectedArr.forEach((e: string) => lines.push(`- ${e}`));
-      } else {
-        lines.push(`- ${expectedSingle}`);
-      }
+      expectedArr.forEach((e: string) => lines.push(`- ${e}`));
+    } else if (expectedSingle) {
+      lines.push(`Expected Results:\n- ${expectedSingle}`);
     }
 
     return lines.join('\n');

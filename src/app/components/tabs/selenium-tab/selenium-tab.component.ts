@@ -112,16 +112,17 @@ export class SeleniumTabComponent implements OnInit {
   private highlightCodeBlocks(): void {
     try {
       const blocks: NodeListOf<HTMLElement> = document.querySelectorAll('.code-block');
-      blocks.forEach((b) => {
-        const code = b as HTMLElement;
+      blocks.forEach((code) => {
         const inner = code.innerText || '';
         const lang = 'language-java';
         code.innerHTML = `<code class="${lang}"></code>`;
-        const created = code.querySelector('code') as HTMLElement;
-        created.textContent = inner;
-        if ((Prism as any).highlightElement) (Prism as any).highlightElement(created);
+        const created = code.querySelector('code');
+        if (created) {
+          created.textContent = inner;
+          Prism.highlightElement(created);
+        }
       });
-    } catch (e) {
+    } catch {
       // best-effort
     }
   }

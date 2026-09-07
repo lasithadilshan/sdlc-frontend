@@ -23,13 +23,6 @@
           {{ isLoading ? 'Preparing...' : 'Create Cucumber script' }}
         </button>
       </div>
-      <!-- <div class="settings-panel">
-        <div class="settings-callout">
-          <strong>Generation settings</strong>
-          <span>Language: Java · Framework: Cucumber · Browser: Chrome</span>
-        </div>
-        <p>Suggested enhancement: add dropdowns for language, package name, browser, assertion library and page-object style before generation.</p>
-      </div> -->
     </div>
 
     <!-- Advanced AI Generation Animation -->
@@ -93,17 +86,6 @@
             </div>
         </mat-card-header>
         <mat-card-content>
-          <div class="code-toolbar">
-            <!-- <div class="left"> 
-              <small *ngIf="uploadedDocument">File: {{ uploadedDocument.documentId }} </small>
-            </div> -->
-            <!-- <div class="right">
-              <button mat-icon-button matTooltip="Copy all" (click)="copyToClipboard(cucumberScript!, 'all')"><mat-icon>content_copy</mat-icon></button>
-              <span class="copied-badge" *ngIf="copied.all">Copied</span>
-              <button mat-icon-button matTooltip="Download all" (click)="downloadFile((uploadedDocument ? uploadedDocument.documentId : 'cucumber') + '.txt', cucumberScript)"><mat-icon>download</mat-icon></button>
-            </div> -->
-          </div>
-
           <!-- If parser extracted parts, show them separately -->
           <div *ngIf="featureText">
             <div class="sub-card">
@@ -139,14 +121,6 @@
           </div>
         </mat-card-content>
       </mat-card>
-
-      <!-- Quality Assessment UI commented out
-      <mat-card class="qa-card" *ngIf="qualityAssessment">
-        ...quality assessment UI removed for now...
-      </mat-card>
-      -->
-
-      <!-- Processing time removed -->
     </div>
   </div>
 </div>
